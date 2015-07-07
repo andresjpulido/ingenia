@@ -13,6 +13,8 @@ import javax.faces.convert.FacesConverter;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.CursoActividadVO;
+import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
@@ -22,8 +24,7 @@ import org.springframework.context.annotation.Scope;
 @Scope("session")
 public class AdmActividadMB extends BaseMB {
 	
-	 @ManagedProperty("#{AdmCursoMB}")
-	    private AdmCursoMB AdmCursoMB;
+
 
 	private static final long serialVersionUID = -4578987507032867585L;
 
@@ -101,10 +102,19 @@ public class AdmActividadMB extends BaseMB {
 
 		ActividadVO actividadVO = this.actividadVO;
 		actividadVO.setId_juego(juegoVO.getIdjuego());
-		System.out.print(recuperarParametro("idcurso"));
-		System.out.print(getAdmCursoMB().getCursoVO().getIdcurso());
-		/*try {
-			gestorActividades.crearActividadVO(actividadVO);
+		System.out.println(juegoVO.getIdjuego());
+		/*int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
+       int posicion=0;
+         CursoActividadVO cursoActividadVO = new CursoActividadVO();
+         CursoVO cursoVO=new CursoVO();
+         cursoVO.setIdcurso(idcurso);
+		try {
+			cursoActividadVO.setActividad(actividadVO);
+			cursoActividadVO.setPosicion(posicion);
+			cursoActividadVO.setCurso(cursoVO);
+			gestorActividades.crearActividadVO(cursoActividadVO); 
+			
+			
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -196,11 +206,5 @@ public class AdmActividadMB extends BaseMB {
 		this.listaJuegos = listaJuegos;
 	}
 
-	public AdmCursoMB getAdmCursoMB() {
-		return AdmCursoMB;
-	}
 
-	public void AdmCursoMB(AdmCursoMB admCursoMB) {
-		AdmCursoMB = admCursoMB;
-	}
 }

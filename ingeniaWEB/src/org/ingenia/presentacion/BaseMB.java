@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
+import org.ingenia.comunes.vo.CursoVO;
+
 public class BaseMB implements Serializable{
 
 	/**
@@ -21,6 +23,7 @@ public class BaseMB implements Serializable{
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> map = context.getExternalContext().getRequestParameterMap();
         return map.get(parametro);
+
     }
 
     /**

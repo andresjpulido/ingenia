@@ -13,8 +13,11 @@ import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.entidades.Actividad;
+import org.ingenia.negocio.entidades.Actividadcurso;
+import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.negocio.igestor.IGestorActividadesRemote;
@@ -34,20 +37,26 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 	}
 
 	@Override
-	public void crearActividadVO(ActividadVO actividadVO) {
+	public void crearActividadVO(CursoActividadVO cursoActividadVO) {
 
 		AdaptadorActividad adaptador = null;
 		Actividad actividad = new Actividad();
 		 Query q = em.createQuery("SELECT count(a) FROM Actividad as a");   
-         actividadVO.setIdactividad(((Number) q.getResultList().get(0)).intValue()+1);
-     	Juego juego = em.find(Juego.class,actividadVO.getId_Juego());
-		adaptador = new AdaptadorActividad(actividadVO);
+		 cursoActividadVO.getActividad().setIdactividad(((Number) q.getResultList().get(0)).intValue()+1);
+     	Juego juego = em.find(Juego.class,cursoActividadVO.getActividad().getId_Juego());
+		adaptador = new AdaptadorActividad(cursoActividadVO.getActividad());
            
 		try {
-
 			actividad = adaptador.getActividad(); 
 			actividad.setJuego(juego);
+			Curso curso = em.find(Curso.class,cursoActividadVO.getCurso().getIdcurso());
+			Actividadcurso cursoActividad = new Actividadcurso();
+			cursoActividad.setActividad(actividad);
+			cursoActividad.setCurso(curso);
+			cursoActividad.setposicionactividad(cursoActividadVO.getPosicion());
 			em.persist(actividad);
+			em.persist(cursoActividad);
+			
 
 		} catch (AdaptadorException e) {
 			e.printStackTrace();

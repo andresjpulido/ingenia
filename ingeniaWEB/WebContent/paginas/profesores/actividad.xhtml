@@ -13,9 +13,6 @@ Crear Nueva Actividad
 		<h:form>
 			<h:panelGrid columns="2" cellpadding="5">
 
-	
-
-
 		<p:outputLabel for="tipo" value="Juego: " />
 		<p:selectOneMenu id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
  			<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
@@ -38,11 +35,15 @@ Crear Nueva Actividad
  			  <h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
  			 <p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  
-
-		
+ 	<h:outputLabel for="curso" value="curso:" />
+ 			 <h:outputText id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
+				
+	
 
 				<f:facet name="footer">
-					<p:commandButton value="Guardar" action="#{AdmActividadMB.crear}" />
+	<p:commandButton icon="ui-icon-search" value="Guardar" process="@this" action="#{AdmActividadMB.crear}">
+						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
+					</p:commandButton>
 				</f:facet>
 
 			</h:panelGrid>
