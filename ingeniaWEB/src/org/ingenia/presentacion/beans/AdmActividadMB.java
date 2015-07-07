@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
 
@@ -21,7 +22,7 @@ import org.ingenia.presentacion.BaseMB;
 import org.springframework.context.annotation.Scope;
 
 @ManagedBean(name = "AdmActividadMB")
-@Scope("session")
+@SessionScoped
 public class AdmActividadMB extends BaseMB {
 	
 
@@ -101,9 +102,10 @@ public class AdmActividadMB extends BaseMB {
 	public void crear() {
 
 		ActividadVO actividadVO = this.actividadVO;
-		actividadVO.setId_juego(juegoVO.getIdjuego());
-		System.out.println(juegoVO.getIdjuego());
-		/*int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
+		actividadVO.setId_juego(1);
+		//actividadVO.setId_juego(juegoVO.getIdjuego());
+		//System.out.println(juegoVO.getIdjuego());
+		int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
        int posicion=0;
          CursoActividadVO cursoActividadVO = new CursoActividadVO();
          CursoVO cursoVO=new CursoVO();
@@ -128,7 +130,7 @@ public class AdmActividadMB extends BaseMB {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroresss", e
 							.getMessage()));
 			e.printStackTrace();
-		}*/
+		}
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
