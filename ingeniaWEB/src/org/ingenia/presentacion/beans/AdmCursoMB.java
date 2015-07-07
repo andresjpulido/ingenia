@@ -178,16 +178,13 @@ public class AdmCursoMB extends BaseMB {
 	public List<CursoVO> getListaCursos() {
 
 	//cuanod autentica el profesor se habilita la carga automatica
-		  if (listaCursos == null) {
 			  try {
 
 				listaCursos = gestorCursos.consultarCursosProfesor(7890);
 			} catch (AdaptadorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-	        }
-	
+			}	        
 	
 		return listaCursos;
 	}

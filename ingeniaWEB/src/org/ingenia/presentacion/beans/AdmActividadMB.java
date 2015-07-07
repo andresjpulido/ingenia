@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
 
@@ -20,30 +21,35 @@ import org.springframework.context.annotation.Scope;
 @ManagedBean(name = "AdmActividadMB")
 @Scope("session")
 public class AdmActividadMB extends BaseMB {
+	
+	 @ManagedProperty("#{AdmCursoMB}")
+	    private AdmCursoMB AdmCursoMB;
 
 	private static final long serialVersionUID = -4578987507032867585L;
 
 	private ActividadVO actividadVO= new ActividadVO();
-	private JuegoVO tipoActividadVO=new JuegoVO();
+	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
-	private List<JuegoVO> listaTiposActividad;
+	private List<JuegoVO> listaJuegos;
 	private List<ActividadVO> listaActividades;
-
+   
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
 
 	@EJB
 	IGestorActividadesLocal gestorActividades;
 
+
+	
 	public AdmActividadMB(){
-		
+	
 		
 	}
 	
 	@PostConstruct
 	public void init() {
 		try {
-			this.listaTiposActividad=gestorActividades.consultarJuegosDisponibles();
+			this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
 
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -94,9 +100,10 @@ public class AdmActividadMB extends BaseMB {
 	public void crear() {
 
 		ActividadVO actividadVO = this.actividadVO;
-		actividadVO.setId_juego(tipoActividadVO.getIdjuego());
-		
-		try {
+		actividadVO.setId_juego(juegoVO.getIdjuego());
+		System.out.print(recuperarParametro("idcurso"));
+		System.out.print(getAdmCursoMB().getCursoVO().getIdcurso());
+		/*try {
 			gestorActividades.crearActividadVO(actividadVO);
 
 		} catch (AdaptadorException e) {
@@ -111,7 +118,7 @@ public class AdmActividadMB extends BaseMB {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroresss", e
 							.getMessage()));
 			e.printStackTrace();
-		}
+		}*/
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
@@ -174,18 +181,26 @@ public class AdmActividadMB extends BaseMB {
 	}*/
 
 	public JuegoVO getJuegoVO() {
-		return tipoActividadVO;
+		return juegoVO;
 	}
 
-	public void setJuegoVO(JuegoVO tipoActividadVO) {
-		this.tipoActividadVO = tipoActividadVO;
+	public void setJuegoVO(JuegoVO juegoVO) {
+		this.juegoVO = juegoVO;
 	}
 
-	public List<JuegoVO> getListaTiposActividad() {
-		return listaTiposActividad;
+	public List<JuegoVO> getListaJuegos() {
+		return listaJuegos;
 	}
 
-	public void setListaTiposActividad(List<JuegoVO> listaTiposActividad) {
-		this.listaTiposActividad = listaTiposActividad;
+	public void setListaJuegos(List<JuegoVO> listaJuegos) {
+		this.listaJuegos = listaJuegos;
+	}
+
+	public AdmCursoMB getAdmCursoMB() {
+		return AdmCursoMB;
+	}
+
+	public void AdmCursoMB(AdmCursoMB admCursoMB) {
+		AdmCursoMB = admCursoMB;
 	}
 }

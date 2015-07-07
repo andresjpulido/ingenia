@@ -35,6 +35,10 @@ Datos de curso
    			<f:selectItem itemValue="1" itemLabel="Si" />
    			<f:selectItem itemValue="0" itemLabel="No" />
  			 </p:selectOneMenu>
+ 			 
+ 			  <h:outputLabel for="limite_actividades" value="Maximo Actividades:" />
+ 			 <p:inputText value="#{AdmCursoMB.cursoVO.limite_actividades}" label="limite_actividades"/>
+
 
 
 			<f:facet name="footer">
@@ -42,6 +46,8 @@ Datos de curso
 			</f:facet>
 
 			</h:panelGrid>
+			
+			<p:link outcome="actividad" value="Crear"> </p:link>
 
 			<p:dataTable var="opcion" value="#{AdmRolMB.rolVO.opcions}"
 				rendered="#{not empty AdmRolMB.rolVO.opcions}" paginator="true"

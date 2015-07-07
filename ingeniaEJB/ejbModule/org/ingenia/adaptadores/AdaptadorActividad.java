@@ -26,6 +26,8 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividad.setEnunciado(actividadVO.getEnunciado());
 		actividad.setIdactividad(actividadVO.getIdactividad());
 		actividad.setUrl_texto_ensenanza(actividadVO.getUrl_conocimiento());
+		actividad.setActivo(actividadVO.getActivo());
+		actividad.setLimiteMovimientos(actividadVO.getLimite_movimientos());
 		return actividad;
 	}
 
@@ -35,6 +37,12 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		if (actividad == null)
 			return null;
 		actividadVO=new ActividadVO();
+		actividadVO.setEnunciado(actividad.getEnunciado());
+		actividadVO.setIdactividad(actividad.getIdactividad());
+		actividadVO.setId_juego(actividad.getJuego().getIdjuego());
+		actividadVO.setUrl_conocimiento(actividad.getUrl_texto_ensenanza());
+		actividadVO.setActivo(actividad.getActivo());
+		actividadVO.setLimite_movimientos(actividad.getLimiteMovimientos());
 		
 		return actividadVO;
 	}

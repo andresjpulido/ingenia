@@ -9,11 +9,11 @@ public class ActividadVO implements Serializable {
 
 	private int idactividad;
 
-	private byte activo;
+	private int activo;
 
 	private String enunciado;
 	
-	private byte publicado;
+	private int publicado;
 	
 	private List<CursoActividadVO> cursoActividads;
 
@@ -22,6 +22,8 @@ public class ActividadVO implements Serializable {
 	private String url_conocimiento;
 	
 	private int id_juego;
+	
+	private int limite_movimientos;
 
 	public ActividadVO() {
 	}
@@ -78,11 +80,11 @@ public class ActividadVO implements Serializable {
 		return respuesta;
 	}
 
-	public byte getActivo() {
+	public int getActivo() {
 		return activo;
 	}
 
-	public void setActivo(byte activo) {
+	public void setActivo(int activo) {
 		this.activo = activo;
 	}
 
@@ -94,11 +96,11 @@ public class ActividadVO implements Serializable {
 		this.enunciado = enunciado;
 	}
 
-	public byte getPublicado() {
+	public int getPublicado() {
 		return publicado;
 	}
 
-	public void setPublicado(byte publicado) {
+	public void setPublicado(int publicado) {
 		this.publicado = publicado;
 	}
 
@@ -116,6 +118,14 @@ public class ActividadVO implements Serializable {
 
 	public void setId_juego(int id_tipo_actividad) {
 		this.id_juego = id_tipo_actividad;
+	}
+
+	public int getLimite_movimientos() {
+		return limite_movimientos;
+	}
+
+	public void setLimite_movimientos(int limite_movimientos) {
+		this.limite_movimientos = limite_movimientos;
 	}
 
 }

@@ -16,8 +16,8 @@ public class Actividadcurso implements Serializable {
 	@EmbeddedId
 	private ActividadcursoPK id;
 
-	@Column(name="limite_actividades")
-	private int limiteActividades;
+	@Column(name="posicion_actividad")
+	private int posicionactividad;
 
 	//bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -40,12 +40,12 @@ public class Actividadcurso implements Serializable {
 		this.id = id;
 	}
 
-	public int getLimiteActividades() {
-		return this.limiteActividades;
+	public int getPosicionactividad() {
+		return this.posicionactividad;
 	}
 
-	public void setLimiteActividades(int limiteActividades) {
-		this.limiteActividades = limiteActividades;
+	public void setposicionactividad(int posicionactividad) {
+		this.posicionactividad = posicionactividad;
 	}
 
 	public Actividad getActividad() {

@@ -9,35 +9,36 @@
 	</ui:define>
 
 	<ui:define name="content">
-			Mis Cursos 
-		<h:form>
+	
+			<h:form>
+				<center><h3>Mis Cursos</h3> </center>
+			<h:panelGrid columns="3" cellpadding="10">
 
-			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="curso" value="Nombre Curso:" />
-				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false"
-					label="curso" />
-
-				
-			<f:facet name="footer">
-					<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
-				</f:facet>
+				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
+			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
+		
 			</h:panelGrid>
 			
+			<div id="crear" align="right" >
+			<p:button outcome="curso" value="Crear nuevo curso"  >
+			</p:button>
+			</div>
 		</h:form>
 
 		<h:form>
 			<p:dataTable var="curso" value="#{AdmCursoMB.listaCursos}"
 				rendered="#{not empty AdmCursoMB.listaCursos}" paginator="true"
 				rows="10" dynamic="true">
-				<p:column headerText="Id">
-					<p:commandButton icon="ui-icon-search" value="#{curso.idcurso}"
+				<p:column headerText="Nombre">
+					<p:commandButton icon="ui-icon-search" value="#{curso.nombre}"
 						process="@this" action="#{AdmCursoMB.irCurso}">
 						<f:param name="id" value="#{curso.idcurso}" />
 					</p:commandButton>
 				</p:column> 
 				
-				<p:column headerText="Nombre">
-					<h:outputText name="nombre" value="#{curso.nombre}" />
+				<p:column headerText="Descripción">
+					<h:outputText name="descripcion" value="#{curso.descripcion}" />
 				</p:column>
 
 				<p:column headerText="Estado">
@@ -46,8 +47,7 @@
 
 			</p:dataTable>
 
-			<p:link outcome="curso" value="Crear">
-			</p:link>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

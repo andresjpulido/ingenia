@@ -17,17 +17,15 @@ public class Actividad implements Serializable {
 	@Id
 	private int idactividad;
 
-	private byte activo;
+	private int activo;
 
 	private String enunciado;
 
 	@Column(name="limite_movimientos")
 	private int limiteMovimientos;
 
-	@Column(name="posicion_actividad")
-	private int posicionActividad;
 
-	private byte publicado;
+	private int publicado;
 
 	@Column(name="`url_texto_ensenanza`")
 	private String url_texto_ensenanza;
@@ -81,11 +79,11 @@ public class Actividad implements Serializable {
 		this.idactividad = idactividad;
 	}
 
-	public byte getActivo() {
+	public int getActivo() {
 		return this.activo;
 	}
 
-	public void setActivo(byte activo) {
+	public void setActivo(int activo) {
 		this.activo = activo;
 	}
 
@@ -105,19 +103,11 @@ public class Actividad implements Serializable {
 		this.limiteMovimientos = limiteMovimientos;
 	}
 
-	public int getPosicionActividad() {
-		return this.posicionActividad;
-	}
-
-	public void setPosicionActividad(int posicionActividad) {
-		this.posicionActividad = posicionActividad;
-	}
-
-	public byte getPublicado() {
+	public int getPublicado() {
 		return this.publicado;
 	}
 
-	public void setPublicado(byte publicado) {
+	public void setPublicado(int publicado) {
 		this.publicado = publicado;
 	}
 

@@ -20,6 +20,8 @@ public class CursoVO implements Serializable {
 
 	private String nombre;
 	
+	private int limite_actividades;
+	
 	private UsuarioVO profesor;
 
 	public CursoVO() {
@@ -101,6 +103,14 @@ public class CursoVO implements Serializable {
 
 	public void setProfesor(UsuarioVO profesor) {
 		this.profesor = profesor;
+	}
+
+	public int getLimite_actividades() {
+		return limite_actividades;
+	}
+
+	public void setLimite_actividades(int limite_actividades) {
+		this.limite_actividades = limite_actividades;
 	}
 
 

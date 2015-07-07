@@ -1,14 +1,13 @@
 package org.ingenia.adaptadores;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.negocio.entidades.Curso;
-import org.ingenia.negocio.entidades.Usuario;
+
 
 public class AdaptadorCurso extends IAdaptadorCurso {
 
@@ -35,6 +34,7 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 		curso.setEstado(cursoVO.getEstado());
 		curso.setDescripcion(cursoVO.getDescripcion());
 		curso.setActivo(cursoVO.getActivo());
+		curso.setLimite_actividades(cursoVO.getLimite_actividades());
 		return curso;
 	}
 
@@ -54,6 +54,7 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 		  AdaptadorUsuario adaptador = new AdaptadorUsuario(curso.getUsuario());
 		cursoVO.setProfesor(adaptador.getUsuarioVO());
 		cursoVO.setActivo(curso.getActivo());
+		cursoVO.setLimite_actividades(curso.getLimite_actividades());
 		
 		/*if (curso.getCursoEstudiantes() != null) {
 			listaEstudiantes = new ArrayList<EstudianteVO>();
