@@ -10,7 +10,7 @@ public class CursoVO implements Serializable {
 	private int idcurso;
 
 	private List<EstudianteVO> estudiantes;
-	private List<CursoActividadVO> cursoActividads;
+	private List<ActividadVO> actividades;
 
 	private int activo;
 
@@ -43,27 +43,14 @@ public class CursoVO implements Serializable {
 		this.estudiantes = estudiantes;
 	}
 
-	public List<CursoActividadVO> getCursoActividads() {
-		return this.cursoActividads;
+	public List<ActividadVO> getActividades() {
+		return this.actividades;
 	}
 
-	public void setCursoActividads(List<CursoActividadVO> cursoActividads) {
-		this.cursoActividads = cursoActividads;
+	public void setActividades(List<ActividadVO> actividades) {
+		this.actividades = actividades;
 	}
 
-	public CursoActividadVO addCursoActividad(CursoActividadVO cursoActividad) {
-		getCursoActividads().add(cursoActividad);
-		cursoActividad.setCurso(this);
-
-		return cursoActividad;
-	}
-
-	public CursoActividadVO removeCursoActividad(CursoActividadVO cursoActividad) {
-		getCursoActividads().remove(cursoActividad);
-		cursoActividad.setCurso(null);
-
-		return cursoActividad;
-	}
 
 	public int getActivo() {
 		return activo;

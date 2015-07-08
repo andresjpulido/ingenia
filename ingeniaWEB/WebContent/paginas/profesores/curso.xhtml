@@ -9,10 +9,11 @@
 	</ui:define>
 
 	<ui:define name="content">
-Datos de curso
+<center> Datos de curso </center>
+<br></br>
 		<h:form>
-			
-			<h:panelGrid columns="2" cellpadding="5">
+			<h:panelGrid columns="2" cellpadding="50">
+			<h:panelGrid columns="2" cellpadding="10">
 			
 				<h:outputLabel for="nombre" value="Nombre:" />
 				<p:inputText id="nombre" value="#{AdmCursoMB.cursoVO.nombre}"
@@ -44,32 +45,34 @@ Datos de curso
 			<f:facet name="footer">
 				<p:commandButton value="Guardar" action="#{AdmCursoMB.crear}" />
 			</f:facet>
+			
+			
 
 			</h:panelGrid>
 			
-			<p:link outcome="actividad" value="Crear"> </p:link>
-
-			<p:dataTable var="opcion" value="#{AdmRolMB.rolVO.opcions}"
-				rendered="#{not empty AdmRolMB.rolVO.opcions}" paginator="true"
+			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
+				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
 				rows="10" dynamic="true" id="tb_opcion">
 
-				<p:column headerText="Id">
-					<p:selectBooleanCheckbox icon="ui-icon-search"
-						value="#{opcion.seleccionado}" process="@this"
-						action="#{AdmRolMB.irRol}" id="cb_idopcion">
-						<f:param name="id" value="#{opcion.idopcion}" />
-					</p:selectBooleanCheckbox>
-				</p:column>
-
-				<p:column headerText="Nombre">
-					<h:outputText name="activo" value="#{opcion.nombre}" />
-				</p:column>
-
-				<p:column headerText="Descripcion">
-					<h:outputText value="#{opcion.descripcion}" />
+						<p:column headerText="Posicion">
+					<p:commandButton icon="ui-icon-search" value="#{actividad.enunciado}" 
+						process="@this" action="#{AdmActividadMB.irActividad}" >
+						<f:param name="idactividad" value="#{actividad.idactividad}" />
+					</p:commandButton>
+				</p:column> 
+				<p:column headerText="Enunciado">
+					<h:outputText value="#{actividad.enunciado}" />
 				</p:column>
 
 			</p:dataTable>
+			</h:panelGrid>
+			<p:link outcome="actividad" value="Crear"> </p:link>
+
+			
+			
+			
+			
+						
 
 			
 

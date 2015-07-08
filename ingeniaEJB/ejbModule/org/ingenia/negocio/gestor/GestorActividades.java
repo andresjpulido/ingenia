@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
+import org.ingenia.adaptadores.AdaptadorCurso;
 import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
@@ -84,8 +85,15 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 	@Override
 	public ActividadVO consultarActividadVO(ActividadVO actividadVO)
 			throws AdaptadorException {
-		// TODO Auto-generated method stub
-		return null;
+
+		AdaptadorActividad adaptador = null;
+		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
+
+		adaptador = new AdaptadorActividad(actividad);
+		
+		 actividadVO =adaptador.getActividadVO();
+
+		return actividadVO;
 	}
 	
 	@Override

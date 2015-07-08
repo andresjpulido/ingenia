@@ -41,12 +41,13 @@ Crear Nueva Actividad
 	
 
 				<f:facet name="footer">
-	<p:commandButton icon="ui-icon-search" value="Guardar" process="@this" action="#{AdmActividadMB.crear}">
-						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
+	<p:commandButton icon="ui-icon-search" value="Guardar" action="#{AdmActividadMB.crear}">
+			<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
 					</p:commandButton>
 				</f:facet>
 
-			</h:panelGrid>
+			</h:panelGrid>			
+			
 
 		</h:form>
 

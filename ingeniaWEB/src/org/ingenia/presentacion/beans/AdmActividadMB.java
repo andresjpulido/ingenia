@@ -102,8 +102,8 @@ public class AdmActividadMB extends BaseMB {
 	public void crear() {
 
 		ActividadVO actividadVO = this.actividadVO;
-		actividadVO.setId_juego(1);
-		//actividadVO.setId_juego(juegoVO.getIdjuego());
+		//actividadVO.setId_juego(1);
+		actividadVO.setId_juego(juegoVO.getIdjuego());
 		//System.out.println(juegoVO.getIdjuego());
 		int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
        int posicion=0;
@@ -111,12 +111,11 @@ public class AdmActividadMB extends BaseMB {
          CursoVO cursoVO=new CursoVO();
          cursoVO.setIdcurso(idcurso);
 		try {
+			
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setPosicion(posicion);
 			cursoActividadVO.setCurso(cursoVO);
-			gestorActividades.crearActividadVO(cursoActividadVO); 
-			
-			
+			gestorActividades.crearActividadVO(cursoActividadVO); 						
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -143,7 +142,7 @@ public class AdmActividadMB extends BaseMB {
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
 
-		String id = params.get("id");
+		String id = params.get("idactividad");
 		ActividadVO actividadVO = new ActividadVO();
 		actividadVO.setIdactividad(Integer.parseInt(id));
 		

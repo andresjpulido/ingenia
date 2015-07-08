@@ -14,13 +14,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorCurso;
 import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
+import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
@@ -125,10 +128,22 @@ public class GestorCursos implements IGestorCursosRemote,
 	public CursoVO consultarCursoVO(CursoVO cursoVO) throws AdaptadorException {
 		// TODO Auto-generated method stub
 		AdaptadorCurso adaptador = null;
-		
+		AdaptadorActividad adaptadorA = null;
+		List<ActividadVO> listaactividadesVO = null;
 		Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
-		 adaptador = new AdaptadorCurso(curso);
+
+		adaptador = new AdaptadorCurso(curso);
+		
+		listaactividadesVO = new ArrayList<ActividadVO>();
+		for (Actividad actividad : curso.getActividads()) {
+			
+			adaptadorA = new AdaptadorActividad(actividad);
+			listaactividadesVO.add(adaptadorA.getActividadVO());
+			}		
+		
 		 cursoVO =adaptador.getCursoVO();
+		 cursoVO.setActividades(listaactividadesVO);
+		 System.out.println( cursoVO.getActividades().size());
 		return cursoVO;
 	}
 
