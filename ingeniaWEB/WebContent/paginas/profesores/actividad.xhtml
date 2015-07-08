@@ -14,9 +14,11 @@ Crear Nueva Actividad
 			<h:panelGrid columns="2" cellpadding="5">
 
 		<p:outputLabel for="tipo" value="Juego: " />
-		<p:selectOneMenu id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
+		<p:selectOneMenu  rendered="#{empty AdmActividadMB.actividadVO}" id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
  			<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
 			</p:selectOneMenu>
+		 <h:outputText rendered="#{not empty AdmActividadMB.actividadVO}" id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>
+			
 					
 				<h:outputLabel for="enunciado" value="Enunciado:" />
 				<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}"

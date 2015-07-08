@@ -50,7 +50,7 @@
 
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10">
-			<p:commandButton action="#{AdmActividadMB.nuevaActividad}" value="Asociar nueva actividad a este curso"/>
+			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVO}" action="#{AdmActividadMB.nuevaActividad}" value="Asociar nueva actividad a este curso"/>
 			
 			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
 				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"

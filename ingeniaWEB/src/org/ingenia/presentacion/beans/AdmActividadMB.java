@@ -1,5 +1,6 @@
 package org.ingenia.presentacion.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,11 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.FacesConverter;
-
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
@@ -19,7 +17,7 @@ import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
-import org.springframework.context.annotation.Scope;
+
 
 @ManagedBean(name = "AdmActividadMB")
 @SessionScoped
@@ -33,7 +31,7 @@ public class AdmActividadMB extends BaseMB {
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
-	private List<ActividadVO> listaActividades;
+	private List<CursoActividadVO> listaCursoActividades;
    
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
@@ -61,7 +59,7 @@ public class AdmActividadMB extends BaseMB {
 	
 	  public String nuevaActividad() {
 	        String destino = null;
-	        this.actividadVO = new ActividadVO();	    
+	        this.actividadVO = null;   
 	        destino= "nuevaactividad";
 	        return destino;
 	    }
@@ -71,7 +69,7 @@ public class AdmActividadMB extends BaseMB {
 		actividadVO.setEnunciado(this.actividad);
 
 		try {
-			listaActividades= gestorActividades.consultarActividadDisponibles();
+			listaCursoActividades= gestorActividades.consultarActividadesProfesor(7890);
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -83,9 +81,12 @@ public class AdmActividadMB extends BaseMB {
 		return NAV_IRADMACTIVIDAD;
 	}
 
-	public void guardar() {
+	public String guardar() {
+		
+		String destino =null;
 		try {
 			gestorActividades.modificarActividadVO(this.actividadVO);
+			destino ="nuevocurso";
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -104,12 +105,13 @@ public class AdmActividadMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		return destino;
 	}
 
 	public void crear() {
 
-		ActividadVO actividadVO = this.actividadVO;
-		actividadVO.setId_juego(juegoVO.getIdjuego());
+		ActividadVO actividadVO = this.actividadVO;		
+	       actividadVO.setId_juego(juegoVO.getIdjuego());
 		int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
          int posicion=0;
          CursoActividadVO cursoActividadVO = new CursoActividadVO();
@@ -117,13 +119,13 @@ public class AdmActividadMB extends BaseMB {
          cursoVO.setIdcurso(idcurso);
 		try {
 			if(actividadVO.getIdactividad()==0){
+
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setPosicion(posicion);
 			cursoActividadVO.setCurso(cursoVO);
 			gestorActividades.crearActividadVO(cursoActividadVO); 	}
 			
 			else{
-				
 				gestorActividades.modificarActividadVO(actividadVO);
 			}
 			
@@ -160,6 +162,12 @@ public class AdmActividadMB extends BaseMB {
 		try {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
 
+			for (JuegoVO juego : listaJuegos) {
+					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
+						this.juegoVO=juego;		
+					}
+				}
+
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
@@ -183,12 +191,18 @@ public class AdmActividadMB extends BaseMB {
 		this.actividad = actividad;
 	}
 
-	public List<ActividadVO> getListaActividades() {
-		return listaActividades;
+	public List<CursoActividadVO> getListaCursoActividades() {
+		try {
+			listaCursoActividades=gestorActividades.consultarActividadesProfesor(7890);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaCursoActividades;
 	}
 
-	public void setListaActividades(List<ActividadVO> listaActividades) {
-		this.listaActividades = listaActividades;
+	public void setListaCursoActividades(List<CursoActividadVO> listaActividades) {
+		this.listaCursoActividades = listaActividades;
 	}
 	
 	/*public String dogetTiposActividad(){

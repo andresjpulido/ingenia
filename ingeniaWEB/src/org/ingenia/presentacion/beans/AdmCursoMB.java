@@ -50,7 +50,7 @@ public class AdmCursoMB extends BaseMB {
 	
 	  public String nuevoCurso() {
 	        String destino = null;
-	        this.cursoVO = new CursoVO();	    
+	        this.cursoVO = null;    
 	        destino= "nuevocurso";
 	        return destino;
 	    }
@@ -101,17 +101,15 @@ public class AdmCursoMB extends BaseMB {
 
 		CursoVO cursoVO = this.cursoVO;
 		UsuarioVO profesorVO = new UsuarioVO();
-      System.out.println(cursoVO.getIdcurso());
 		try {
 
 			if (cursoVO.getIdcurso()==0){
 				profesorVO.setId(7890);
 				cursoVO.setProfesor(profesorVO);
-				System.out.println("crear");
 				gestorCursos.crearCursoVO(cursoVO);
 			}
 			else 
-			{	System.out.println("modificar");
+			{	
 				gestorCursos.modificarCursoVO(cursoVO);
 			}
 			
@@ -143,7 +141,6 @@ public class AdmCursoMB extends BaseMB {
 		String id = params.get("id");
 		CursoVO cursoVO = new CursoVO();
 		cursoVO.setIdcurso(Integer.parseInt(id));
-
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
             

@@ -28,4 +28,7 @@ public interface IGestorActividadesRemote {
 	
 	public List<JuegoVO> consultarJuegosDisponibles() 
 			throws AdaptadorException;	
+	
+	public List<CursoActividadVO> consultarActividadesProfesor(int idprofesor) 
+			throws AdaptadorException;
 }

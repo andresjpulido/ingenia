@@ -26,34 +26,25 @@ Administracion de Usuarios
 		</h:form>
 
 		<h:form>
-			<p:dataTable var="usuario" value="#{AdmUsuarioMB.listaUsuarios}"
-				rendered="#{not empty AdmUsuarioMB.listaUsuarios}" paginator="true"
-				rows="10" dynamic="true"
-				emptyMessages="No se han encontrado resultados">
-
-				<p:column headerText="id">
-					<p:commandButton icon="ui-icon-search" value="#{usuario.id}"
-						id="irusuario1" process="@this" action="#{AdmUsuarioMB.irUsuario}">
-						<f:param name="id" value="#{usuario.id}" />
-					</p:commandButton>
-				</p:column>
-
-				<p:column headerText="Alias">
-					<h:outputText value="#{usuario.alias}" />
-
-				</p:column>
-
+			
+			<p:dataTable var="actividad" value="#{AdmActividadMB.listaCursoActividades}"
+				rendered="#{not empty AdmActividadMB.listaCursoActividades}" paginator="true"
+				rows="10" dynamic="true">
 				<p:column headerText="Nombre">
-					<h:outputText value="#{usuario.nombre} #{usuario.apellido}" />
+					<p:commandButton icon="ui-icon-search" value="#{actividad.actividad.enunciado}"
+						process="@this" action="#{AdmActividadMB.irActividad}">
+						<f:param name="idactividad" value="#{actividad.actividad.idactividad}" />
+					</p:commandButton>
+				</p:column> 
+				
+				<p:column headerText="Descripción">
+					<h:outputText name="descripcion" value="#{actividad.actividad.enunciado}" />
 				</p:column>
 
-				<p:column headerText="Fecha Creacion">
-					<h:outputText value="#{usuario.fechaCreacion}" />
+				<p:column headerText="Estado">
+					<h:outputText value="#{actividad.curso.nombre}" />
 				</p:column>
 
-				<p:column headerText="Fecha Ultimo Ingreso">
-					<h:outputText value="#{usuario.fechaUltimoIngreso}" />
-				</p:column>
 			</p:dataTable>
 
 	

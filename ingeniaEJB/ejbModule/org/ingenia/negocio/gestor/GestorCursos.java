@@ -48,7 +48,8 @@ public class GestorCursos implements IGestorCursosRemote,
 		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();;
 		CursoVO cursoVO=new CursoVO();
 		AdaptadorCurso adaptador = null;
-		Usuario profesor = em.find(Usuario.class,idprofesor);
+		Usuario profesor=new Usuario();
+		 profesor = em.find(Usuario.class,idprofesor);
 		Query q = em.createQuery("SELECT object(c) FROM Curso AS c where c.usuario=:profesor");
 		 q.setParameter("profesor", profesor);
 		List<Curso> listaCurso= q.getResultList();
@@ -130,20 +131,18 @@ public class GestorCursos implements IGestorCursosRemote,
 		AdaptadorCurso adaptador = null;
 		AdaptadorActividad adaptadorA = null;
 		List<ActividadVO> listaactividadesVO = null;
-		Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
-
+		Curso curso = null;
+		curso = em.find(Curso.class,cursoVO.getIdcurso());
 		adaptador = new AdaptadorCurso(curso);
 		
 		listaactividadesVO = new ArrayList<ActividadVO>();
 		for (Actividad actividad : curso.getActividads()) {
-			
 			adaptadorA = new AdaptadorActividad(actividad);
 			listaactividadesVO.add(adaptadorA.getActividadVO());
 			}		
 		
 		 cursoVO =adaptador.getCursoVO();
 		 cursoVO.setActividades(listaactividadesVO);
-		 System.out.println( cursoVO.getActividades().size());
 		return cursoVO;
 	}
 
@@ -151,10 +150,19 @@ public class GestorCursos implements IGestorCursosRemote,
 	public void modificarCursoVO(CursoVO cursoVO) throws AdaptadorException {
 		// TODO Auto-generated method stub
 		AdaptadorCurso adaptador = null;
+		AdaptadorActividad adaptadorA = null;
+		List<Actividad> listaactividades = null;
 		//Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
 		Curso curso = null;		        
 		adaptador = new AdaptadorCurso(cursoVO);
+		
+		listaactividades = new ArrayList<Actividad>();
+		for (ActividadVO actividadVO : cursoVO.getActividades()) {
+			adaptadorA = new AdaptadorActividad(actividadVO);
+			listaactividades.add(adaptadorA.getActividad());
+			}	
 		curso =adaptador.getCurso();
+		curso.setActividads(listaactividades);
 		 em.merge(curso);
 	}
 

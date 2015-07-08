@@ -15,11 +15,13 @@ import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
+import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
 import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Juego;
+import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.negocio.igestor.IGestorActividadesRemote;
 
@@ -72,11 +74,14 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 		adaptador = new AdaptadorActividad(actividadVO);
 		try {
 			actividad =adaptador.getActividad();
+	Juego juego = em.find(Juego.class,actividadVO.getId_Juego());
+			actividad.setJuego(juego);
+			 em.merge(actividad);
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 em.merge(actividad);
+		
 	}
 
 	@Override
@@ -99,10 +104,9 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
 
 		adaptador = new AdaptadorActividad(actividad);
-		
 		 actividadVO =adaptador.getActividadVO();
-
-		return actividadVO;
+		 actividadVO.setId_juego(actividad.getJuego().getIdjuego());
+	return actividadVO;
 	}
 	
 	@Override
@@ -128,8 +132,81 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
         
         return ListaJuegoVO;
 	}
+	
+	public List<CursoVO> consultarCursosProfesor(int idprofesor) throws AdaptadorException {
+		
+		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();;
+		CursoVO cursoVO=new CursoVO();
+		AdaptadorCurso adaptador = null;
+		Usuario profesor=new Usuario();
+		 profesor = em.find(Usuario.class,idprofesor);
+		Query q = em.createQuery("SELECT object(c) FROM Curso AS c where c.usuario=:profesor");
+		 q.setParameter("profesor", profesor);
+		List<Curso> listaCurso= q.getResultList();
+ 
+        for (int i=0;listaCurso.size()>i;i++) {
+        
+            adaptador = new AdaptadorCurso(listaCurso.get(i));
+            try {
+				cursoVO =adaptador.getCursoVO();
 
+			} catch (AdaptadorException e) {
+				// T ODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			listaCursoVO.add(cursoVO);
+		}
+        
+        return listaCursoVO;
+	}
+	
+	@Override
+	public List<CursoActividadVO> consultarActividadesProfesor(int idprofesor) {//convertirlo en CursoActividadVO
 
+		CursoActividadVO cursoActividadVO = new CursoActividadVO();
+		List<CursoVO> cursoVO= new ArrayList<CursoVO>();
+		List<CursoActividadVO> ListaActividadesVO = new ArrayList<CursoActividadVO>();
+		try {
+			
+			cursoVO=consultarCursosProfesor(idprofesor);	
+		
+			for (CursoVO curso : cursoVO) {
+				
+				for (ActividadVO actividadvo : consultarCursoVO(curso).getActividades()) {
+					
+					cursoActividadVO.setActividad(actividadvo);
+					cursoActividadVO.setCurso(consultarCursoVO(curso));
+					ListaActividadesVO.add(cursoActividadVO);
+					}
+				}
+			
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        return ListaActividadesVO;
+	}
+	
+	public CursoVO consultarCursoVO(CursoVO cursoVO) throws AdaptadorException {
+		// TODO Auto-generated method stub
+		AdaptadorCurso adaptador = null;
+		AdaptadorActividad adaptadorA = null;
+		List<ActividadVO> listaactividadesVO = null;
+		Curso curso = null;
+		curso = em.find(Curso.class,cursoVO.getIdcurso());
+		adaptador = new AdaptadorCurso(curso);
+		
+		listaactividadesVO = new ArrayList<ActividadVO>();
+		for (Actividad actividad : curso.getActividads()) {
+			adaptadorA = new AdaptadorActividad(actividad);
+			listaactividadesVO.add(adaptadorA.getActividadVO());
+			}		
+		
+		 cursoVO =adaptador.getCursoVO();
+		 cursoVO.setActividades(listaactividadesVO);
+		return cursoVO;
+	}
    
 
 }

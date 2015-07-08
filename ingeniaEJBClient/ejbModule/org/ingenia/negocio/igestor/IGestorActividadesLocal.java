@@ -27,4 +27,7 @@ public interface IGestorActividadesLocal {
 			throws AdaptadorException;	
 	public List<JuegoVO> consultarJuegosDisponibles() 
 			throws AdaptadorException;	
+	
+	public List<CursoActividadVO> consultarActividadesProfesor(int idprofesor) 
+			throws AdaptadorException;
 }
