@@ -48,22 +48,10 @@ public class AdmCursoMB extends BaseMB {
 
 	}*/
 	
-	  public String doSeleccionarCurso() {
+	  public String nuevoCurso() {
 	        String destino = null;
-	        cursoVO = new CursoVO();
-	        int idCurso = Integer.parseInt(recuperarIdParametro("idcurso"));
-	        //estudiantes = gestorCursos.estudiantesPorCurso(cursoVO.getId());
-	        cursoVO.setIdcurso(idCurso);
-	        try {
-				this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
-				
-				   destino = "busqueda.resultados";
-			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	       
-
+	        this.cursoVO = new CursoVO();	    
+	        destino= "nuevocurso";
 	        return destino;
 	    }
 	
@@ -113,12 +101,20 @@ public class AdmCursoMB extends BaseMB {
 
 		CursoVO cursoVO = this.cursoVO;
 		UsuarioVO profesorVO = new UsuarioVO();
-
+      System.out.println(cursoVO.getIdcurso());
 		try {
-			profesorVO.setId(123456);
-			cursoVO.setProfesor(profesorVO);
-			gestorCursos.crearCursoVO(cursoVO);
 
+			if (cursoVO.getIdcurso()==0){
+				profesorVO.setId(7890);
+				cursoVO.setProfesor(profesorVO);
+				System.out.println("crear");
+				gestorCursos.crearCursoVO(cursoVO);
+			}
+			else 
+			{	System.out.println("modificar");
+				gestorCursos.modificarCursoVO(cursoVO);
+			}
+			
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,

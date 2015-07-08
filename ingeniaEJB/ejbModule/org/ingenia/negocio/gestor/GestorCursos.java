@@ -148,11 +148,17 @@ public class GestorCursos implements IGestorCursosRemote,
 	}
 
 	@Override
-	public CursoVO modificarCursoVO(CursoVO cursoVO) throws AdaptadorException {
+	public void modificarCursoVO(CursoVO cursoVO) throws AdaptadorException {
 		// TODO Auto-generated method stub
-		return null;
+		AdaptadorCurso adaptador = null;
+		//Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
+		Curso curso = null;		        
+		adaptador = new AdaptadorCurso(cursoVO);
+		curso =adaptador.getCurso();
+		 em.merge(curso);
 	}
 
+	
 	@Override
 	public void eliminarCursoVO(CursoVO cursoVO) throws AdaptadorException {
 		// TODO Auto-generated method stub

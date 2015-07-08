@@ -85,8 +85,14 @@
 		</navigation-case>
 		
 		        <navigation-case>
-            <from-outcome>busqueda.resultados</from-outcome>
+            <from-outcome>nuevocurso</from-outcome>
             <to-view-id>paginas/profesores/curso.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>nuevaactividad</from-outcome>
+            <to-view-id>paginas/profesores/actividad.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         

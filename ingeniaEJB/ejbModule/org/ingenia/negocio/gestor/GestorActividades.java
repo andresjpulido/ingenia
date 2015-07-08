@@ -65,9 +65,18 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 	}
 
 	@Override
-	public ActividadVO modificarActividadVO(ActividadVO actividadVO) {
-		// TODO Auto-generated method stub
-		return null;
+	public void modificarActividadVO(ActividadVO actividadVO) {
+
+		AdaptadorActividad adaptador = null;
+		Actividad actividad = null;		        
+		adaptador = new AdaptadorActividad(actividadVO);
+		try {
+			actividad =adaptador.getActividad();
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 em.merge(actividad);
 	}
 
 	@Override

@@ -59,6 +59,13 @@ public class AdmActividadMB extends BaseMB {
 		}
 	}
 	
+	  public String nuevaActividad() {
+	        String destino = null;
+	        this.actividadVO = new ActividadVO();	    
+	        destino= "nuevaactividad";
+	        return destino;
+	    }
+	
 	public String buscar() {
 		ActividadVO actividadVO = new ActividadVO();
 		actividadVO.setEnunciado(this.actividad);
@@ -102,20 +109,24 @@ public class AdmActividadMB extends BaseMB {
 	public void crear() {
 
 		ActividadVO actividadVO = this.actividadVO;
-		//actividadVO.setId_juego(1);
 		actividadVO.setId_juego(juegoVO.getIdjuego());
-		//System.out.println(juegoVO.getIdjuego());
 		int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
-       int posicion=0;
+         int posicion=0;
          CursoActividadVO cursoActividadVO = new CursoActividadVO();
          CursoVO cursoVO=new CursoVO();
          cursoVO.setIdcurso(idcurso);
 		try {
-			
+			if(actividadVO.getIdactividad()==0){
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setPosicion(posicion);
 			cursoActividadVO.setCurso(cursoVO);
-			gestorActividades.crearActividadVO(cursoActividadVO); 						
+			gestorActividades.crearActividadVO(cursoActividadVO); 	}
+			
+			else{
+				
+				gestorActividades.modificarActividadVO(actividadVO);
+			}
+			
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(

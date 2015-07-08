@@ -18,7 +18,7 @@ public interface IGestorCursosLocal {
 
 	public CursoVO consultarCursoVO(CursoVO cursoVO) throws AdaptadorException;
 
-	public CursoVO modificarCursoVO(CursoVO cursoVO) throws AdaptadorException;
+	public void modificarCursoVO(CursoVO cursoVO) throws AdaptadorException;
 
 	public void eliminarCursoVO(CursoVO cursoVO) throws AdaptadorException;
 
