@@ -1,7 +1,9 @@
 package org.ingenia.negocio.entidades;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -30,6 +32,11 @@ public class Actividad implements Serializable {
 	@Column(name="`url_texto_ensenanza`")
 	private String url_texto_ensenanza;
 
+	//bi-directional many-to-one association to Usuario
+		@ManyToOne
+		@JoinColumn(name="idprofesor")
+		private Usuario usuario;
+	
 	//bi-directional many-to-many association to Curso
 	@ManyToMany
 	@JoinTable(
