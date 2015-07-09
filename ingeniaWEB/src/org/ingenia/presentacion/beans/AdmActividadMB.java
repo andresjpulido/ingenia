@@ -10,11 +10,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
+import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
 
@@ -28,11 +30,16 @@ public class AdmActividadMB extends BaseMB {
 	private static final long serialVersionUID = -4578987507032867585L;
 
 	private ActividadVO actividadVO= new ActividadVO();
+	private ActividadVO actividadVO1= new ActividadVO();
+
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
-	private List<CursoActividadVO> listaCursoActividades;
+	private List<ActividadVO> listaActividades;
+	private int posicion=0;
    
+	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
+	private final static String NAV_IRACTIVIDADCURSO = "iractividadcurso";
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
 
@@ -57,11 +64,27 @@ public class AdmActividadMB extends BaseMB {
 		}
 	}
 	
+	  public String configurarActividad() {
+		  System.out.println("entrrooooo");
+			 actividadVO1 =null;		
+	        this.actividadVO = new ActividadVO();   
+
+	        return NAV_CONFIGURARACTIVIDAD;
+	    }
+	  
+	
 	  public String nuevaActividad() {
-	        String destino = null;
-	        this.actividadVO = null;   
-	        destino= "nuevaactividad";
-	        return destino;
+			 actividadVO1 =null;		
+	        this.actividadVO = new ActividadVO();   
+
+	        return NAV_IRACTIVIDAD;
+	    }
+	  
+
+	  public String nuevaAsociarActividad() {
+		  	actividadVO1 =null;
+	        this.actividadVO = new ActividadVO();  
+	        return NAV_IRACTIVIDADCURSO;
 	    }
 	
 	public String buscar() {
@@ -69,7 +92,7 @@ public class AdmActividadMB extends BaseMB {
 		actividadVO.setEnunciado(this.actividad);
 
 		try {
-			listaCursoActividades= gestorActividades.consultarActividadesProfesor(7890);
+			setListaActividades(gestorActividades.consultarActividadesProfesor(7890));
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -81,23 +104,52 @@ public class AdmActividadMB extends BaseMB {
 		return NAV_IRADMACTIVIDAD;
 	}
 
-	public String guardar() {
+	public void actualizar() {
 		
-		String destino =null;
+		ActividadVO actividadVO = this.actividadVO;		
+
+	try {	
+			gestorActividades.modificarActividad(actividadVO);			
+		
+} catch (AdaptadorException e) {
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroraaaa",
+						"Error de concersion de tipos!"));
+		e.printStackTrace();
+	} catch (Exception e) {
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroresss", e
+						.getMessage()));
+		e.printStackTrace();
+	}
+	FacesContext.getCurrentInstance().addMessage(
+			null,
+			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+					"La operacion fue realizada satisfactoriamente !"));
+	}
+
+	public String crear() {
+
+  		 ActividadVO actividadVO = this.actividadVO;		
+	     actividadVO.setId_juego(juegoVO.getIdjuego());
+         UsuarioVO profesorVO = new UsuarioVO();
+         profesorVO.setId(7890);
+         actividadVO.setProfesor(profesorVO);
 		try {
-			gestorActividades.modificarActividadVO(this.actividadVO);
-			destino ="nuevocurso";
+          		gestorActividades.crearActividad(actividadVO); 				
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroraaaa",
 							"Error de concersion de tipos!"));
 			e.printStackTrace();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroresss", e
 							.getMessage()));
 			e.printStackTrace();
 		}
@@ -105,30 +157,26 @@ public class AdmActividadMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
-		return destino;
+		return NAV_IRADMACTIVIDAD;
 	}
+	
+	public void crearAsociando() {
 
-	public void crear() {
-
-		ActividadVO actividadVO = this.actividadVO;		
-	       actividadVO.setId_juego(juegoVO.getIdjuego());
-		int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
-         int posicion=0;
-         CursoActividadVO cursoActividadVO = new CursoActividadVO();
-         CursoVO cursoVO=new CursoVO();
-         cursoVO.setIdcurso(idcurso);
-		try {
-			if(actividadVO.getIdactividad()==0){
-
+			ActividadVO actividadVO = this.actividadVO;		
+	        actividadVO.setId_juego(juegoVO.getIdjuego());
+	        int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
+			CursoActividadVO cursoActividadVO = new CursoActividadVO();
+         	CursoVO cursoVO=new CursoVO();
+         	cursoVO.setIdcurso(idcurso);
+         	UsuarioVO profesorVO = new UsuarioVO();
+			profesorVO.setId(7890);
+			actividadVO.setProfesor(profesorVO);
 			cursoActividadVO.setActividad(actividadVO);
-			cursoActividadVO.setPosicion(posicion);
+			cursoActividadVO.setPosicion(this.posicion);
 			cursoActividadVO.setCurso(cursoVO);
-			gestorActividades.crearActividadVO(cursoActividadVO); 	}
 			
-			else{
-				gestorActividades.modificarActividadVO(actividadVO);
-			}
-			
+		try {
+			gestorActividades.crearActividadCurso(cursoActividadVO); 		
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -148,9 +196,44 @@ public class AdmActividadMB extends BaseMB {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
 	}
+	
+	public void actualizarAsociando() {
+
+			ActividadVO actividadVO = this.actividadVO;		
+	        int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
+	        CursoActividadVO cursoActividadVO = new CursoActividadVO();
+	        CursoVO cursoVO=new CursoVO();
+	        cursoVO.setIdcurso(idcurso);
+	        cursoActividadVO.setActividad(actividadVO);
+			cursoActividadVO.setPosicion(this.posicion);
+			cursoActividadVO.setCurso(cursoVO);
+		try {	
+				gestorActividades.modificarActividadCurso(cursoActividadVO);			
+			
+	} catch (AdaptadorException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroraaaa",
+							"Error de concersion de tipos!"));
+			e.printStackTrace();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroresss", e
+							.getMessage()));
+			e.printStackTrace();
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"La operacion fue realizada satisfactoriamente !"));
+	}
+
 
 	public String irActividad() {
-		
+
+		 actividadVO1 =new ActividadVO();
+
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
@@ -174,6 +257,35 @@ public class AdmActividadMB extends BaseMB {
 
 		return NAV_IRACTIVIDAD;
 	}
+		
+	
+	public String irActividadCurso() {
+
+			 actividadVO1 =new ActividadVO();
+
+			 FacesContext fc = FacesContext.getCurrentInstance();
+			Map<String, String> params = fc.getExternalContext()
+					.getRequestParameterMap();
+
+			String id = params.get("idactividad");
+			ActividadVO actividadVO = new ActividadVO();
+			actividadVO.setIdactividad(Integer.parseInt(id));
+			
+			try {
+				this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
+
+				for (JuegoVO juego : listaJuegos) {
+						if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
+							this.juegoVO=juego;		
+						}
+					}
+
+			} catch (AdaptadorException e) {
+				e.printStackTrace();
+			}
+
+			return NAV_IRACTIVIDADCURSO;
+		}
 	
 	public ActividadVO getActividadVO() {
 		return actividadVO;
@@ -191,31 +303,6 @@ public class AdmActividadMB extends BaseMB {
 		this.actividad = actividad;
 	}
 
-	public List<CursoActividadVO> getListaCursoActividades() {
-		try {
-			listaCursoActividades=gestorActividades.consultarActividadesProfesor(7890);
-		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return listaCursoActividades;
-	}
-
-	public void setListaCursoActividades(List<CursoActividadVO> listaActividades) {
-		this.listaCursoActividades = listaActividades;
-	}
-	
-	/*public String dogetTiposActividad(){
-
-	/*	try {
-			this.listaTiposActividad=gestorActividades.consultarTiposActividadDisponibles();
-		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		/*return NAV_IRACTIVIDAD;
-	}*/
-
 	public JuegoVO getJuegoVO() {
 		return juegoVO;
 	}
@@ -230,6 +317,37 @@ public class AdmActividadMB extends BaseMB {
 
 	public void setListaJuegos(List<JuegoVO> listaJuegos) {
 		this.listaJuegos = listaJuegos;
+	}
+
+
+	public ActividadVO getActividadVO1() {
+		return actividadVO1;
+	}
+
+	public void setActividadVO1(ActividadVO actividadVO1) {
+		this.actividadVO1 = actividadVO1;
+	}
+
+	public int getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
+	}
+
+	public List<ActividadVO> getListaActividades() {
+		try {
+			setListaActividades(gestorActividades.consultarActividadesProfesor(7890));
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+	
+		return listaActividades;
+	}
+
+	public void setListaActividades(List<ActividadVO> listaActividades) {
+		this.listaActividades = listaActividades;
 	}
 
 

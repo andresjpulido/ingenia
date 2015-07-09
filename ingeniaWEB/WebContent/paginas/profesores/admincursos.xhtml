@@ -21,15 +21,14 @@
 			</h:panelGrid>
 			
 			<div id="crear" align="right" >
-			<p:commandButton action="#{AdmCursoMB.nuevoCurso}" value="Crear nuevo curso" />
-
+          <p:commandButton value="Crear nuevo curso" id="ajax" action="#{AdmCursoMB.nuevoCurso}"  styleClass="ui-priority-primary" />
 			</div>
 		</h:form>
 
 		<h:form>
 			<p:dataTable var="curso" value="#{AdmCursoMB.listaCursos}"
 				rendered="#{not empty AdmCursoMB.listaCursos}" paginator="true"
-				rows="10" dynamic="true">
+				rows="8" dynamic="true">
 				<p:column headerText="Nombre">
 					<p:commandButton icon="ui-icon-search" value="#{curso.nombre}"
 						process="@this" action="#{AdmCursoMB.irCurso}">

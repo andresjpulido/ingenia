@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantillas/plantilla.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+									Configuración Actividad
+		<h:form>
+			 
+	
+	<p:outputLabel for="juego" value="Juego: " />
+	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}       " label="juego"/>	
+			<h:panelGrid columns="4" cellpadding="5">
+						
+	<h:outputLabel for="enunciado" value="Tipo Gato:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+										
+	<h:outputLabel for="url_conocimiento" value= "Defensa" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
+
+	<h:outputLabel for="activo" value="Color Gato" />
+ 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+   	<f:selectItem itemValue="1" itemLabel="Si" />
+   	<f:selectItem itemValue="0" itemLabel="No" />
+ 	</p:selectOneMenu>
+ 			 
+ 	<h:outputLabel for="limite_movimientos" value="Arma:" />
+ 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 		
+	<f:facet name="footer">
+	<p:commandButton value="Agregar Gato" action="#{AdmActividadMB.actualizar}">
+	</p:commandButton>
+
+	</f:facet>
+
+			</h:panelGrid>
+		</h:form>
+
+		<h:form>
+			
+			<p:dataTable var="actividad" value="#{AdmActividadMB.listaActividades}"
+				rendered="#{not empty AdmActividadMB.listaActividades}" paginator="true"
+				rows="5" dynamic="true">
+				<p:column headerText="Nombre">
+	<p:commandButton icon="ui-icon-search" value="#{actividad.enunciado}" process="@this" action="#{AdmActividadMB.irActividad}">
+	<f:param name="idactividad" value="#{actividad.idactividad}" />
+	</p:commandButton>
+				</p:column> 
+				
+				<p:column headerText="Descripción">
+					<h:outputText name="descripcion" value="#{actividad.enunciado}" />
+				</p:column>
+
+				<p:column headerText="Estado">
+					<h:outputText value="#{actividad.activo}" />
+				</p:column>
+
+			</p:dataTable>
+
+	
+			
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

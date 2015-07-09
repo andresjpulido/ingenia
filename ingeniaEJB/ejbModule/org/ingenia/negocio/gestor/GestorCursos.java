@@ -131,19 +131,18 @@ public class GestorCursos implements IGestorCursosRemote,
 		AdaptadorCurso adaptador = null;
 		AdaptadorActividad adaptadorA = null;
 		List<ActividadVO> listaactividadesVO = null;
-		Curso curso = null;
+		Curso curso = new Curso();
 		curso = em.find(Curso.class,cursoVO.getIdcurso());
 		adaptador = new AdaptadorCurso(curso);
-		
 		listaactividadesVO = new ArrayList<ActividadVO>();
-		for (Actividad actividad : curso.getActividads()) {
-			adaptadorA = new AdaptadorActividad(actividad);
-			listaactividadesVO.add(adaptadorA.getActividadVO());
-			}		
-		
+		Query q = em.createQuery("SELECT c.actividad FROM Actividadcurso AS c where c.curso=:curso");
+		 q.setParameter("curso", curso);
+		 listaactividadesVO= q.getResultList();		
 		 cursoVO =adaptador.getCursoVO();
 		 cursoVO.setActividades(listaactividadesVO);
+
 		return cursoVO;
+		
 	}
 
 	@Override

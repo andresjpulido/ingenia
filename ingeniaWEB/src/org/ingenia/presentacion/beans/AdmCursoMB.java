@@ -27,32 +27,30 @@ public class AdmCursoMB extends BaseMB {
 	private CursoVO cursoVO=new CursoVO();
 	private String curso;
 	private List<CursoVO> listaCursos;
-
+    private CursoVO cursoVOtemp=new CursoVO();
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 
 	@EJB
 	IGestorCursosLocal gestorCursos;
 
-
-	/*public void init() {
+	@PostConstruct
+	public void init() {
 		
-		
-			try {
-			
-				this.listaCursos=gestorCursos.consultarTodosCursos();
-			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		cursoVO=new CursoVO();		
+		try {
+			listaCursos = gestorCursos.consultarCursosProfesor(7890);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	}*/
+	}
 	
-	  public String nuevoCurso() {
-	        String destino = null;
-	        this.cursoVO = null;    
-	        destino= "nuevocurso";
-	        return destino;
+	  public String nuevoCurso() {	   
+	        this.cursoVO = new CursoVO();   
+	        setCursoVOtemp(null);
+	        return NAV_IRCURSO;
 	    }
 	
 	public String buscar() {//es mas como un filtro
@@ -73,10 +71,11 @@ public class AdmCursoMB extends BaseMB {
 		return NAV_IRADMCURSO;
 	}
 
-	public void guardar() {
+	public void actualizar() {
 		
 		try {
 			gestorCursos.modificarCursoVO(this.cursoVO);
+
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -97,7 +96,7 @@ public class AdmCursoMB extends BaseMB {
 						"La operacion fue realizada satisfactoriamente !"));
 	}
 
-	public void crear() {
+	public String crear() {
 
 		CursoVO cursoVO = this.cursoVO;
 		UsuarioVO profesorVO = new UsuarioVO();
@@ -112,6 +111,7 @@ public class AdmCursoMB extends BaseMB {
 			{	
 				gestorCursos.modificarCursoVO(cursoVO);
 			}
+			listaCursos = gestorCursos.consultarCursosProfesor(7890);
 			
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -130,10 +130,12 @@ public class AdmCursoMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		
+		return NAV_IRADMCURSO;
 	}
 
 	public String irCurso() {
-		
+		cursoVOtemp =new CursoVO();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
@@ -170,20 +172,19 @@ public class AdmCursoMB extends BaseMB {
 
 	public List<CursoVO> getListaCursos() {
 
-	//cuanod autentica el profesor se habilita la carga automatica
-			  try {
-
-				listaCursos = gestorCursos.consultarCursosProfesor(7890);
-			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	        
-	
 		return listaCursos;
 	}
 
 	public void setListaCursos(List<CursoVO> listaCursos) {
 		this.listaCursos = listaCursos;
+	}
+
+	public CursoVO getCursoVOtemp() {
+		return cursoVOtemp;
+	}
+
+	public void setCursoVOtemp(CursoVO cursoVOtemp) {
+		this.cursoVOtemp = cursoVOtemp;
 	}
 
 

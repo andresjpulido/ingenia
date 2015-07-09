@@ -15,7 +15,7 @@ public class ActividadVO implements Serializable {
 	
 	private int publicado;
 	
-	private List<CursoActividadVO> cursoActividads;
+	private List<CursoVO> cursos;
 
 	private List<RespuestaVO> respuestas;
 	
@@ -24,6 +24,8 @@ public class ActividadVO implements Serializable {
 	private int id_juego;
 	
 	private int limite_movimientos;
+	
+	private UsuarioVO profesor;
 
 	public ActividadVO() {
 	}
@@ -36,26 +38,12 @@ public class ActividadVO implements Serializable {
 		this.idactividad = idactividad;
 	}
 
-	public List<CursoActividadVO> getCursoActividads() {
-		return this.cursoActividads;
+	public List<CursoVO> getCursos() {
+		return this.cursos;
 	}
 
-	public void setCursoActividads(List<CursoActividadVO> cursoActividads) {
-		this.cursoActividads = cursoActividads;
-	}
-
-	public CursoActividadVO addCursoActividad(CursoActividadVO cursoActividad) {
-		getCursoActividads().add(cursoActividad);
-		cursoActividad.setActividad(this);
-
-		return cursoActividad;
-	}
-
-	public CursoActividadVO removeCursoActividad(CursoActividadVO cursoActividad) {
-		getCursoActividads().remove(cursoActividad);
-		cursoActividad.setActividad(null);
-
-		return cursoActividad;
+	public void setCursos(List<CursoVO> cursos) {
+		this.cursos = cursos;
 	}
 
 	public List<RespuestaVO> getRespuestas() {
@@ -127,5 +115,15 @@ public class ActividadVO implements Serializable {
 	public void setLimite_movimientos(int limite_movimientos) {
 		this.limite_movimientos = limite_movimientos;
 	}
+
+	public UsuarioVO getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(UsuarioVO profesor) {
+		this.profesor = profesor;
+	}
+
+
 
 }

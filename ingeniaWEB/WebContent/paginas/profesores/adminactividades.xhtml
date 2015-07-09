@@ -9,11 +9,11 @@
 	</ui:define>
 
 	<ui:define name="content">
-Administracion de Usuarios
+									Mis Actividades
 		<h:form>
 			 
 			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel for="username" value="Usuario:" />
+				<h:outputLabel for="username" value="Actividad:" />
 				<p:inputText id="username" value="#{AdmUsuarioMB.usuario}"
 					required="false" label="Usuario" />
 
@@ -22,32 +22,34 @@ Administracion de Usuarios
 				</f:facet>
 
 			</h:panelGrid>
-
+			<div id="crear" align="right" >
+			<p:commandButton  id="crear" action="#{AdmActividadMB.nuevaActividad}" value="Crear actividad "/>
+			</div>
 		</h:form>
 
 		<h:form>
 			
-			<p:dataTable var="actividad" value="#{AdmActividadMB.listaCursoActividades}"
-				rendered="#{not empty AdmActividadMB.listaCursoActividades}" paginator="true"
-				rows="10" dynamic="true">
+			<p:dataTable var="actividad" value="#{AdmActividadMB.listaActividades}"
+				rendered="#{not empty AdmActividadMB.listaActividades}" paginator="true"
+				rows="8" dynamic="true">
 				<p:column headerText="Nombre">
-					<p:commandButton icon="ui-icon-search" value="#{actividad.actividad.enunciado}"
-						process="@this" action="#{AdmActividadMB.irActividad}">
-						<f:param name="idactividad" value="#{actividad.actividad.idactividad}" />
-					</p:commandButton>
+	<p:commandButton icon="ui-icon-search" value="#{actividad.enunciado}" process="@this" action="#{AdmActividadMB.irActividad}">
+	<f:param name="idactividad" value="#{actividad.idactividad}" />
+	</p:commandButton>
 				</p:column> 
 				
 				<p:column headerText="Descripción">
-					<h:outputText name="descripcion" value="#{actividad.actividad.enunciado}" />
+					<h:outputText name="descripcion" value="#{actividad.enunciado}" />
 				</p:column>
 
 				<p:column headerText="Estado">
-					<h:outputText value="#{actividad.curso.nombre}" />
+					<h:outputText value="#{actividad.activo}" />
 				</p:column>
 
 			</p:dataTable>
 
 	
+			
 
 		</h:form>
 

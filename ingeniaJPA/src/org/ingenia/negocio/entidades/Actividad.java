@@ -35,7 +35,7 @@ public class Actividad implements Serializable {
 	//bi-directional many-to-one association to Usuario
 		@ManyToOne
 		@JoinColumn(name="idprofesor")
-		private Usuario usuario;
+		private Usuario Usuario;
 	
 	//bi-directional many-to-many association to Curso
 	@ManyToMany
@@ -142,6 +142,14 @@ public class Actividad implements Serializable {
 		this.juego = juego;
 	}
 
+	public Usuario getUsuario() {
+		return Usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		Usuario = usuario;
+	}
+
 	public List<Actividadcurso> getActividadcursos() {
 		return this.actividadcursos;
 	}
@@ -223,5 +231,6 @@ public class Actividad implements Serializable {
 
 		return respuesta;
 	}
+	
 
 }

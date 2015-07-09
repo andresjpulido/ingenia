@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantillas/plantilla.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+			Datos Actividad 
+			
+			
+	    <h:form rendered="#{empty AdmActividadMB.actividadVO1}">
+		<h:panelGrid columns="2" cellpadding="5">
+
+	<h:outputLabel  for="curso" value="Esta asociando al curso:" />
+ 	<h:outputText id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
+			
+	<p:outputLabel for="tipo" value="Juego: " />
+	<p:selectOneMenu  id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
+ 	<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
+	</p:selectOneMenu>
+	
+						
+	<h:outputLabel for="enunciado" value="Enunciado:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+										
+	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
+
+	<h:outputLabel for="activo" value="Activo:" />
+ 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+   	<f:selectItem itemValue="1" itemLabel="Si" />
+   	<f:selectItem itemValue="0" itemLabel="No" />
+ 	</p:selectOneMenu>
+ 			 
+ 	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
+ 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 	
+ 	<h:outputLabel for="posicion" value="Posicion en el curso:" />
+ 	<p:inputText value="#{AdmActividadMB.posicion}" label="posicion"/>
+ 
+ 		
+	<f:facet name="footer">
+	<p:commandButton value="Asociar" action="#{AdmActividadMB.crearAsociando}">
+	<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
+	</p:commandButton>
+	</f:facet>
+
+			</h:panelGrid>
+			</h:form>
+		
+		<h:form rendered="#{not empty AdmActividadMB.actividadVO1}">
+		<h:panelGrid columns="2" cellpadding="5">
+
+	<h:outputLabel  for="curso" value="Esta asociando al curso:" />
+ 	<h:outputText  id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
+			
+	<p:outputLabel for="juego" value="Juego: " />
+	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>
+			
+	<h:outputLabel for="enunciado" value="Enunciado:" />
+	<h:outputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+											
+	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
+	<h:outputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" label="Usuario" />
+
+	<h:outputLabel for="activo" value="Activo:" />
+   	<h:outputText id="activo" value="#{AdmActividadMB.actividadVO.activo}" label="activo" />
+ 			 
+ 	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
+ 	<h:outputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 
+  	<h:outputLabel for="posicion" value="Posicion en el curso:" />
+ 	<p:inputText value="#{AdmActividadMB.posicion}" label="posicion"/>
+ 		
+	<f:facet name="footer">
+	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizarAsociando}">
+	<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
+	</p:commandButton>
+	</f:facet>
+			</h:panelGrid>	
+			</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -23,6 +23,8 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		if (actividadVO == null)
 			return null;
 		actividad = new Actividad();
+		  AdaptadorUsuario adaptador = new AdaptadorUsuario(actividadVO.getProfesor());
+		actividad.setUsuario(adaptador.getUsuario());
 		actividad.setEnunciado(actividadVO.getEnunciado());
 		actividad.setIdactividad(actividadVO.getIdactividad());
 		actividad.setUrl_texto_ensenanza(actividadVO.getUrl_conocimiento());
@@ -37,6 +39,8 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		if (actividad == null)
 			return null;
 		actividadVO=new ActividadVO();
+		AdaptadorUsuario adaptador = new AdaptadorUsuario(actividad.getUsuario());
+		actividadVO.setProfesor(adaptador.getUsuarioVO());
 		actividadVO.setEnunciado(actividad.getEnunciado());
 		actividadVO.setIdactividad(actividad.getIdactividad());
 		actividadVO.setId_juego(actividad.getJuego().getIdjuego());

@@ -84,15 +84,10 @@
 			<redirect />
 		</navigation-case>
 		
-		        <navigation-case>
-            <from-outcome>nuevocurso</from-outcome>
-            <to-view-id>paginas/profesores/curso.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>nuevaactividad</from-outcome>
-            <to-view-id>paginas/profesores/actividad.xhtml</to-view-id>
+       
+         <navigation-case>
+            <from-outcome>iractividadcurso</from-outcome>
+            <to-view-id>paginas/profesores/actividadcurso.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         
@@ -101,6 +96,12 @@
 			<to-view-id>/paginas/profesores/admincursos.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		
+		<navigation-case>
+            <from-outcome>configuraractividad</from-outcome>
+            <to-view-id>paginas/profesores/configuraciongatos.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
 		
 			<navigation-case>
 			<from-outcome>iractividad</from-outcome>

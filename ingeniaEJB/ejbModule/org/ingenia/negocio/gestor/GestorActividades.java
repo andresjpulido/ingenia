@@ -40,7 +40,7 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 	}
 
 	@Override
-	public void crearActividadVO(CursoActividadVO cursoActividadVO) {
+	public void crearActividadCurso(CursoActividadVO cursoActividadVO) {
 
 		AdaptadorActividad adaptador = null;
 		Actividad actividad = new Actividad();
@@ -133,79 +133,93 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
         return ListaJuegoVO;
 	}
 	
-	public List<CursoVO> consultarCursosProfesor(int idprofesor) throws AdaptadorException {
-		
-		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();;
-		CursoVO cursoVO=new CursoVO();
-		AdaptadorCurso adaptador = null;
-		Usuario profesor=new Usuario();
-		 profesor = em.find(Usuario.class,idprofesor);
-		Query q = em.createQuery("SELECT object(c) FROM Curso AS c where c.usuario=:profesor");
-		 q.setParameter("profesor", profesor);
-		List<Curso> listaCurso= q.getResultList();
- 
-        for (int i=0;listaCurso.size()>i;i++) {
-        
-            adaptador = new AdaptadorCurso(listaCurso.get(i));
-            try {
-				cursoVO =adaptador.getCursoVO();
-
-			} catch (AdaptadorException e) {
-				// T ODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			listaCursoVO.add(cursoVO);
-		}
-        
-        return listaCursoVO;
-	}
+	
 	
 	@Override
-	public List<CursoActividadVO> consultarActividadesProfesor(int idprofesor) {//convertirlo en CursoActividadVO
+	public List<ActividadVO> consultarActividadesProfesor(int idprofesor) {
 
-		CursoActividadVO cursoActividadVO = new CursoActividadVO();
-		List<CursoVO> cursoVO= new ArrayList<CursoVO>();
-		List<CursoActividadVO> ListaActividadesVO = new ArrayList<CursoActividadVO>();
-		try {
-			
-			cursoVO=consultarCursosProfesor(idprofesor);	
+		List<ActividadVO> ListaActividadesVO = new ArrayList<ActividadVO>();
+		List<Actividad> ListaActividades = new ArrayList<Actividad>();
+		ActividadVO actividadVO= new ActividadVO();
+		AdaptadorActividad adaptador;
+		Usuario profesor = em.find(Usuario.class,idprofesor);
+		Query q = em.createQuery("SELECT a FROM Actividad as a where a.Usuario=:profesor");   
+		 q.setParameter("profesor", profesor);
+		 ListaActividades= q.getResultList();
 		
-			for (CursoVO curso : cursoVO) {
-				
-				for (ActividadVO actividadvo : consultarCursoVO(curso).getActividades()) {
+				for (Actividad actividad : ListaActividades) {					
+					adaptador = new AdaptadorActividad(actividad);	          
+					Juego juego = em.find(Juego.class,actividad.getJuego().getIdjuego());
+					try {
+						actividadVO = adaptador.getActividadVO();
+					} catch (AdaptadorException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					actividadVO.setId_juego(juego.getIdjuego());
+					ListaActividadesVO.add(actividadVO);
 					
-					cursoActividadVO.setActividad(actividadvo);
-					cursoActividadVO.setCurso(consultarCursoVO(curso));
-					ListaActividadesVO.add(cursoActividadVO);
 					}
-				}
-			
-		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
         return ListaActividadesVO;
 	}
 	
-	public CursoVO consultarCursoVO(CursoVO cursoVO) throws AdaptadorException {
-		// TODO Auto-generated method stub
-		AdaptadorCurso adaptador = null;
-		AdaptadorActividad adaptadorA = null;
-		List<ActividadVO> listaactividadesVO = null;
-		Curso curso = null;
-		curso = em.find(Curso.class,cursoVO.getIdcurso());
-		adaptador = new AdaptadorCurso(curso);
+
+
+	@Override
+	public void modificarActividadCurso(CursoActividadVO cursoActividadVO)
+			throws AdaptadorException {
 		
-		listaactividadesVO = new ArrayList<ActividadVO>();
-		for (Actividad actividad : curso.getActividads()) {
-			adaptadorA = new AdaptadorActividad(actividad);
-			listaactividadesVO.add(adaptadorA.getActividadVO());
+
+		Actividadcurso actividadCurso = new Actividadcurso();		 
+		 Actividad actividad = em.find(Actividad.class,cursoActividadVO.getActividad().getIdactividad());
+		 Curso curso = em.find(Curso.class,cursoActividadVO.getCurso().getIdcurso());
+		Query q = em.createQuery("SELECT ac FROM Actividadcurso as ac where ac.actividad=:actividad and ac.curso=:curso");   
+		 q.setParameter("actividad", actividad);
+		 q.setParameter("curso", curso);
+		List<Actividadcurso> listaCurso= q.getResultList();
+		
+		for (Actividadcurso resultado : listaCurso) {
+			actividadCurso=resultado;
+			actividadCurso.setposicionactividad(cursoActividadVO.getPosicion());
+			em.merge(actividadCurso);
 			}		
 		
-		 cursoVO =adaptador.getCursoVO();
-		 cursoVO.setActividades(listaactividadesVO);
-		return cursoVO;
+	
+		
+	}
+
+	@Override
+	public void crearActividad(ActividadVO actividadVO)
+			throws AdaptadorException {
+		AdaptadorActividad adaptador = null;
+		Actividad actividad = new Actividad();
+		 Query q = em.createQuery("SELECT count(a) FROM Actividad as a");   
+		 actividadVO.setIdactividad(((Number) q.getResultList().get(0)).intValue()+1);
+     	Juego juego = em.find(Juego.class,actividadVO.getId_Juego());
+		adaptador = new AdaptadorActividad(actividadVO);
+           
+		try {
+			actividad = adaptador.getActividad(); 
+			actividad.setJuego(juego);
+			em.persist(actividad);			
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void modificarActividad(ActividadVO actividadVO)
+			throws AdaptadorException {
+	 
+			AdaptadorActividad adaptador = new AdaptadorActividad(actividadVO);
+			Actividad actividad=adaptador.getActividad();
+			Juego juego = em.find(Juego.class,actividadVO.getId_Juego());
+			actividad.setJuego(juego);
+			em.merge(actividad);
+			
+		
 	}
    
 

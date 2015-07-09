@@ -9,49 +9,86 @@
 	</ui:define>
 
 	<ui:define name="content">
-Crear Nueva Actividad
-		<h:form>
-			<h:panelGrid columns="2" cellpadding="5">
-
-		<p:outputLabel for="tipo" value="Juego: " />
-		<p:selectOneMenu  rendered="#{empty AdmActividadMB.actividadVO}" id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
- 			<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
-			</p:selectOneMenu>
-		 <h:outputText rendered="#{not empty AdmActividadMB.actividadVO}" id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>
 			
-					
-				<h:outputLabel for="enunciado" value="Enunciado:" />
-				<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}"
-					required="true" label="Usuario" />
-											
-					<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
-				<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}"
-					required="true" label="Usuario" />
+		
+		<h:form  rendered="#{empty AdmActividadMB.actividadVO1}" >
+		<center>
+			Datos Actividad	
+			</center>		
+	<h:panelGrid columns="2" cellpadding="10">
 
-				<h:outputLabel for="activo" value="Activo:" />
- 			 <p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
-   			<f:selectItem itemValue="1" itemLabel="Si" />
-   			<f:selectItem itemValue="0" itemLabel="No" />
- 			 </p:selectOneMenu>
- 			 
- 			  <h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 			 <p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
- 
- 	<h:outputLabel for="curso" value="curso:" />
- 			 <h:outputText id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
+	<p:outputLabel for="tipo" value="Juego: " />
+	<p:selectOneMenu  id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
+ 	<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
+	</p:selectOneMenu>
 				
+	<h:outputLabel for="enunciado" value="Enunciado:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+											
+	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
+
+	<h:outputLabel for="activo" value="Activo:" />
+ 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+   	<f:selectItem itemValue="1" itemLabel="Si" />
+   	<f:selectItem itemValue="0" itemLabel="No" />
+ 	</p:selectOneMenu>
+ 			 
+ 	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
+ 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 
+ 	<f:facet name="footer">
+	<p:commandButton  value="Guardar" action="#{AdmActividadMB.crear}">
+	</p:commandButton>					
+	</f:facet>
+
+ 		</h:panelGrid>				
+		</h:form>
 	
+		
+	    <h:form rendered="#{not empty AdmActividadMB.actividadVO1}">
+	    <center>
+			Datos Actividad	
+			</center>	
+			<p:commandButton value="Directamente a Configurar Actividad" process="@this" action="#{AdmActividadMB.configurarActividad}">
+	<f:param name="idactividad" value="#{actividad.idactividad}" />
+	</p:commandButton>	
+		<h:panelGrid columns="2" cellpadding="5">
 
-				<f:facet name="footer">
-	<p:commandButton icon="ui-icon-search" value="Guardar" action="#{AdmActividadMB.crear}">
-			<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
-					</p:commandButton>
-				</f:facet>
+	
+	<p:outputLabel for="juego" value="Juego: " />
+	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>	
+						
+	<h:outputLabel for="enunciado" value="Enunciado:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+										
+	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
 
-			</h:panelGrid>			
+	<h:outputLabel for="activo" value="Activo:" />
+ 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+   	<f:selectItem itemValue="1" itemLabel="Si" />
+   	<f:selectItem itemValue="0" itemLabel="No" />
+ 	</p:selectOneMenu>
+ 			 
+ 	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
+ 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 		
+	<f:facet name="footer">
+	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizar}">
+	</p:commandButton>
+
+	</f:facet>
+
+			</h:panelGrid>
 			
 
-		</h:form>
+			</h:form>
+			
+			<h:form>
+	
+			</h:form>
+		
 
 	</ui:define>
 </ui:composition>
