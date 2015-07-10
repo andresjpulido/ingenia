@@ -10,12 +10,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
-import org.ingenia.adaptadores.AdaptadorCurso;
 import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
-import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
@@ -56,7 +54,7 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 			Actividadcurso cursoActividad = new Actividadcurso();
 			cursoActividad.setActividad(actividad);
 			cursoActividad.setCurso(curso);
-			cursoActividad.setposicionactividad(cursoActividadVO.getPosicion());
+			cursoActividad.setPosicionActividad(cursoActividadVO.getPosicion());
 			em.persist(actividad);
 			em.persist(cursoActividad);
 			
@@ -143,7 +141,7 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 		ActividadVO actividadVO= new ActividadVO();
 		AdaptadorActividad adaptador;
 		Usuario profesor = em.find(Usuario.class,idprofesor);
-		Query q = em.createQuery("SELECT a FROM Actividad as a where a.Usuario=:profesor");   
+		Query q = em.createQuery("SELECT a FROM Actividad as a where a.usuario=:profesor");   
 		 q.setParameter("profesor", profesor);
 		 ListaActividades= q.getResultList();
 		
@@ -180,7 +178,7 @@ public class GestorActividades implements IGestorActividadesRemote, IGestorActiv
 		
 		for (Actividadcurso resultado : listaCurso) {
 			actividadCurso=resultado;
-			actividadCurso.setposicionactividad(cursoActividadVO.getPosicion());
+			actividadCurso.setPosicionActividad(cursoActividadVO.getPosicion());
 			em.merge(actividadCurso);
 			}		
 		
