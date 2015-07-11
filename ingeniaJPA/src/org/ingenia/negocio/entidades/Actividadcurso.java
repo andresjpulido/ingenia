@@ -17,7 +17,7 @@ public class Actividadcurso implements Serializable {
 	private ActividadcursoPK id;
 
 	@Column(name="posicion_actividad")
-	private int posicionactividad;
+	private int posicionActividad;
 
 	//bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -40,12 +40,12 @@ public class Actividadcurso implements Serializable {
 		this.id = id;
 	}
 
-	public int getPosicionactividad() {
-		return this.posicionactividad;
+	public int getPosicionActividad() {
+		return this.posicionActividad;
 	}
 
-	public void setposicionactividad(int posicionactividad) {
-		this.posicionactividad = posicionactividad;
+	public void setPosicionActividad(int posicionActividad) {
+		this.posicionActividad = posicionActividad;
 	}
 
 	public Actividad getActividad() {

@@ -2,7 +2,6 @@ package org.ingenia.negocio.entidades;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -17,38 +16,29 @@ public class Gato implements Serializable {
 	@Id
 	private int idgato;
 
-	private String color;
+	private int defensa;
 
-	private String defensa;
+	private int orden;
 
-	private String orden;
+	//bi-directional many-to-one association to Actividad
+	@ManyToOne
+	@JoinColumn(name="idactividad")
+	private Actividad actividad;
 
 	//bi-directional many-to-one association to Arma
 	@ManyToOne
+	@JoinColumn(name="idarma")
 	private Arma arma;
 
 	//bi-directional many-to-one association to Color
 	@ManyToOne
-	@JoinColumn(name="color_idcolor")
-	private Color colorBean;
+	@JoinColumn(name="idcolor")
+	private Color color;
 
 	//bi-directional many-to-one association to Tipogato
 	@ManyToOne
-	@JoinColumn(name="tipo_gato_idtipo_gato")
+	@JoinColumn(name="idtipo_gato")
 	private Tipogato tipogato;
-
-	//bi-directional many-to-many association to Actividad
-	@ManyToMany
-	@JoinTable(
-		name="gatoactividad"
-		, joinColumns={
-			@JoinColumn(name="idgato")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="idactividad")
-			}
-		)
-	private List<Actividad> actividads;
 
 	public Gato() {
 	}
@@ -61,28 +51,28 @@ public class Gato implements Serializable {
 		this.idgato = idgato;
 	}
 
-	public String getColor() {
-		return this.color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getDefensa() {
+	public int getDefensa() {
 		return this.defensa;
 	}
 
-	public void setDefensa(String defensa) {
+	public void setDefensa(int defensa) {
 		this.defensa = defensa;
 	}
 
-	public String getOrden() {
+	public int getOrden() {
 		return this.orden;
 	}
 
-	public void setOrden(String orden) {
+	public void setOrden(int orden) {
 		this.orden = orden;
+	}
+
+	public Actividad getActividad() {
+		return this.actividad;
+	}
+
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
 	}
 
 	public Arma getArma() {
@@ -93,12 +83,12 @@ public class Gato implements Serializable {
 		this.arma = arma;
 	}
 
-	public Color getColorBean() {
-		return this.colorBean;
+	public Color getColor() {
+		return this.color;
 	}
 
-	public void setColorBean(Color colorBean) {
-		this.colorBean = colorBean;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public Tipogato getTipogato() {
@@ -107,14 +97,6 @@ public class Gato implements Serializable {
 
 	public void setTipogato(Tipogato tipogato) {
 		this.tipogato = tipogato;
-	}
-
-	public List<Actividad> getActividads() {
-		return this.actividads;
-	}
-
-	public void setActividads(List<Actividad> actividads) {
-		this.actividads = actividads;
 	}
 
 }

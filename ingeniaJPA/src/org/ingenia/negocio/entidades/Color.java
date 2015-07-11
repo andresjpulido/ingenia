@@ -20,7 +20,7 @@ public class Color implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Gato
-	@OneToMany(mappedBy="colorBean")
+	@OneToMany(mappedBy="color")
 	private List<Gato> gatos;
 
 	public Color() {
@@ -52,14 +52,14 @@ public class Color implements Serializable {
 
 	public Gato addGato(Gato gato) {
 		getGatos().add(gato);
-		gato.setColorBean(this);
+		gato.setColor(this);
 
 		return gato;
 	}
 
 	public Gato removeGato(Gato gato) {
 		getGatos().remove(gato);
-		gato.setColorBean(null);
+		gato.setColor(null);
 
 		return gato;
 	}

@@ -1,9 +1,7 @@
 package org.ingenia.negocio.entidades;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.List;
 
 
@@ -26,34 +24,20 @@ public class Actividad implements Serializable {
 	@Column(name="limite_movimientos")
 	private int limiteMovimientos;
 
-
 	private int publicado;
 
-	@Column(name="`url_texto_ensenanza`")
-	private String url_texto_ensenanza;
-
-	//bi-directional many-to-one association to Usuario
-		@ManyToOne
-		@JoinColumn(name="idprofesor")
-		private Usuario Usuario;
-	
-	//bi-directional many-to-many association to Curso
-	@ManyToMany
-	@JoinTable(
-		name="actividadcurso"
-		, joinColumns={
-			@JoinColumn(name="idactividad")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="idcurso")
-			}
-		)
-	private List<Curso> cursos;
+	@Column(name="url_texto_ensenanza")
+	private String urlTextoEnsenanza;
 
 	//bi-directional many-to-one association to Juego
 	@ManyToOne
 	@JoinColumn(name="idtipo_juego")
 	private Juego juego;
+
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne
+	@JoinColumn(name="idprofesor")
+	private Usuario usuario;
 
 	//bi-directional many-to-one association to Actividadcurso
 	@OneToMany(mappedBy="actividad")
@@ -67,8 +51,8 @@ public class Actividad implements Serializable {
 	@ManyToMany(mappedBy="actividads")
 	private List<Estructura> estructuras;
 
-	//bi-directional many-to-many association to Gato
-	@ManyToMany(mappedBy="actividads")
+	//bi-directional many-to-one association to Gato
+	@OneToMany(mappedBy="actividad")
 	private List<Gato> gatos;
 
 	//bi-directional many-to-one association to Respuesta
@@ -118,20 +102,12 @@ public class Actividad implements Serializable {
 		this.publicado = publicado;
 	}
 
-	public String getUrl_texto_ensenanza() {
-		return this.url_texto_ensenanza;
+	public String getUrlTextoEnsenanza() {
+		return this.urlTextoEnsenanza;
 	}
 
-	public void setUrl_texto_ensenanza(String url_texto_ensenanza) {
-		this.url_texto_ensenanza = url_texto_ensenanza;
-	}
-
-	public List<Curso> getCursos() {
-		return this.cursos;
-	}
-
-	public void setCursos(List<Curso> cursos) {
-		this.cursos = cursos;
+	public void setUrlTextoEnsenanza(String urlTextoEnsenanza) {
+		this.urlTextoEnsenanza = urlTextoEnsenanza;
 	}
 
 	public Juego getJuego() {
@@ -143,11 +119,11 @@ public class Actividad implements Serializable {
 	}
 
 	public Usuario getUsuario() {
-		return Usuario;
+		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
-		Usuario = usuario;
+		this.usuario = usuario;
 	}
 
 	public List<Actividadcurso> getActividadcursos() {
@@ -210,6 +186,20 @@ public class Actividad implements Serializable {
 		this.gatos = gatos;
 	}
 
+	public Gato addGato(Gato gato) {
+		getGatos().add(gato);
+		gato.setActividad(this);
+
+		return gato;
+	}
+
+	public Gato removeGato(Gato gato) {
+		getGatos().remove(gato);
+		gato.setActividad(null);
+
+		return gato;
+	}
+
 	public List<Respuesta> getRespuestas() {
 		return this.respuestas;
 	}
@@ -231,6 +221,5 @@ public class Actividad implements Serializable {
 
 		return respuesta;
 	}
-	
 
 }
