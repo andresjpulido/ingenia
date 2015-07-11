@@ -1,11 +1,7 @@
 package org.ingenia.adaptadores;
 
-
-import java.util.List;
-import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
-import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.negocio.entidades.Curso;
 
 
@@ -34,17 +30,17 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 		curso.setEstado(cursoVO.getEstado());
 		curso.setDescripcion(cursoVO.getDescripcion());
 		curso.setActivo(cursoVO.getActivo());
-		curso.setLimite_actividades(cursoVO.getLimite_actividades());
+		curso.setLimiteActividades(cursoVO.getLimite_actividades());
 		return curso;
 	}
 
 	@Override
 	public CursoVO getCursoVO() throws AdaptadorException {
 		CursoVO cursoVO = null;
-		List<EstudianteVO> listaEstudiantes;
+
 		if (curso == null)
 			return null;
-		UsuarioVO profesor= new UsuarioVO();
+
 		cursoVO = new CursoVO();
 
 		cursoVO.setIdcurso(curso.getIdcurso());
@@ -54,21 +50,8 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 		  AdaptadorUsuario adaptador = new AdaptadorUsuario(curso.getUsuario());
 		cursoVO.setProfesor(adaptador.getUsuarioVO());
 		cursoVO.setActivo(curso.getActivo());
-		cursoVO.setLimite_actividades(curso.getLimite_actividades());
+		cursoVO.setLimite_actividades(curso.getLimiteActividades());
 		
-		/*if (curso.getCursoEstudiantes() != null) {
-			listaEstudiantes = new ArrayList<EstudianteVO>();
-			for (CursoEstudiante estudiante : curso.getCursoEstudiantes()) {
-								
-				EstudianteVO temp=new EstudianteVO();
-				temp.setIdestudiante(estudiante.getUsuario().getIdusuario());
-				
-				//temp.setCursos(estudiante.getCurso());
-
-				listaEstudiantes.add(temp);
-			}
-			cursoVO.setEstudiantes(listaEstudiantes);
-		}*/
 	
 		return cursoVO;
 	}

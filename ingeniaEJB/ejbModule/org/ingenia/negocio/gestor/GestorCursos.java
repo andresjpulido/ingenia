@@ -150,18 +150,18 @@ public class GestorCursos implements IGestorCursosRemote,
 		// TODO Auto-generated method stub
 		AdaptadorCurso adaptador = null;
 		AdaptadorActividad adaptadorA = null;
-		List<Actividad> listaactividades = null;
+		//List<Actividad> listaactividades = null;
 		//Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
 		Curso curso = null;		        
 		adaptador = new AdaptadorCurso(cursoVO);
 		
-		listaactividades = new ArrayList<Actividad>();
+		/*listaactividades = new ArrayList<Actividad>();
 		for (ActividadVO actividadVO : cursoVO.getActividades()) {
 			adaptadorA = new AdaptadorActividad(actividadVO);
 			listaactividades.add(adaptadorA.getActividad());
-			}	
+			}	*/
 		curso =adaptador.getCurso();
-		curso.setActividads(listaactividades);
+		//curso.setActividads(listaactividades);
 		 em.merge(curso);
 	}
 
