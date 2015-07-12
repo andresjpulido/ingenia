@@ -1,18 +1,14 @@
 package org.ingenia.presentacion.beans;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
-import javax.faces.application.Application;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -20,13 +16,9 @@ import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
 import org.ingenia.comunes.vo.ColorVO;
-import org.ingenia.comunes.vo.CursoActividadVO;
-import org.ingenia.comunes.vo.CursoVO;
+
 import org.ingenia.comunes.vo.GatoVO;
-import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
-import org.ingenia.comunes.vo.UsuarioVO;
-import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.presentacion.BaseMB;
 
@@ -40,6 +32,7 @@ public class AdmGatoMB extends BaseMB {
 	private static final long serialVersionUID = -4578987507032867585L;
 
 	private GatoVO gatoVO=new GatoVO();
+	private GatoVO gatoVO1=null;
 	private List<TipoGatoVO> listaTiposGato;
 	private List<ColorVO> listaColores;
 	private List<ArmaVO> listaArmas;
@@ -62,13 +55,16 @@ public class AdmGatoMB extends BaseMB {
 	@PostConstruct
 	public void init() {
 		try {
+		
 			System.out.println("por acaaaaaa");
 			this.setListaTiposGato(gestorGatos.consultarTiposGato());
 			this.setListaColores(gestorGatos.consultarColores());
 			this.setListaArmas(gestorGatos.consultarArmas());
+			// idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+			ActividadVO actividadVO = new ActividadVO();
+			 actividadVO.setIdactividad(1);
+			// this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 		
-
-
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,12 +72,15 @@ public class AdmGatoMB extends BaseMB {
 	}
 	
 
-	public void actualizar() {
-		
-		GatoVO gatoVO = this.gatoVO;		
-
+	public String actualizar() {
+				GatoVO gatoVO = this.gatoVO1;
+				ActividadVO actividadVO = new ActividadVO();
+				 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+				 actividadVO.setIdactividad(idactividad);
 	try {	
-		gestorGatos.modificarGato(gatoVO);			
+		System.out.println(gatoVO.getDefensa());
+		gestorGatos.modificarGato(gatoVO,actividadVO);		
+		actualizaGatos();
 		
 } catch (AdaptadorException e) {
 		FacesContext.getCurrentInstance().addMessage(
@@ -100,13 +99,17 @@ public class AdmGatoMB extends BaseMB {
 			null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 					"La operacion fue realizada satisfactoriamente !"));
+	 this.gatoVO1=null;
+	 this.gatoVO=new GatoVO();
+	 return NAV_CONFIGURARACTIVIDAD;
 	}
 	
 	
 	  public String configurarActividad() {
+		  this.gatoVO1=null;
 		  System.out.println("entrrooooo al gato");
 
-		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+		  idactividad=Integer.parseInt(recuperarParametro("idact"));
 			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
 			 actividadVO.setIdactividad(idactividad);
@@ -121,6 +124,40 @@ public class AdmGatoMB extends BaseMB {
 	        return NAV_CONFIGURARACTIVIDAD;
 	    }
 	  
+	  public String actualizaGatos() {
+
+		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+			 System.out.println(idactividad);
+			ActividadVO actividadVO = new ActividadVO();
+			 actividadVO.setIdactividad(idactividad);
+			try {
+				this.listaGatos= gestorGatos.consultarGatos(actividadVO);
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	        return NAV_CONFIGURARACTIVIDAD;
+	    }
+	  
+	  public String cancelar() {
+		  this.gatoVO1=null;
+
+		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+			 System.out.println(idactividad);
+			ActividadVO actividadVO = new ActividadVO();
+			 actividadVO.setIdactividad(idactividad);
+			try {
+				this.listaGatos= gestorGatos.consultarGatos(actividadVO);
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("lista"+listaGatos.size());
+			this.gatoVO=new GatoVO();
+	        return NAV_CONFIGURARACTIVIDAD;
+	    }
+	  
 
 	public String crear() {
 
@@ -132,7 +169,7 @@ public class AdmGatoMB extends BaseMB {
 		 actividadVO.setIdactividad(idactividad);
 		try {
 			gestorGatos.crearGato(gatoVO,actividadVO); 				
-			configurarActividad();
+			actualizaGatos();
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -150,6 +187,7 @@ public class AdmGatoMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		this.gatoVO=new GatoVO();
 		return NAV_CONFIGURARACTIVIDAD;
 	}
 
@@ -179,6 +217,35 @@ public class AdmGatoMB extends BaseMB {
 		}
 
 		return NAV_IRACTIVIDAD;
+	}
+	
+	public String modificarGato() {
+
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Map<String, String> params = fc.getExternalContext()
+				.getRequestParameterMap();
+		String id = params.get("idgatomod");
+		GatoVO gatoVO = new GatoVO();
+		gatoVO.setIdgato(Integer.parseInt(id));
+		System.out.println(gatoVO.getIdgato());
+		try {
+			
+			this.gatoVO1 = gestorGatos.consultarGatoVO(gatoVO);
+			
+
+			/*for (JuegoVO juego : listaJuegos) {
+					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
+						this.juegoVO=juego;		
+					}
+				}*/ //propiedades gato
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+
+
+		return NAV_CONFIGURARACTIVIDAD;
 	}
 
 	public List<TipoGatoVO> getListaTiposGato() {
@@ -230,6 +297,16 @@ public class AdmGatoMB extends BaseMB {
 	public void setIdactividad(int idactividad) {
 		this.idactividad = idactividad;
 	}
+
+	public GatoVO getGatoVO1() {
+		return gatoVO1;
+	}
+
+	public void setGatoVO1(GatoVO gatoVO1) {
+		this.gatoVO1 = gatoVO1;
+	}
+
+
 
 
 

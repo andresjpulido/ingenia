@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
@@ -25,6 +26,8 @@ public class AdmCursoMB extends BaseMB {
 	private static final long serialVersionUID = 6956796593946333976L;
 
 	private CursoVO cursoVO=new CursoVO();
+	ActividadVO actividadVO = new ActividadVO();
+	private List<ActividadVO> listaActividades;
 	private String curso;
 	private List<CursoVO> listaCursos;
     private CursoVO cursoVOtemp=new CursoVO();
@@ -71,6 +74,33 @@ public class AdmCursoMB extends BaseMB {
 		return NAV_IRADMCURSO;
 	}
 
+	
+	public void asociarActividad() {
+		ActividadVO actividadVO = new ActividadVO();
+		System.out.println(this.actividadVO.getIdactividad());
+	/*	try {
+			gestorCursos.asociarActividad(this.cursoVO,actividadVO);
+
+
+		} catch (AdaptadorException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error de concersion de tipos!"));
+			e.printStackTrace();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+							.getMessage()));
+			e.printStackTrace();
+		}*/
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"La operacion fue realizada satisfactoriamente !"));
+	}
+	
 	public void actualizar() {
 		
 		try {
@@ -145,11 +175,14 @@ public class AdmCursoMB extends BaseMB {
 		cursoVO.setIdcurso(Integer.parseInt(id));
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);
+	        System.out.println("size"+listaActividades.size());
+
             
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
-
+	
 		return NAV_IRCURSO;
 	}
 
@@ -185,6 +218,22 @@ public class AdmCursoMB extends BaseMB {
 
 	public void setCursoVOtemp(CursoVO cursoVOtemp) {
 		this.cursoVOtemp = cursoVOtemp;
+	}
+
+	public List<ActividadVO> getListaActividades() {
+		return listaActividades;
+	}
+
+	public void setListaActividades(List<ActividadVO> listaActividades) {
+		this.listaActividades = listaActividades;
+	}
+	
+	public ActividadVO getActividadVO() {
+		return actividadVO;
+	}
+
+	public void setActividadVO(ActividadVO actividadVO) {
+		this.actividadVO = actividadVO;
 	}
 
 

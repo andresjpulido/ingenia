@@ -5,18 +5,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/plantillas/plantilla.xhtml">
 
+
 	<ui:define name="metadata">
 	</ui:define>
 
 	<ui:define name="content">
 									Configuración Actividad
-		<h:form>
+	
+	
+		
+<h:form id="dos" rendered="#{empty AdmGatoMB.gatoVO1}" >
 	<h:outputText id="act" value="#{AdmActividadMB.actividadVO.enunciado}       " label="act"/>	 
-		
-		
-		<f:metadata>
-		<f:viewParam name="ida" value="#{AdmActividadMB.actividadVO.idactividad}"/>
-		</f:metadata> 
+			
 
 	<p:outputLabel for="juego" value="Juego: " />
 	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}       " label="juego"/>	
@@ -41,23 +41,60 @@
  	<p:inputText value="#{AdmGatoMB.gatoVO.defensa}" label="defensa"/>
  		
 	<f:facet name="footer">
-	<p:commandButton value="Agregar Gato" action="#{AdmGatoMB.crear}">
+	<p:commandButton  value="Agregar Gato" action="#{AdmGatoMB.crear}">
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
 	</p:commandButton>
 
 	</f:facet>
 
 			</h:panelGrid>
-		</h:form>
+	</h:form>									
+									
+		
+			<h:form id="uno" rendered="#{not empty AdmGatoMB.gatoVO1}" >
+  Editar
+<h:panelGrid columns="4" cellpadding="5">
+				
+	<p:outputLabel for="tipogato" value="Tipo Gato: " />
+	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.gatoVO1.idtipogato}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.idTipoGato}" itemValue="#{tipogato.idTipoGato}" />
+	</p:selectOneMenu>		
+	
+	<p:outputLabel for="tipocolor" value="Color Gato: " />
+	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.gatoVO1.idcolor}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor.idcolor}" />
+	</p:selectOneMenu>						
+										
+	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
+	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.gatoVO1.idarma}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma.idarma}" />
+	</p:selectOneMenu>	
+ 			 
+ 	<h:outputLabel for="defensa" value="Valor Defensa:" />
+ 	<p:inputText value="#{AdmGatoMB.gatoVO1.defensa}" label="defensa"/>
+ 		
+	<f:facet name="footer">
+	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}">
+	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
+	</p:commandButton>
+	
+	<p:commandButton value="Cancelar" process="@this" action="#{AdmGatoMB.cancelar}">
+	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
+	</p:commandButton>	
 
-		<h:form>
+	</f:facet>
+	
+	
+
+			</h:panelGrid>
+		</h:form>
 			
 		<p:dataTable var="gato" value="#{AdmGatoMB.listaGatos}"
 				rendered="#{not empty AdmGatoMB.listaGatos}" paginator="true"
 				rows="5" dynamic="true">
 				<p:column headerText="Nombre">
-	<p:commandButton icon="ui-icon-search" value="#{gato.orden}" process="@this" action="#{AdmGatoMB.irGato}">
-	<f:param name="idgato" value="#{gato.idgato}" />
+	<p:commandButton icon="ui-icon-search" value="#{gato.orden}" process="@this" action="#{AdmGatoMB.modificarGato}">
+	<f:param name="idgatomod" value="#{gato.idgato}" />
 	</p:commandButton>
 				</p:column> 
 				
@@ -65,16 +102,24 @@
 					<h:outputText name="color" value="#{gato.idcolor}" />
 				</p:column>
 
-				<p:column headerText="Estado">
+				<p:column headerText="Tipo Gato">
 					<h:outputText value="#{gato.idtipogato}" />
 				</p:column>
+				
+				<p:column headerText="Armadura">
+					<h:outputText value="#{gato.defensa}" />
+				</p:column>
+				
+					<p:column headerText="Arma">
+					<h:outputText value="#{gato.idarma}" />
+				</p:column>
 
+			
 		</p:dataTable>
 
 	
-			
 
-		</h:form>
+
 
 	</ui:define>
 </ui:composition>

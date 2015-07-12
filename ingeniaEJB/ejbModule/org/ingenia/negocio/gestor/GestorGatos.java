@@ -123,8 +123,26 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	}
 
 	@Override
-	public void modificarGato(GatoVO gatoVO) throws AdaptadorException {
-		// TODO Auto-generated method stub
+	public void modificarGato(GatoVO gatoVO,ActividadVO actividadVO) throws AdaptadorException {
+		AdaptadorGato adaptador = null;
+		Gato gato = null;		        
+		adaptador = new AdaptadorGato(gatoVO);
+		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
+		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getIdtipogato());
+		Color color = em.find(Color.class,gatoVO.getIdcolor());
+		Arma arma = em.find(Arma.class,gatoVO.getIdarma());
+		try {
+			gato =adaptador.getGato();
+			gato.setActividad(actividad);
+			gato.setArma(arma);
+			gato.setColor(color);
+			gato.setTipogato(tipoGato);
+			gato.setOrden(gatoVO.getOrden());
+			 em.merge(gato);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -185,8 +203,14 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 
 	@Override
 	public GatoVO consultarGatoVO(GatoVO gatoVO) throws AdaptadorException {
-		// TODO Auto-generated method stub
-		return null;
+
+		AdaptadorGato adaptador = null;
+		Gato gato = em.find(Gato.class,gatoVO.getIdgato());
+
+		adaptador = new AdaptadorGato(gato);
+		gatoVO =adaptador.getGatoVO();
+
+	return gatoVO;
 	}
 
 	@Override
