@@ -21,7 +21,7 @@ public interface IGestorGatosRemote {
 
 	List<ArmaVO> consultarArmas() throws AdaptadorException;
 
-	void modificarGato(GatoVO gatoVO) throws AdaptadorException;
+	void modificarGato(GatoVO gatoVO,ActividadVO actividadVO) throws AdaptadorException;
 
 	void crearGato(GatoVO gatoVO,ActividadVO actividadVO) throws AdaptadorException;
 

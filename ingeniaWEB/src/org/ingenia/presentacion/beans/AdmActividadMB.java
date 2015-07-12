@@ -64,13 +64,17 @@ public class AdmActividadMB extends BaseMB {
 		}
 	}
 	
-	  public String configurarActividad() {
+	/* public String configurarActividad() {
 		  System.out.println("entrrooooo");
-			 actividadVO1 =null;		
-	        //this.actividadVO = new ActividadVO();   
+			 actividadVO1 =null;	
+			 String destino=null;
+	        //this.actividadVO = new ActividadVO(); 
+			 if(juegoVO.getIdjuego()==1){
+				 destino=NAV_CONFIGURARACTIVIDAD;
+			 }
 
-	        return NAV_CONFIGURARACTIVIDAD;
-	    }
+	        return destino;
+	    }*/
 	  
 	
 	  public String nuevaActividad() {

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 
@@ -23,4 +24,6 @@ public interface IGestorCursosLocal {
 	public void eliminarCursoVO(CursoVO cursoVO) throws AdaptadorException;
 
 	public void crearCursoVO(CursoVO cursoVO) throws AdaptadorException;
+	
+	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO) throws AdaptadorException;
 }

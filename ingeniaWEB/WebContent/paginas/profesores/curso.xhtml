@@ -50,7 +50,7 @@
 
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10">
-			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Asociar nueva actividad a este curso"/>
+			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear y Asociar nueva actividad a este curso"/>
 			
 			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
 				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
@@ -68,8 +68,13 @@
 				</p:column>
 
 			</p:dataTable>
-			
-			
+			<h:form>
+			<p:outputLabel for="tipo" value="Actividades disponibles: " />
+	<p:selectOneMenu  id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}" >
+ 	<f:selectItems value="#{AdmCursoMB.listaActividades}" var="tipoA" itemLabel="#{tipoA.enunciado}" itemValue="#{tipoA.idactividad}" />
+	</p:selectOneMenu>
+	<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad"/>
+	</h:form>
 			</h:panelGrid>
 			</h:panelGrid>	
 

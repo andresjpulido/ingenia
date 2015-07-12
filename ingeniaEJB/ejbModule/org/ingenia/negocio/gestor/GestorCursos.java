@@ -16,15 +16,18 @@ import javax.persistence.criteria.Root;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorCurso;
+import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Curso;
+import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
 import org.ingenia.negocio.igestor.IGestorCursosRemote;
@@ -190,6 +193,32 @@ public class GestorCursos implements IGestorCursosRemote,
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Override
+	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO) {
+
+		List<ActividadVO> ListaActividadVO = new ArrayList<ActividadVO>();;
+		ActividadVO ActividadVO=new ActividadVO();
+		AdaptadorActividad adaptador = null;
+		Query q = em.createQuery("SELECT object(a) FROM Actividad AS a");
+		List<Actividad> listaActividad= q.getResultList();
+ 
+        for (int i=0;listaActividad.size()>i;i++) {
+    
+            adaptador = new AdaptadorActividad(listaActividad.get(i));
+            
+            Juego juego = em.find(Juego.class,listaActividad.get(i).getJuego().getIdjuego());
+            try {
+            	ActividadVO=adaptador.getActividadVO();
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            ActividadVO.setId_juego(juego.getIdjuego());
+            ListaActividadVO.add(ActividadVO);
+		}
+        return ListaActividadVO;
 	}
 
 }

@@ -54,7 +54,7 @@ public class UsuarioMB extends BaseMB {
 		listaUsuarios = gestorUsuarios.consultarUsuarios(usu);
 
 		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
-			usu = listaUsuarios.get(0);
+			this.usuariovo = listaUsuarios.get(0);
 			logeado = true;
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Bienvenido", usuario);
@@ -63,10 +63,13 @@ public class UsuarioMB extends BaseMB {
 					+ " se ha autenticado !");
 		} else {
 			logeado = false;
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"Usuario no valido, verifique usuario y contrasena!"));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error",
+									"Usuario no valido, verifique usuario y contrasena!"));
 			resultado = ReglasNavegacion.LOGIN;
 			logger.debug("El usuario " + usu.getAlias()
 					+ " NO se ha autenticado !");
@@ -76,10 +79,15 @@ public class UsuarioMB extends BaseMB {
 
 	}
 
+	public boolean esPermitido(String idOpcion) {
+		// TODO validar opciones en el rol o roles del usuario logueado
+		return true;
+	}
+
 	public String salir() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
-		//session.invalidate();
+		// session.invalidate();
 		this.logeado = false;
 		return ReglasNavegacion.LOGIN;
 	}
