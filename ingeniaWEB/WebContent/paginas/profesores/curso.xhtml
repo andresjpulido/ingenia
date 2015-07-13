@@ -12,7 +12,7 @@
 <center> Datos de curso </center>
 <br></br>
 		<h:form>
-			<h:panelGrid columns="2" cellpadding="50">
+			<h:panelGrid columns="2" cellpadding="20">
 			<h:panelGrid columns="2" cellpadding="10">
 			
 				<h:outputLabel for="nombre" value="Nombre:" />
@@ -25,20 +25,20 @@
 
 				
 			<h:outputLabel for="estado" value="Estado:" />
- 			 <p:selectOneMenu value="#{AdmCursoMB.cursoVO.estado}" required="true" label="estado" requiredMessage="Debe indicar el estado">
+ 			 <p:selectOneMenu id="estado" value="#{AdmCursoMB.cursoVO.estado}" required="true" label="estado" requiredMessage="Debe indicar el estado">
   			  <f:selectItem itemValue="En Creacion" itemLabel="En Creación" />
    			<f:selectItem itemValue="En Edicion" itemLabel="En Edición" />
    			<f:selectItem itemValue="Publicado" itemLabel="Publicado" />
  			 </p:selectOneMenu>
  			 
  			 <h:outputLabel for="activo" value="Activo:" />
- 			 <p:selectOneMenu value="#{AdmCursoMB.cursoVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+ 			 <p:selectOneMenu id="activo" value="#{AdmCursoMB.cursoVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
    			<f:selectItem itemValue="1" itemLabel="Si" />
    			<f:selectItem itemValue="0" itemLabel="No" />
  			 </p:selectOneMenu>
  			 
  			  <h:outputLabel for="limite_actividades" value="Maximo Actividades:" />
- 			 <p:inputText value="#{AdmCursoMB.cursoVO.limite_actividades}" label="limite_actividades"/>
+ 			 <p:inputText id="limite_actividades" value="#{AdmCursoMB.cursoVO.limite_actividades}" label="limite_actividades"/>
 
 
 
@@ -50,26 +50,34 @@
 
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10">
-			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Asociar nueva actividad a este curso"/>
+			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear y Asociar nueva actividad a este curso"/>
 			
 			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
 				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
 				rows="5" dynamic="true" id="tb_opcion">
 
-						<p:column headerText="Posicion">
-					<p:commandButton icon="ui-icon-search" value="Editar Actividad" 
+						<p:column headerText="Actividad">
+					<p:commandButton icon="ui-icon-search" value="Ver Actividad" 
 						process="@this" action="#{AdmActividadMB.irActividadCurso}" >
 						<f:param name="idactividad" value="#{actividad.idactividad}" />
 					</p:commandButton>
-					<h:outputText value="  #{actividad.enunciado}" />
 				</p:column> 
+
+			<p:column headerText="Juego">
+					<h:outputText value="#{actividad.juego.nombre}" />
+				</p:column>
 				<p:column headerText="Enunciado">
 					<h:outputText value="#{actividad.enunciado}" />
 				</p:column>
 
 			</p:dataTable>
-			
-			
+			<h:form rendered="#{not empty AdmCursoMB.cursoVOtemp}">
+			<p:outputLabel rendered="#{not empty AdmCursoMB.listaActividades}" for="tipo" value="Actividades disponibles: " />
+	<p:selectOneMenu rendered="#{not empty AdmCursoMB.listaActividades}" id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}" >
+ 	<f:selectItems value="#{AdmCursoMB.listaActividades}" var="tipoA" itemLabel="#{tipoA.enunciado}" itemValue="#{tipoA.idactividad}" />
+	</p:selectOneMenu>
+	<p:commandButton rendered="#{not empty AdmCursoMB.listaActividades}" action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad"/>
+	</h:form>
 			</h:panelGrid>
 			</h:panelGrid>	
 

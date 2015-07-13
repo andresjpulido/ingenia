@@ -25,7 +25,7 @@
 	
 						
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
 										
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
 	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
@@ -37,10 +37,10 @@
  	</p:selectOneMenu>
  			 
  	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 	<p:inputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  	
  	<h:outputLabel for="posicion" value="Posicion en el curso:" />
- 	<p:inputText value="#{AdmActividadMB.posicion}" label="posicion"/>
+ 	<p:inputText id="posicion" value="#{AdmActividadMB.posicion}" label="posicion"/>
  
  		
 	<f:facet name="footer">
@@ -62,7 +62,7 @@
 	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>
 			
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<h:outputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+	<h:outputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
 											
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
 	<h:outputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" label="Usuario" />
@@ -71,10 +71,10 @@
    	<h:outputText id="activo" value="#{AdmActividadMB.actividadVO.activo}" label="activo" />
  			 
  	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 	<h:outputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 	<h:outputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  
   	<h:outputLabel for="posicion" value="Posicion en el curso:" />
- 	<p:inputText value="#{AdmActividadMB.posicion}" label="posicion"/>
+ 	<p:inputText id="posicion" value="#{AdmActividadMB.posicion}" label="posicion"/>
  		
 	<f:facet name="footer">
 	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizarAsociando}">

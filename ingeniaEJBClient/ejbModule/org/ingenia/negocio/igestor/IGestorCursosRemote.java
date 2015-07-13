@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 
@@ -23,5 +25,9 @@ public interface IGestorCursosRemote {
 	public void eliminarCursoVO(CursoVO cursoVO) throws AdaptadorException;
 
 	public void crearCursoVO(CursoVO cursoVO) throws AdaptadorException;
+
+	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO) throws AdaptadorException;
+
+	public void asociarActividad(CursoActividadVO cursoActividadVO) throws AdaptadorException;
 
 }

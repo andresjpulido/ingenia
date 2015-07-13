@@ -21,7 +21,7 @@ public class ActividadVO implements Serializable {
 	
 	private String url_conocimiento;
 	
-	private int id_juego;
+	private JuegoVO juegoVO;
 	
 	private int limite_movimientos;
 	
@@ -100,13 +100,6 @@ public class ActividadVO implements Serializable {
 		this.url_conocimiento = url_conocimiento;
 	}
 
-	public int getId_Juego() {
-		return id_juego;
-	}
-
-	public void setId_juego(int id_tipo_actividad) {
-		this.id_juego = id_tipo_actividad;
-	}
 
 	public int getLimite_movimientos() {
 		return limite_movimientos;
@@ -122,6 +115,14 @@ public class ActividadVO implements Serializable {
 
 	public void setProfesor(UsuarioVO profesor) {
 		this.profesor = profesor;
+	}
+
+	public JuegoVO getJuegoVO() {
+		return juegoVO;
+	}
+
+	public void setJuegoVO(JuegoVO juegoVO) {
+		this.juegoVO = juegoVO;
 	}
 
 

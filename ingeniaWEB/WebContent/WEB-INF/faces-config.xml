@@ -11,7 +11,7 @@
 		<locale-config>
 			<default-locale>es</default-locale>
 		</locale-config>
- 
+
 	</application>
 
 	<navigation-rule>
@@ -22,9 +22,25 @@
 			<to-view-id>/paginas/inicio.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>irAutenticacion</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>irregistro</from-outcome>
+			<to-view-id>/registro.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
@@ -37,7 +53,7 @@
 			<to-view-id>/paginas/profesores/admincursos.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
@@ -73,48 +89,48 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
-	
+
 		<from-view-id>*</from-view-id>
-		
+
 		<navigation-case>
 			<from-outcome>iradminactividad</from-outcome>
 			<to-view-id>/paginas/profesores/adminactividades.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
-       
-         <navigation-case>
-            <from-outcome>iractividadcurso</from-outcome>
-            <to-view-id>paginas/profesores/actividadcurso.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-        
-        	<navigation-case>
+
+
+		<navigation-case>
+			<from-outcome>iractividadcurso</from-outcome>
+			<to-view-id>paginas/profesores/actividadcurso.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
 			<from-outcome>iradmincurso</from-outcome>
 			<to-view-id>/paginas/profesores/admincursos.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
+
 		<navigation-case>
-            <from-outcome>configuraractividad</from-outcome>
-            <to-view-id>paginas/profesores/configuraciongatos.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-		
-			<navigation-case>
+			<from-outcome>configuraractividad</from-outcome>
+			<to-view-id>paginas/profesores/configuraciongatos.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
 			<from-outcome>iractividad</from-outcome>
 			<to-view-id>/paginas/profesores/actividad.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
-			<navigation-case>
+
+		<navigation-case>
 			<from-outcome>ircurso</from-outcome>
 			<to-view-id>/paginas/profesores/curso.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
+
 	</navigation-rule>
 
 

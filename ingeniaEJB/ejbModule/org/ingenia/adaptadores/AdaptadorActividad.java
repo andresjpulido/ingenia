@@ -3,7 +3,6 @@ package org.ingenia.adaptadores;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.negocio.entidades.Actividad;
-import org.ingenia.negocio.entidades.Juego;
 
 
 public class AdaptadorActividad extends IAdaptadorActividad{
@@ -27,7 +26,7 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividad.setUsuario(adaptador.getUsuario());
 		actividad.setEnunciado(actividadVO.getEnunciado());
 		actividad.setIdactividad(actividadVO.getIdactividad());
-		actividad.setUrl_texto_ensenanza(actividadVO.getUrl_conocimiento());
+		actividad.setUrlTextoEnsenanza(actividadVO.getUrl_conocimiento());
 		actividad.setActivo(actividadVO.getActivo());
 		actividad.setLimiteMovimientos(actividadVO.getLimite_movimientos());
 		return actividad;
@@ -43,8 +42,7 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividadVO.setProfesor(adaptador.getUsuarioVO());
 		actividadVO.setEnunciado(actividad.getEnunciado());
 		actividadVO.setIdactividad(actividad.getIdactividad());
-		actividadVO.setId_juego(actividad.getJuego().getIdjuego());
-		actividadVO.setUrl_conocimiento(actividad.getUrl_texto_ensenanza());
+		actividadVO.setUrl_conocimiento(actividad.getUrlTextoEnsenanza());
 		actividadVO.setActivo(actividad.getActivo());
 		actividadVO.setLimite_movimientos(actividad.getLimiteMovimientos());
 		

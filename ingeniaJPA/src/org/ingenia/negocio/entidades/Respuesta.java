@@ -20,7 +20,7 @@ public class Respuesta implements Serializable {
 
 	private String valor;
 
-	private byte verdadero;
+	//private Object verdadero;
 
 	//bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -54,13 +54,13 @@ public class Respuesta implements Serializable {
 		this.valor = valor;
 	}
 
-	public byte getVerdadero() {
+	/*public Object getVerdadero() {
 		return this.verdadero;
 	}
 
-	public void setVerdadero(byte verdadero) {
+	public void setVerdadero(Object verdadero) {
 		this.verdadero = verdadero;
-	}
+	}*/
 
 	public Actividad getActividad() {
 		return this.actividad;

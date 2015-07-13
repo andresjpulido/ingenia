@@ -9,7 +9,7 @@
 <f:view contentType="text/html" id="fview">
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Restaurante</title>
+	<title>Ingenia</title>
 	<ui:debug />
 	<f:metadata>
 		<ui:insert name="metadata" />
@@ -21,7 +21,8 @@
 	<h:body>
 
 		<h:form>
-
+			<p:messages autoUpdate="true" id="msgs" showDetail="true"
+				showSummary="false" />
 
 			<p:dialog header="Autenticacion" widgetVar="dlg" resizable="false"
 				visible="true">
@@ -36,9 +37,17 @@
 
 					<f:facet name="footer">
 						<p:commandButton value="Ingresar" action="#{usuarioMB.autenticar}" />
-					</f:facet> 
+					</f:facet>
 
 				</h:panelGrid>
+
+				<br />
+				<br />
+				Si no se encuentra registrado ingrese <p:link outcome="irregistro"
+					value="aqui">
+					<f:param name="productId" value="10" />
+				</p:link>
+
 			</p:dialog>
 		</h:form>
 

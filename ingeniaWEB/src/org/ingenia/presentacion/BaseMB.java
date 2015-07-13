@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.ingenia.comunes.vo.CursoVO;
-
 public class BaseMB implements Serializable{
 
 	/**

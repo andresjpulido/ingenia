@@ -1,6 +1,5 @@
 package org.ingenia.adaptadores;
 
-import java.util.List;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.OpcionVO;
@@ -33,7 +32,6 @@ public class AdaptadorOpcion extends IAdaptadorOpcion {
 	@Override
 	public OpcionVO getOpcionVO() throws AdaptadorException {
 		OpcionVO opcionVO = null;
-		List<OpcionVO> listaOpciones;
 
 		if (opcion == null)
 			return null;
