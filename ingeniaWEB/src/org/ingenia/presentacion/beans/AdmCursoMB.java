@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
@@ -75,13 +76,18 @@ public class AdmCursoMB extends BaseMB {
 	}
 
 	
-	public void asociarActividad() {
-		ActividadVO actividadVO = new ActividadVO();
+	public String asociarActividad() {
 		System.out.println(this.actividadVO.getIdactividad());
-	/*	try {
-			gestorCursos.asociarActividad(this.cursoVO,actividadVO);
 
-
+		try {
+			CursoActividadVO cursoActividadVO=new CursoActividadVO();
+			cursoActividadVO.setActividad(this.actividadVO);
+			cursoActividadVO.setCurso(this.cursoVO);
+			cursoActividadVO.setPosicion((this.cursoVO.getActividades().size()+1));
+			gestorCursos.asociarActividad(cursoActividadVO);
+			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);			
+			
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -94,11 +100,12 @@ public class AdmCursoMB extends BaseMB {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
 							.getMessage()));
 			e.printStackTrace();
-		}*/
+		}
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		return NAV_IRCURSO;
 	}
 	
 	public void actualizar() {
@@ -176,7 +183,7 @@ public class AdmCursoMB extends BaseMB {
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
 			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);
-	        System.out.println("size"+listaActividades.size());
+	       // System.out.println("size"+listaActividades.size());
 
             
 		} catch (AdaptadorException e) {

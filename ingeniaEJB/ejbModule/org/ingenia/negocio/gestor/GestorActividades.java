@@ -46,8 +46,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		Query q = em.createQuery("SELECT count(a) FROM Actividad as a");
 		cursoActividadVO.getActividad().setIdactividad(
 				((Number) q.getResultList().get(0)).intValue() + 1);
-		Juego juego = em.find(Juego.class, cursoActividadVO.getActividad()
-				.getId_Juego());
+		Juego juego = em.find(Juego.class, cursoActividadVO.getActividad().getJuegoVO().getIdjuego());
 		adaptador = new AdaptadorActividad(cursoActividadVO.getActividad());
 
 		try {
@@ -75,7 +74,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		adaptador = new AdaptadorActividad(actividadVO);
 		try {
 			actividad = adaptador.getActividad();
-			Juego juego = em.find(Juego.class, actividadVO.getId_Juego());
+			Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
 			actividad.setJuego(juego);
 			em.merge(actividad);
 		} catch (AdaptadorException e) {
@@ -107,7 +106,8 @@ public class GestorActividades implements IGestorActividadesRemote,
 
 		adaptador = new AdaptadorActividad(actividad);
 		actividadVO = adaptador.getActividadVO();
-		actividadVO.setId_juego(actividad.getJuego().getIdjuego());
+		AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
+    	actividadVO.setJuegoVO(adap.getJuegoVO());
 		return actividadVO;
 	}
 
@@ -155,11 +155,12 @@ public class GestorActividades implements IGestorActividadesRemote,
 					.getIdjuego());
 			try {
 				actividadVO = adaptador.getActividadVO();
+				AdaptadorJuego adap =new AdaptadorJuego(juego);
+		    	actividadVO.setJuegoVO(adap.getJuegoVO());
 			} catch (AdaptadorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			actividadVO.setId_juego(juego.getIdjuego());
 			ListaActividadesVO.add(actividadVO);
 
 		}
@@ -197,7 +198,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		Query q = em.createQuery("SELECT count(a) FROM Actividad as a");
 		actividadVO.setIdactividad(((Number) q.getResultList().get(0))
 				.intValue() + 1);
-		Juego juego = em.find(Juego.class, actividadVO.getId_Juego());
+		Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
 		adaptador = new AdaptadorActividad(actividadVO);
 
 		try {
@@ -217,7 +218,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 
 		AdaptadorActividad adaptador = new AdaptadorActividad(actividadVO);
 		Actividad actividad = adaptador.getActividad();
-		Juego juego = em.find(Juego.class, actividadVO.getId_Juego());
+		Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
 		actividad.setJuego(juego);
 		em.merge(actividad);
 

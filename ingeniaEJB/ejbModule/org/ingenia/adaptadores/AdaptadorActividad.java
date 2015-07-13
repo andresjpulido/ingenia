@@ -42,7 +42,6 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividadVO.setProfesor(adaptador.getUsuarioVO());
 		actividadVO.setEnunciado(actividad.getEnunciado());
 		actividadVO.setIdactividad(actividad.getIdactividad());
-		actividadVO.setId_juego(actividad.getJuego().getIdjuego());
 		actividadVO.setUrl_conocimiento(actividad.getUrlTextoEnsenanza());
 		actividadVO.setActivo(actividad.getActivo());
 		actividadVO.setLimite_movimientos(actividad.getLimiteMovimientos());

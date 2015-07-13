@@ -137,7 +137,7 @@ public class AdmActividadMB extends BaseMB {
 	public String crear() {
 
   		 ActividadVO actividadVO = this.actividadVO;		
-	     actividadVO.setId_juego(juegoVO.getIdjuego());
+	     actividadVO.setJuegoVO(juegoVO);
          UsuarioVO profesorVO = new UsuarioVO();
          profesorVO.setId(7890);
          actividadVO.setProfesor(profesorVO);
@@ -167,7 +167,7 @@ public class AdmActividadMB extends BaseMB {
 	public void crearAsociando() {
 
 			ActividadVO actividadVO = this.actividadVO;		
-	        actividadVO.setId_juego(juegoVO.getIdjuego());
+	        actividadVO.setJuegoVO(juegoVO);
 	        int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
 			CursoActividadVO cursoActividadVO = new CursoActividadVO();
          	CursoVO cursoVO=new CursoVO();
@@ -250,7 +250,7 @@ public class AdmActividadMB extends BaseMB {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
 
 			for (JuegoVO juego : listaJuegos) {
-					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
+					if(juego.getIdjuego()==this.actividadVO.getJuegoVO().getIdjuego()){
 						this.juegoVO=juego;		
 					}
 				}
@@ -276,10 +276,12 @@ public class AdmActividadMB extends BaseMB {
 			actividadVO.setIdactividad(Integer.parseInt(id));
 			
 			try {
+				CursoActividadVO cursoActividad=new CursoActividadVO();
+			//	cursoActividad=gestorActividades.consultarActividadVO(actividadVO);
 				this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
 
 				for (JuegoVO juego : listaJuegos) {
-						if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
+						if(juego.getIdjuego()==this.actividadVO.getJuegoVO().getIdjuego()){
 							this.juegoVO=juego;		
 						}
 					}

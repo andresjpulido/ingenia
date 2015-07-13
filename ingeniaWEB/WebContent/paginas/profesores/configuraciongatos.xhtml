@@ -14,7 +14,7 @@
 	
 	
 		
-<h:form id="dos" rendered="#{empty AdmGatoMB.gatoVO1}" >
+<h:form rendered="#{empty AdmGatoMB.gatoVO1}" >
 	<h:outputText id="act" value="#{AdmActividadMB.actividadVO.enunciado}       " label="act"/>	 
 			
 
@@ -38,7 +38,7 @@
 	</p:selectOneMenu>	
  			 
  	<h:outputLabel for="defensa" value="Valor Defensa:" />
- 	<p:inputText value="#{AdmGatoMB.gatoVO.defensa}" label="defensa"/>
+ 	<p:inputText id="defensa" value="#{AdmGatoMB.gatoVO.defensa}" label="defensa"/>
  		
 	<f:facet name="footer">
 	<p:commandButton  value="Agregar Gato" action="#{AdmGatoMB.crear}">
@@ -51,7 +51,7 @@
 	</h:form>									
 									
 		
-			<h:form id="uno" rendered="#{not empty AdmGatoMB.gatoVO1}" >
+			<h:form  rendered="#{not empty AdmGatoMB.gatoVO1}" >
   Editar
 <h:panelGrid columns="4" cellpadding="5">
 				
@@ -71,7 +71,7 @@
 	</p:selectOneMenu>	
  			 
  	<h:outputLabel for="defensa" value="Valor Defensa:" />
- 	<p:inputText value="#{AdmGatoMB.gatoVO1.defensa}" label="defensa"/>
+ 	<p:inputText id="defensa" value="#{AdmGatoMB.gatoVO1.defensa}" label="defensa"/>
  		
 	<f:facet name="footer">
 	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}">
@@ -93,7 +93,7 @@
 				rendered="#{not empty AdmGatoMB.listaGatos}" paginator="true"
 				rows="5" dynamic="true">
 				<p:column headerText="Nombre">
-	<p:commandButton icon="ui-icon-search" value="#{gato.orden}" process="@this" action="#{AdmGatoMB.modificarGato}">
+	<p:commandButton icon="ui-icon-search" value="Editar" process="@this" action="#{AdmGatoMB.modificarGato}">
 	<f:param name="idgatomod" value="#{gato.idgato}" />
 	</p:commandButton>
 				</p:column> 
