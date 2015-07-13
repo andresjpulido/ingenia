@@ -10,14 +10,18 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
+import org.ingenia.adaptadores.AdaptadorEstructura;
 import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
+import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
 import org.ingenia.negocio.entidades.Curso;
+import org.ingenia.negocio.entidades.Estructura;
 import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
@@ -54,10 +58,13 @@ public class GestorActividades implements IGestorActividadesRemote,
 			actividad.setJuego(juego);
 			Curso curso = em.find(Curso.class, cursoActividadVO.getCurso()
 					.getIdcurso());
+			Query q2 = em.createQuery("SELECT ac.actividad FROM Actividadcurso as ac where ac.curso=:curso");
+			q2.setParameter("curso", curso);
+			List<Actividad> listaActividad = q2.getResultList();			
 			Actividadcurso cursoActividad = new Actividadcurso();
 			cursoActividad.setActividad(actividad);
 			cursoActividad.setCurso(curso);
-			cursoActividad.setPosicionActividad(cursoActividadVO.getPosicion());
+			cursoActividad.setPosicionActividad((listaActividad.size()+1));
 			em.persist(actividad);
 			em.persist(cursoActividad);
 
@@ -115,7 +122,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 	public List<JuegoVO> consultarJuegosDisponibles() {
 
 		List<JuegoVO> ListaJuegoVO = new ArrayList<JuegoVO>();
-		;
+		
 		JuegoVO JuegoVO = new JuegoVO();
 		AdaptadorJuego adaptador = null;
 		Query q = em.createQuery("SELECT object(t) FROM Juego AS t");
@@ -226,6 +233,48 @@ public class GestorActividades implements IGestorActividadesRemote,
 
 	public ActividadVO consultarActividad(ActividadVO actividadVO)
 			throws AdaptadorException {
+		return null;
+	}
+
+	@Override
+	public int consultarPosicion(CursoVO cursoVO, ActividadVO actividadVO)
+			throws AdaptadorException {
+		int posicion=0;
+		Actividadcurso actividadCurso=new Actividadcurso();
+		Actividad actividad = em.find(Actividad.class, actividadVO.getIdactividad());
+		Curso curso = em.find(Curso.class, cursoVO.getIdcurso());
+		Query q = em.createQuery("SELECT ac FROM Actividadcurso as ac where ac.actividad=:actividad and ac.curso=:curso");
+		q.setParameter("actividad", actividad);
+		q.setParameter("curso", curso);
+		List<Actividadcurso> listaCurso = q.getResultList();
+		for (Actividadcurso resultado : listaCurso) {
+			//actividadCurso = resultado;		
+			posicion=resultado.getPosicionActividad();
+		}
+		return posicion;
+	}
+
+	@Override
+	public List<EstructuraVO> consultarestructuras() throws AdaptadorException {
+	List<EstructuraVO> ListaEstructuraVO = new ArrayList<EstructuraVO>();
+		
+	EstructuraVO EstructuraVO = new EstructuraVO();
+		AdaptadorEstructura adaptador = null;
+		Query q = em.createQuery("SELECT object(t) FROM Estructura AS t");
+		List<Estructura> listaEstructura = q.getResultList();
+
+		for (int i = 0; listaEstructura.size() > i; i++) {
+
+			adaptador = new AdaptadorEstructura(listaEstructura.get(i));
+			try {
+				EstructuraVO = adaptador.getEstructuraVO();
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ListaEstructuraVO.add(EstructuraVO);
+			System.out.println("tamaño estrruc "+ListaEstructuraVO.size());
+		}
 		return null;
 	}
 

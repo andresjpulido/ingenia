@@ -32,11 +32,15 @@
 			<p:dataTable var="actividad" value="#{AdmActividadMB.listaActividades}"
 				rendered="#{not empty AdmActividadMB.listaActividades}" paginator="true"
 				rows="8" dynamic="true">
-				<p:column headerText="Nombre">
-	<p:commandButton icon="ui-icon-search" value="#{actividad.enunciado}" process="@this" action="#{AdmActividadMB.irActividad}">
+				<p:column headerText="Accion">
+	<p:commandButton icon="ui-icon-search" value="Ver Actividad" process="@this" action="#{AdmActividadMB.irActividad}">
 	<f:param name="idactividad" value="#{actividad.idactividad}" />
 	</p:commandButton>
 				</p:column> 
+				
+				<p:column headerText="Nombre">
+					<h:outputText name="nombre" value="#{actividad.enunciado}" />
+				</p:column>
 				
 				<p:column headerText="Descripción">
 					<h:outputText name="descripcion" value="#{actividad.enunciado}" />

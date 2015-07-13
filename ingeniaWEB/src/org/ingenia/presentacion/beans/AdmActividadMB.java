@@ -10,11 +10,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
@@ -31,12 +34,14 @@ public class AdmActividadMB extends BaseMB {
 
 	private ActividadVO actividadVO= new ActividadVO();
 	private ActividadVO actividadVO1= new ActividadVO();
-
+	private ActividadVO actividadVO2= null;
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
+	private List<String> listaJuegos2;
+	private List<EstructuraVO> listaestructuras;
 	private List<ActividadVO> listaActividades;
-	private int posicion=0;
+	private int posicion;
    
 	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
 	private final static String NAV_IRACTIVIDADCURSO = "iractividadcurso";
@@ -80,7 +85,7 @@ public class AdmActividadMB extends BaseMB {
 	  public String nuevaActividad() {
 			 actividadVO1 =null;		
 	        this.actividadVO = new ActividadVO();   
-
+	        this.actividadVO2 = null; 
 	        return NAV_IRACTIVIDAD;
 	    }
 	  
@@ -176,7 +181,6 @@ public class AdmActividadMB extends BaseMB {
 			profesorVO.setId(7890);
 			actividadVO.setProfesor(profesorVO);
 			cursoActividadVO.setActividad(actividadVO);
-			cursoActividadVO.setPosicion(this.posicion);
 			cursoActividadVO.setCurso(cursoVO);
 			
 		try {
@@ -237,7 +241,13 @@ public class AdmActividadMB extends BaseMB {
 	public String irActividad() {
 
 		 actividadVO1 =new ActividadVO();
-
+		 try {
+			this.listaestructuras=gestorActividades.consultarestructuras();
+		} catch (AdaptadorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
@@ -248,7 +258,10 @@ public class AdmActividadMB extends BaseMB {
 		
 		try {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
-
+			 if(this.actividadVO.getJuegoVO().getIdjuego()==1){
+				 System.out.println("actualizando");
+				 actividadVO2 =new ActividadVO();
+				 }
 			for (JuegoVO juego : listaJuegos) {
 					if(juego.getIdjuego()==this.actividadVO.getJuegoVO().getIdjuego()){
 						this.juegoVO=juego;		
@@ -276,10 +289,13 @@ public class AdmActividadMB extends BaseMB {
 			actividadVO.setIdactividad(Integer.parseInt(id));
 			
 			try {
-				CursoActividadVO cursoActividad=new CursoActividadVO();
-			//	cursoActividad=gestorActividades.consultarActividadVO(actividadVO);
-				this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
 
+				int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
+				CursoVO cursoVO=new CursoVO();
+				cursoVO.setIdcurso(idcurso);
+				this.posicion=gestorActividades.consultarPosicion(cursoVO,actividadVO);
+				this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
+				
 				for (JuegoVO juego : listaJuegos) {
 						if(juego.getIdjuego()==this.actividadVO.getJuegoVO().getIdjuego()){
 							this.juegoVO=juego;		
@@ -292,6 +308,26 @@ public class AdmActividadMB extends BaseMB {
 
 			return NAV_IRACTIVIDADCURSO;
 		}
+	
+	public void selectOneMenuListener(ValueChangeEvent event) {
+	    //This will return you the newly selected
+	    //value as an object. You'll have to cast it.
+	    Object newValue = event.getNewValue(); 
+	    
+	   String idjuego= (String) newValue;
+	   if (idjuego.equals("1")){
+		   actividadVO2 = new ActividadVO();
+	    System.out.println("new valiue "+idjuego);
+	 actividadVO.setLimite_movimientos(Integer.parseInt(idjuego));
+	      }
+	   else{
+		   actividadVO2 = null;
+	   }
+	   FacesContext.getCurrentInstance().renderResponse();
+		  
+	    //The rest of your processing logic goes here...
+	}
+	
 	
 	public ActividadVO getActividadVO() {
 		return actividadVO;
@@ -355,6 +391,32 @@ public class AdmActividadMB extends BaseMB {
 	public void setListaActividades(List<ActividadVO> listaActividades) {
 		this.listaActividades = listaActividades;
 	}
+
+	public ActividadVO getActividadVO2() {
+		return actividadVO2;
+	}
+
+	public void setActividadVO2(ActividadVO actividadVO2) {
+		this.actividadVO2 = actividadVO2;
+	}
+
+	public List<String> getListaJuegos2() {
+		return listaJuegos2;
+	}
+
+	public void setListaJuegos2(List<String> listaJuegos2) {
+		this.listaJuegos2 = listaJuegos2;
+	}
+
+	public List<EstructuraVO> getListaestructuras() {
+		return listaestructuras;
+	}
+
+	public void setListaestructuras(List<EstructuraVO> listaestructuras) {
+		this.listaestructuras = listaestructuras;
+	}
+
+
 
 
 }

@@ -7,6 +7,8 @@ import javax.ejb.Remote;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
+import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
 
 @Remote
@@ -42,6 +44,10 @@ public interface IGestorActividadesRemote {
 
 	public ActividadVO consultarActividad(ActividadVO actividadVO)
 			throws AdaptadorException;
+	
+	public int consultarPosicion(CursoVO cursoVO, ActividadVO actividadVO)throws AdaptadorException;
+	
+	public List<EstructuraVO> consultarestructuras() throws AdaptadorException;
 	
 	
 }

@@ -39,9 +39,6 @@
  	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
  	<p:inputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  	
- 	<h:outputLabel for="posicion" value="Posicion en el curso:" />
- 	<p:inputText id="posicion" value="#{AdmActividadMB.posicion}" label="posicion"/>
- 
  		
 	<f:facet name="footer">
 	<p:commandButton value="Asociar" action="#{AdmActividadMB.crearAsociando}">
@@ -55,7 +52,7 @@
 		<h:form rendered="#{not empty AdmActividadMB.actividadVO1}">
 		<h:panelGrid columns="2" cellpadding="5">
 
-	<h:outputLabel  for="curso" value="Esta asociando al curso:" />
+	<h:outputLabel  for="curso" value="Esta viendo actividad del curso:" />
  	<h:outputText  id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
 			
 	<p:outputLabel for="juego" value="Juego: " />
@@ -74,7 +71,7 @@
  	<h:outputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  
   	<h:outputLabel for="posicion" value="Posicion en el curso:" />
- 	<p:inputText id="posicion" value="#{AdmActividadMB.posicion}" label="posicion"/>
+ 	<h:outputText id="posicion" value="#{AdmActividadMB.posicion}" label="posicion"/>
  		
 	<f:facet name="footer">
 	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizarAsociando}">

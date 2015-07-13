@@ -56,10 +56,11 @@
 				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
 				rows="5" dynamic="true" id="tb_opcion">
 
-						<p:column headerText="Actividad">
+						<p:column headerText="Accion">
 					<p:commandButton icon="ui-icon-search" value="Ver Actividad" 
 						process="@this" action="#{AdmActividadMB.irActividadCurso}" >
 						<f:param name="idactividad" value="#{actividad.idactividad}" />
+						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
 					</p:commandButton>
 				</p:column> 
 

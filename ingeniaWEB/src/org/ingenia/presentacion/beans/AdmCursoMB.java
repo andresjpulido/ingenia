@@ -183,7 +183,6 @@ public class AdmCursoMB extends BaseMB {
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
 			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);
-	       // System.out.println("size"+listaActividades.size());
 
             
 		} catch (AdaptadorException e) {

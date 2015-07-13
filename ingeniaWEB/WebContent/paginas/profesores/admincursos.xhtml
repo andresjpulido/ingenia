@@ -29,13 +29,15 @@
 			<p:dataTable var="curso" value="#{AdmCursoMB.listaCursos}"
 				rendered="#{not empty AdmCursoMB.listaCursos}" paginator="true"
 				rows="8" dynamic="true">
-				<p:column headerText="Nombre">
-					<p:commandButton icon="ui-icon-search" value="#{curso.nombre}"
+				<p:column headerText="Accion">
+					<p:commandButton icon="ui-icon-search" value="Ver Curso"
 						process="@this" action="#{AdmCursoMB.irCurso}">
 						<f:param name="id" value="#{curso.idcurso}" />
 					</p:commandButton>
-				</p:column> 
-				
+				</p:column> 				
+				<p:column headerText="Nombre">
+					<h:outputText name="nombre" value="#{curso.nombre}" />
+				</p:column>
 				<p:column headerText="Descripción">
 					<h:outputText name="descripcion" value="#{curso.descripcion}" />
 				</p:column>
