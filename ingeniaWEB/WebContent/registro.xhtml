@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view contentType="text/html" id="fview">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Ingenia</title>
+	<ui:debug />
+	<f:metadata>
+		<ui:insert name="metadata" />
+	</f:metadata>
+
+	<h:head>
+	</h:head>
+
+	<h:body>
+		<h:form>
+			<p:messages autoUpdate="true" id="msgs" showDetail="true"
+				showSummary="false" />
+
+			<p:dialog header="Registro de usuario" widgetVar="dlg"
+				resizable="false" visible="true">
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<h:outputLabel for="alias" value="*Alias:" />
+					<p:inputText id="alias" value="#{AdmUsuarioMB.usuarioVO.apellido}"
+						required="true" label="Alias" />
+
+					<h:outputLabel for="clave" value="*Clave:" />
+					<p:password id="clave" value="#{usuarioMB.clave}" required="true"
+						label="Clave 1" />
+
+					<h:outputLabel for="rclave" value="*Repita la clave:" />
+					<p:password id="rclave" value="#{usuarioMB.clave}" required="true"
+						label="Clave 2" />
+
+					<h:outputLabel for="nombre" value="*Nombres:" />
+					<p:inputText id="nombre" value="#{AdmUsuarioMB.usuarioVO.nombre}"
+						required="true" label="Nombres" />
+
+					<h:outputLabel for="apellido" value="*Apellido:" />
+					<p:inputText id="apellido"
+						value="#{AdmUsuarioMB.usuarioVO.apellido}" required="true"
+						label="Apellidos" />
+
+					<h:outputLabel for="identificacion" value="*Identificacion:" />
+					<p:inputText id="identificacion"
+						value="#{AdmUsuarioMB.usuarioVO.apellido}" required="true"
+						label="Identificacion" />
+
+					<f:facet name="footer">
+						<p:commandButton value="Guardar" action="#{AdmUsuarioMB.guardar}" />
+						<p:commandButton value="Atras" action="irAutenticacion"
+							immediate="false" />
+					</f:facet>
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+	</h:body>
+</f:view>
+</html>

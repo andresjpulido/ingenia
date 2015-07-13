@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -16,10 +17,9 @@ import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
 import org.ingenia.presentacion.ReglasNavegacion;
 import org.primefaces.context.RequestContext;
-import org.springframework.context.annotation.Scope;
 
 @ManagedBean(name = "usuarioMB")
-@Scope("session")
+@SessionScoped
 public class UsuarioMB extends BaseMB {
 
 	private static final long serialVersionUID = -284219328181576347L;
