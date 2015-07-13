@@ -7,16 +7,19 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
- 
 
+import org.ingenia.adaptadores.AdaptadorOpcion;
 import org.ingenia.adaptadores.AdaptadorRol;
 import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Rol;
@@ -58,6 +61,20 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 				listaPredicados.add(cb.like(
 						usuario.get("nombre").as(String.class),
 						"%" + usuarioVO.getNombre() + "%"));
+			}
+
+			if (usuarioVO.getAlias() != null
+					&& usuarioVO.getAlias().length() != 0) {
+				listaPredicados.add(cb.equal(
+						usuario.get("alias").as(String.class),
+						usuarioVO.getAlias()));
+			}
+
+			if (usuarioVO.getClave() != null
+					&& usuarioVO.getClave().length() != 0) {
+				listaPredicados.add(cb.equal(
+						usuario.get("clave").as(String.class),
+						usuarioVO.getClave()));
 			}
 
 			if (listaPredicados.size() > 0) {
@@ -106,13 +123,30 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	@Override
 	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) {
 		AdaptadorUsuario adaptador = null;
-		Usuario usuario = em.find(Usuario.class, usuarioVO.getId());
-		adaptador = new AdaptadorUsuario(usuario);
+		Usuario u = null;
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
+		Root<Usuario> pet = cq.from(Usuario.class);
+		cq.select(pet);
+		ParameterExpression<String> p = cb.parameter(String.class);
+		ParameterExpression<String> a = cb.parameter(String.class);
+		cq.where(cb.equal(pet.get("alias"), p), cb.equal(pet.get("clave"), a));
 
-		try {
-			usuarioVO = adaptador.getUsuarioVO();
-		} catch (AdaptadorException e) {
-			e.printStackTrace();
+		TypedQuery<Usuario> q = em.createQuery(cq);
+		q.setParameter(p, usuarioVO.getAlias());
+		q.setParameter(a, usuarioVO.getClave());
+		List<Usuario> results = q.getResultList();
+
+		if (results != null && !results.isEmpty()) {
+			u = results.get(0);
+			adaptador = new AdaptadorUsuario(u);
+			try {
+				usuarioVO = adaptador.getUsuarioVO();
+			} catch (AdaptadorException e) {
+				e.printStackTrace();
+			}
+		} else {
+			usuarioVO = null;
 		}
 
 		return usuarioVO;
@@ -170,12 +204,12 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	public RolVO consultarRol(RolVO rolVO) {
 		AdaptadorRol adaptador = null;
 		Rol rol = em.find(Rol.class, rolVO.getIdRol());
-		 
+
 		adaptador = new AdaptadorRol(rol);
 
 		try {
 			rolVO = adaptador.getRolVO();
-			
+
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
@@ -233,6 +267,45 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<OpcionVO> consultarOpciones() throws AdaptadorException {
+
+		List<OpcionVO> listaOpcionVO = null;
+		OpcionVO JuegoVO = null;
+		AdaptadorOpcion adaptador = null;
+
+		Query q = em.createQuery("SELECT object(t) FROM Juego AS t");
+		List<OpcionVO> listaOpcion = q.getResultList();
+
+		if (listaOpcion != null && !listaOpcion.isEmpty()) {
+			listaOpcionVO = new ArrayList<OpcionVO>();
+
+			for (int i = 0; listaOpcion.size() > i; i++) {
+
+				adaptador = new AdaptadorOpcion(listaOpcion.get(i));
+				try {
+					JuegoVO = adaptador.getOpcionVO();
+				} catch (AdaptadorException e) {
+					e.printStackTrace();
+				}
+				listaOpcionVO.add(JuegoVO);
+			}
+		}
+
+		return listaOpcion;
+	}
+
+	public UsuarioVO consultarUsuarioPorId(Integer idUsuario) {
+		UsuarioVO usuarioVO = null;
+		Usuario usuario = em.find(Usuario.class, idUsuario);
+		AdaptadorUsuario adaptador = new AdaptadorUsuario(usuario);
+		try {
+			usuarioVO = adaptador.getUsuarioVO();
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+		return usuarioVO;
 	}
 
 }

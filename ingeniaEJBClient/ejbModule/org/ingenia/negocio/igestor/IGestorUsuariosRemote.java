@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 
@@ -28,4 +29,9 @@ public interface IGestorUsuariosRemote {
 
 	public void CrearRol(RolVO rol) throws AdaptadorException;
 
+	public List<OpcionVO> consultarOpciones() throws AdaptadorException;
+
+	public UsuarioVO consultarUsuarioPorId(Integer idUsuario)
+			throws AdaptadorException;
+	
 }

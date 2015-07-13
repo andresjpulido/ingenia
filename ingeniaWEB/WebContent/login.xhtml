@@ -21,7 +21,8 @@
 	<h:body>
 
 		<h:form>
-
+			<p:messages autoUpdate="true" id="msgs" showDetail="true"
+				showSummary="true" />
 
 			<p:dialog header="Autenticacion" widgetVar="dlg" resizable="false"
 				visible="true">
@@ -36,7 +37,7 @@
 
 					<f:facet name="footer">
 						<p:commandButton value="Ingresar" action="#{usuarioMB.autenticar}" />
-					</f:facet> 
+					</f:facet>
 
 				</h:panelGrid>
 			</p:dialog>
