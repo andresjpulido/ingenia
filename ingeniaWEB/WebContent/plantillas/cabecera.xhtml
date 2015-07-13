@@ -9,6 +9,10 @@
 		<h:outputText value="Ingenia" />
 	</center>
 	<h:form>
+		<h:outputText id="nombrecompleto"
+			value="#{usuarioMB.usuariovo.nombre} #{usuarioMB.usuariovo.apellido}"
+			label="nombre" />
+		<br />
 		<p:commandLink id="btnsalir" action="#{usuarioMB.salir}"
 			style="margin-right:20px;">
 			<h:outputText value="Salir" />
