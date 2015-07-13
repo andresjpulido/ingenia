@@ -1,7 +1,9 @@
 package org.ingenia.adaptadores;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.JuegoVO;
+import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Juego;
 
 public class AdaptadorJuego extends IAdaptadorJuego{

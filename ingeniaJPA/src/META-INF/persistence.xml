@@ -9,10 +9,10 @@
 		<class>org.ingenia.negocio.entidades.ActividadcursoPK</class>
 		<class>org.ingenia.negocio.entidades.Actividadusuario</class>
 		<class>org.ingenia.negocio.entidades.ActividadusuarioPK</class>
-		<class>org.ingenia.negocio.entidades.Arma</class>
-		<class>org.ingenia.negocio.entidades.Color</class>
-		<class>org.ingenia.negocio.entidades.Curso</class>
-		<class>org.ingenia.negocio.entidades.Estructura</class>
+		<class>org.ingenia.negocio.entidades.Arma</class>	
+		<class>org.ingenia.negocio.entidades.Color</class>	
+		<class>org.ingenia.negocio.entidades.Curso</class>	
+		<class>org.ingenia.negocio.entidades.Estructura</class>	
 		<class>org.ingenia.negocio.entidades.Estudiantecurso</class>
 		<class>org.ingenia.negocio.entidades.EstudiantecursoPK</class>
 		<class>org.ingenia.negocio.entidades.Gato</class>

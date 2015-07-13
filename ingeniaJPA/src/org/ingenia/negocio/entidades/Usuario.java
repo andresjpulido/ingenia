@@ -38,10 +38,6 @@ public class Usuario implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Actividad
-	@OneToMany(mappedBy="usuario")
-	private List<Actividad> actividads;
-
 	//bi-directional many-to-one association to Actividadusuario
 	@OneToMany(mappedBy="usuario")
 	private List<Actividadusuario> actividadusuarios;
@@ -148,28 +144,6 @@ public class Usuario implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public List<Actividad> getActividads() {
-		return this.actividads;
-	}
-
-	public void setActividads(List<Actividad> actividads) {
-		this.actividads = actividads;
-	}
-
-	public Actividad addActividad(Actividad actividad) {
-		getActividads().add(actividad);
-		actividad.setUsuario(this);
-
-		return actividad;
-	}
-
-	public Actividad removeActividad(Actividad actividad) {
-		getActividads().remove(actividad);
-		actividad.setUsuario(null);
-
-		return actividad;
 	}
 
 	public List<Actividadusuario> getActividadusuarios() {

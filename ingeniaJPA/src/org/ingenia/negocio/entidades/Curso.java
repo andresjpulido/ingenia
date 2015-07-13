@@ -23,10 +23,13 @@ public class Curso implements Serializable {
 
 	private String estado;
 
-	@Column(name="limite_actividades")
-	private int limiteActividades;
-
 	private String nombre;
+
+	private int limite_actividades;
+	
+	//bi-directional many-to-many association to Actividad
+	@ManyToMany(mappedBy="cursos")
+	private List<Actividad> actividads;
 
 	//bi-directional many-to-one association to Actividadcurso
 	@OneToMany(mappedBy="curso")
@@ -76,20 +79,20 @@ public class Curso implements Serializable {
 		this.estado = estado;
 	}
 
-	public int getLimiteActividades() {
-		return this.limiteActividades;
-	}
-
-	public void setLimiteActividades(int limiteActividades) {
-		this.limiteActividades = limiteActividades;
-	}
-
 	public String getNombre() {
 		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public List<Actividad> getActividads() {
+		return this.actividads;
+	}
+
+	public void setActividads(List<Actividad> actividads) {
+		this.actividads = actividads;
 	}
 
 	public List<Actividadcurso> getActividadcursos() {
@@ -142,6 +145,14 @@ public class Curso implements Serializable {
 		estudiantecurso.setCurso(null);
 
 		return estudiantecurso;
+	}
+
+	public int getLimite_actividades() {
+		return limite_actividades;
+	}
+
+	public void setLimite_actividades(int limite_actividades) {
+		this.limite_actividades = limite_actividades;
 	}
 
 }

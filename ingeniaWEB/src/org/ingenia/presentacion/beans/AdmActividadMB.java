@@ -67,7 +67,7 @@ public class AdmActividadMB extends BaseMB {
 	  public String configurarActividad() {
 		  System.out.println("entrrooooo");
 			 actividadVO1 =null;		
-	        //this.actividadVO = new ActividadVO();   
+	        this.actividadVO = new ActividadVO();   
 
 	        return NAV_CONFIGURARACTIVIDAD;
 	    }
