@@ -25,16 +25,23 @@ public interface IGestorActividadesRemote {
 
 	public ActividadVO consultarActividadVO(ActividadVO actividadVO)
 			throws AdaptadorException;
-	
-	public List<JuegoVO> consultarJuegosDisponibles() 
-			throws AdaptadorException;	
-	
-	public List<ActividadVO> consultarActividadesProfesor(int idprofesor) 
+
+	public List<JuegoVO> consultarJuegosDisponibles() throws AdaptadorException;
+
+	public List<ActividadVO> consultarActividadesProfesor(int idprofesor)
+			throws AdaptadorException;
+
+	public void modificarActividadCurso(CursoActividadVO cursoActividadVO)
+			throws AdaptadorException;
+
+	public void crearActividad(ActividadVO actividadVO)
+			throws AdaptadorException;
+
+	public void modificarActividad(ActividadVO actividadVO)
+			throws AdaptadorException;
+
+	public ActividadVO consultarActividad(ActividadVO actividadVO)
 			throws AdaptadorException;
 	
-	public void modificarActividadCurso(CursoActividadVO cursoActividadVO) throws AdaptadorException;
 	
-	public void crearActividad(ActividadVO actividadVO) throws AdaptadorException;
-	
-	public void modificarActividad(ActividadVO actividadVO)throws AdaptadorException;
 }
