@@ -19,11 +19,12 @@
 		<class>org.ingenia.negocio.entidades.Juego</class>
 		<class>org.ingenia.negocio.entidades.Mensaje</class>
 		<class>org.ingenia.negocio.entidades.Movimiento</class>
-		<class>org.ingenia.negocio.entidades.Opcion</class>
 		<class>org.ingenia.negocio.entidades.Raton</class>
 		<class>org.ingenia.negocio.entidades.Respuesta</class>
-		<class>org.ingenia.negocio.entidades.Rol</class>
 		<class>org.ingenia.negocio.entidades.Tipogato</class>
+		<class>org.ingenia.negocio.entidades.Rol</class>
+		<class>org.ingenia.negocio.entidades.Rolusuario</class>
+		<class>org.ingenia.negocio.entidades.RolusuarioPK</class>
 		<class>org.ingenia.negocio.entidades.Usuario</class>	
 		
 	</persistence-unit>

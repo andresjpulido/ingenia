@@ -1,5 +1,6 @@
 package org.ingenia.presentacion.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
@@ -62,6 +64,51 @@ public class AdmUsuarios extends BaseMB {
 						"La operacion fue realizada satisfactoriamente !"));
 	}
 
+	public String guardarRegistro() {
+
+		if (this.usuarioVO == null)
+			return null;
+
+		if (!this.usuarioVO.getClave().equals(this.usuarioVO.getClave2())) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Las claves no son iguales"));
+			return null;
+		}
+
+		try {
+			List<RolVO> listaRoles = new ArrayList<RolVO>();
+			RolVO rolVO = new RolVO();
+			rolVO.setIdRol(3);
+			listaRoles.add(rolVO);
+			this.usuarioVO.setListaRoles(listaRoles);
+			gestorUsuarios.crearUsuario(this.usuarioVO);
+		} catch (AdaptadorException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"Error de concersion de tipos!"));
+			e.printStackTrace();
+			return null;
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
+							.getMessage()));
+			e.printStackTrace();
+			return null;
+
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"La operacion fue realizada satisfactoriamente !"));
+
+		return null;
+	}
+
 	public void crear() {
 		UsuarioVO usuarioVO = new UsuarioVO();
 		usuarioVO.setNombre(this.usuario);
@@ -88,6 +135,7 @@ public class AdmUsuarios extends BaseMB {
 	}
 
 	public String irUsuario() {
+		List<UsuarioVO> listaUsuarios = null;
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
@@ -95,7 +143,12 @@ public class AdmUsuarios extends BaseMB {
 		String id = params.get("id");
 		UsuarioVO usuarioVOt = new UsuarioVO();
 		usuarioVOt.setId(Integer.parseInt(id));
-		this.usuarioVO = gestorUsuarios.consultarUsuario(usuarioVOt);
+		listaUsuarios = gestorUsuarios.consultarUsuarios(usuarioVOt);
+		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
+			this.usuarioVO = listaUsuarios.get(0);
+
+			//gestorUsuarios.consultarOpcionVOPorIdRol(1);
+		}
 
 		return NAV_IRUSUARIO;
 	}

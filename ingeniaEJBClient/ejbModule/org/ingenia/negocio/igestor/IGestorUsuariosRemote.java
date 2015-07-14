@@ -13,9 +13,7 @@ import org.ingenia.comunes.vo.UsuarioVO;
 public interface IGestorUsuariosRemote {
 
 	public List<UsuarioVO> consultarUsuarios(UsuarioVO usuario);
-
-	public UsuarioVO consultarUsuario(UsuarioVO usuario);
-
+ 
 	public UsuarioVO modificarUsuario(UsuarioVO usuario)
 			throws AdaptadorException;
 
@@ -34,4 +32,5 @@ public interface IGestorUsuariosRemote {
 	public UsuarioVO consultarUsuarioPorId(Integer idUsuario)
 			throws AdaptadorException;
 	
+	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol);
 }

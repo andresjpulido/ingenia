@@ -15,6 +15,7 @@ public class Opcion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idopcion;
 
 	private String codigo;
@@ -22,6 +23,10 @@ public class Opcion implements Serializable {
 	private String descripcion;
 
 	private String nombre;
+
+	//bi-directional many-to-one association to Opcionrol
+	@OneToMany(mappedBy="opcion")
+	private List<Opcionrol> opcionrols;
 
 	//bi-directional many-to-many association to Rol
 	@ManyToMany(mappedBy="opcions")
@@ -60,6 +65,28 @@ public class Opcion implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public List<Opcionrol> getOpcionrols() {
+		return this.opcionrols;
+	}
+
+	public void setOpcionrols(List<Opcionrol> opcionrols) {
+		this.opcionrols = opcionrols;
+	}
+
+	public Opcionrol addOpcionrol(Opcionrol opcionrol) {
+		getOpcionrols().add(opcionrol);
+		opcionrol.setOpcion(this);
+
+		return opcionrol;
+	}
+
+	public Opcionrol removeOpcionrol(Opcionrol opcionrol) {
+		getOpcionrols().remove(opcionrol);
+		opcionrol.setOpcion(null);
+
+		return opcionrol;
 	}
 
 	public List<Rol> getRols() {

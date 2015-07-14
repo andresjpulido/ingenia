@@ -1,6 +1,7 @@
 package org.ingenia.negocio.gestor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -22,6 +23,8 @@ import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
+import org.ingenia.negocio.entidades.Juego;
+import org.ingenia.negocio.entidades.Opcion;
 import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
@@ -121,38 +124,6 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	}
 
 	@Override
-	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) {
-		AdaptadorUsuario adaptador = null;
-		Usuario u = null;
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
-		Root<Usuario> pet = cq.from(Usuario.class);
-		cq.select(pet);
-		ParameterExpression<String> p = cb.parameter(String.class);
-		ParameterExpression<String> a = cb.parameter(String.class);
-		cq.where(cb.equal(pet.get("alias"), p), cb.equal(pet.get("clave"), a));
-
-		TypedQuery<Usuario> q = em.createQuery(cq);
-		q.setParameter(p, usuarioVO.getAlias());
-		q.setParameter(a, usuarioVO.getClave());
-		List<Usuario> results = q.getResultList();
-
-		if (results != null && !results.isEmpty()) {
-			u = results.get(0);
-			adaptador = new AdaptadorUsuario(u);
-			try {
-				usuarioVO = adaptador.getUsuarioVO();
-			} catch (AdaptadorException e) {
-				e.printStackTrace();
-			}
-		} else {
-			usuarioVO = null;
-		}
-
-		return usuarioVO;
-	}
-
-	@Override
 	public List<RolVO> consultarRoles(RolVO rolVO) {
 		AdaptadorRol adaptador = null;
 		List<RolVO> resultadosVO = null;
@@ -238,7 +209,9 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	@Override
 	public void crearUsuario(UsuarioVO usuarioVO) throws AdaptadorException {
 		AdaptadorUsuario adaptador = null;
-		Usuario usuario = new Usuario();
+		Usuario usuario = null;
+		usuarioVO.setFechaUltimoIngreso(new Date());
+		usuarioVO.setFechaCreacion(new Date());
 		adaptador = new AdaptadorUsuario(usuarioVO);
 
 		try {
@@ -308,4 +281,19 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		return usuarioVO;
 	}
 
+	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol) {
+
+		Query q = em
+				.createQuery("SELECT op FROM Opcion AS op left join (select opr from Opcionrol opr where opr.idrol = 1) as t on op.idopcion = t.opcion.idopcion ");
+		List<Opcion> listaJuego = q.getResultList();
+		
+		System.out.println(listaJuego);
+		
+		for (Opcion opcion : listaJuego) {
+			System.out.println(opcion.getNombre());
+		}
+		// AdaptadorOpcion adaptador = new AdaptadorOpcion(rol)
+
+		return null;
+	}
 }

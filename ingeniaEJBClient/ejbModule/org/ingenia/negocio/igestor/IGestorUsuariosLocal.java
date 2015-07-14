@@ -14,8 +14,6 @@ public interface IGestorUsuariosLocal {
 
 	public List<UsuarioVO> consultarUsuarios(UsuarioVO usuario);
 
-	public UsuarioVO consultarUsuario(UsuarioVO usuario);
-
 	public UsuarioVO modificarUsuario(UsuarioVO usuario)
 			throws AdaptadorException;
 
@@ -34,4 +32,6 @@ public interface IGestorUsuariosLocal {
 	public UsuarioVO consultarUsuarioPorId(Integer idUsuario)
 			throws AdaptadorException;
 
+	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol);
+	
 }

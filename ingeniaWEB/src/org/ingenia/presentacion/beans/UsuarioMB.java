@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ingenia.comunes.vo.MensajeVO;
+import org.ingenia.comunes.vo.OpcionVO;
+import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
@@ -81,7 +83,25 @@ public class UsuarioMB extends BaseMB {
 
 	public boolean esPermitido(String idOpcion) {
 		// TODO validar opciones en el rol o roles del usuario logueado
-		return true;
+		// iterar sobre todos los roles y sus opciones hasta q se encuentre
+		// el idopcion q llega.
+
+		if (this.usuariovo.getListaRoles() != null
+				&& !this.usuariovo.getListaRoles().isEmpty()) {
+			for (RolVO rolVO : this.usuariovo.getListaRoles()) {
+				if (rolVO.getOpcions() != null && !rolVO.getOpcions().isEmpty()) {
+					for (OpcionVO opcionVO : rolVO.getOpcions()) {
+						if (opcionVO != null
+								&& String.valueOf(opcionVO.getCodigo())
+										.equals(idOpcion))
+							return true;
+					}
+				}
+
+			}
+		}
+
+		return false;
 	}
 
 	public String salir() {

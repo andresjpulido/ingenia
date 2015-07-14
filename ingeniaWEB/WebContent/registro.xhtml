@@ -21,23 +21,23 @@
 	<h:body>
 		<h:form>
 			<p:messages autoUpdate="true" id="msgs" showDetail="true"
-				showSummary="false" />
+				showSummary="true" />
 
 			<p:dialog header="Registro de usuario" widgetVar="dlg"
 				resizable="false" visible="true">
 				<h:panelGrid columns="2" cellpadding="5">
 
 					<h:outputLabel for="alias" value="*Alias:" />
-					<p:inputText id="alias" value="#{AdmUsuarioMB.usuarioVO.apellido}"
+					<p:inputText id="alias" value="#{AdmUsuarioMB.usuarioVO.alias}"
 						required="true" label="Alias" />
 
 					<h:outputLabel for="clave" value="*Clave:" />
-					<p:password id="clave" value="#{usuarioMB.clave}" required="true"
-						label="Clave 1" />
+					<p:password id="clave" value="#{AdmUsuarioMB.usuarioVO.clave}"
+						required="true" label="Clave 1" />
 
 					<h:outputLabel for="rclave" value="*Repita la clave:" />
-					<p:password id="rclave" value="#{usuarioMB.clave}" required="true"
-						label="Clave 2" />
+					<p:password id="rclave" value="#{AdmUsuarioMB.usuarioVO.clave2}"
+						required="true" label="Clave 2" />
 
 					<h:outputLabel for="nombre" value="*Nombres:" />
 					<p:inputText id="nombre" value="#{AdmUsuarioMB.usuarioVO.nombre}"
@@ -50,11 +50,16 @@
 
 					<h:outputLabel for="identificacion" value="*Identificacion:" />
 					<p:inputText id="identificacion"
-						value="#{AdmUsuarioMB.usuarioVO.apellido}" required="true"
+						value="#{AdmUsuarioMB.usuarioVO.identificacion}" required="true"
 						label="Identificacion" />
 
+					<h:outputLabel for="correo" value="*Correo:" />
+					<p:inputText id="correo" value="#{AdmUsuarioMB.usuarioVO.correo}"
+						required="true" label="correo" />
+
 					<f:facet name="footer">
-						<p:commandButton value="Guardar" action="#{AdmUsuarioMB.guardar}" />
+						<p:commandButton value="Guardar"
+							action="#{AdmUsuarioMB.guardarRegistro}" />
 						<p:commandButton value="Atras" action="irAutenticacion"
 							immediate="false" />
 					</f:facet>

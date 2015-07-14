@@ -16,6 +16,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idusuario;
 
 	private String alias;
@@ -25,6 +26,8 @@ public class Usuario implements Serializable {
 	private String clave;
 
 	private String correo;
+	
+	private int identificacion;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="fecha_creacion")
@@ -38,30 +41,6 @@ public class Usuario implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Actividad
-	@OneToMany(mappedBy="usuario")
-	private List<Actividad> actividads;
-
-	//bi-directional many-to-one association to Actividadusuario
-	@OneToMany(mappedBy="usuario")
-	private List<Actividadusuario> actividadusuarios;
-
-	//bi-directional many-to-one association to Curso
-	@OneToMany(mappedBy="usuario")
-	private List<Curso> cursos;
-
-	//bi-directional many-to-one association to Estudiantecurso
-	@OneToMany(mappedBy="usuario")
-	private List<Estudiantecurso> estudiantecursos;
-
-	//bi-directional many-to-one association to Mensaje
-	@OneToMany(mappedBy="usuario1")
-	private List<Mensaje> mensajes1;
-
-	//bi-directional many-to-one association to Mensaje
-	@OneToMany(mappedBy="usuario2")
-	private List<Mensaje> mensajes2;
-
 	//bi-directional many-to-many association to Rol
 	@ManyToMany
 	@JoinTable(
@@ -74,6 +53,10 @@ public class Usuario implements Serializable {
 			}
 		)
 	private List<Rol> rols;
+
+	//bi-directional many-to-one association to Rolusuario
+	@OneToMany(mappedBy="usuario")
+	private List<Rolusuario> rolusuarios;
 
 	public Usuario() {
 	}
@@ -150,144 +133,42 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Actividad> getActividads() {
-		return this.actividads;
-	}
-
-	public void setActividads(List<Actividad> actividads) {
-		this.actividads = actividads;
-	}
-
-	public Actividad addActividad(Actividad actividad) {
-		getActividads().add(actividad);
-		actividad.setUsuario(this);
-
-		return actividad;
-	}
-
-	public Actividad removeActividad(Actividad actividad) {
-		getActividads().remove(actividad);
-		actividad.setUsuario(null);
-
-		return actividad;
-	}
-
-	public List<Actividadusuario> getActividadusuarios() {
-		return this.actividadusuarios;
-	}
-
-	public void setActividadusuarios(List<Actividadusuario> actividadusuarios) {
-		this.actividadusuarios = actividadusuarios;
-	}
-
-	public Actividadusuario addActividadusuario(Actividadusuario actividadusuario) {
-		getActividadusuarios().add(actividadusuario);
-		actividadusuario.setUsuario(this);
-
-		return actividadusuario;
-	}
-
-	public Actividadusuario removeActividadusuario(Actividadusuario actividadusuario) {
-		getActividadusuarios().remove(actividadusuario);
-		actividadusuario.setUsuario(null);
-
-		return actividadusuario;
-	}
-
-	public List<Curso> getCursos() {
-		return this.cursos;
-	}
-
-	public void setCursos(List<Curso> cursos) {
-		this.cursos = cursos;
-	}
-
-	public Curso addCurso(Curso curso) {
-		getCursos().add(curso);
-		curso.setUsuario(this);
-
-		return curso;
-	}
-
-	public Curso removeCurso(Curso curso) {
-		getCursos().remove(curso);
-		curso.setUsuario(null);
-
-		return curso;
-	}
-
-	public List<Estudiantecurso> getEstudiantecursos() {
-		return this.estudiantecursos;
-	}
-
-	public void setEstudiantecursos(List<Estudiantecurso> estudiantecursos) {
-		this.estudiantecursos = estudiantecursos;
-	}
-
-	public Estudiantecurso addEstudiantecurso(Estudiantecurso estudiantecurso) {
-		getEstudiantecursos().add(estudiantecurso);
-		estudiantecurso.setUsuario(this);
-
-		return estudiantecurso;
-	}
-
-	public Estudiantecurso removeEstudiantecurso(Estudiantecurso estudiantecurso) {
-		getEstudiantecursos().remove(estudiantecurso);
-		estudiantecurso.setUsuario(null);
-
-		return estudiantecurso;
-	}
-
-	public List<Mensaje> getMensajes1() {
-		return this.mensajes1;
-	}
-
-	public void setMensajes1(List<Mensaje> mensajes1) {
-		this.mensajes1 = mensajes1;
-	}
-
-	public Mensaje addMensajes1(Mensaje mensajes1) {
-		getMensajes1().add(mensajes1);
-		mensajes1.setUsuario1(this);
-
-		return mensajes1;
-	}
-
-	public Mensaje removeMensajes1(Mensaje mensajes1) {
-		getMensajes1().remove(mensajes1);
-		mensajes1.setUsuario1(null);
-
-		return mensajes1;
-	}
-
-	public List<Mensaje> getMensajes2() {
-		return this.mensajes2;
-	}
-
-	public void setMensajes2(List<Mensaje> mensajes2) {
-		this.mensajes2 = mensajes2;
-	}
-
-	public Mensaje addMensajes2(Mensaje mensajes2) {
-		getMensajes2().add(mensajes2);
-		mensajes2.setUsuario2(this);
-
-		return mensajes2;
-	}
-
-	public Mensaje removeMensajes2(Mensaje mensajes2) {
-		getMensajes2().remove(mensajes2);
-		mensajes2.setUsuario2(null);
-
-		return mensajes2;
-	}
-
 	public List<Rol> getRols() {
 		return this.rols;
 	}
 
 	public void setRols(List<Rol> rols) {
 		this.rols = rols;
+	}
+
+	public List<Rolusuario> getRolusuarios() {
+		return this.rolusuarios;
+	}
+
+	public void setRolusuarios(List<Rolusuario> rolusuarios) {
+		this.rolusuarios = rolusuarios;
+	}
+
+	public Rolusuario addRolusuario(Rolusuario rolusuario) {
+		getRolusuarios().add(rolusuario);
+		rolusuario.setUsuario(this);
+
+		return rolusuario;
+	}
+
+	public Rolusuario removeRolusuario(Rolusuario rolusuario) {
+		getRolusuarios().remove(rolusuario);
+		rolusuario.setUsuario(null);
+
+		return rolusuario;
+	}
+
+	public int getIdentificacion() {
+		return identificacion;
+	}
+
+	public void setIdentificacion(int identificacion) {
+		this.identificacion = identificacion;
 	}
 
 }

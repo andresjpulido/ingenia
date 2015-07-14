@@ -2,6 +2,7 @@ package org.ingenia.comunes.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class UsuarioVO implements Serializable {
 
@@ -10,9 +11,13 @@ public class UsuarioVO implements Serializable {
 	private int id;
 
 	private String apellido;
+
 	private String alias;
 
 	private String clave;
+
+	private String clave2;
+
 	private String correo;
 
 	private Date fechaCreacion;
@@ -22,6 +27,10 @@ public class UsuarioVO implements Serializable {
 	private String genero;
 
 	private String nombre;
+	
+	private int identificacion;
+	
+	private List<RolVO> listaRoles;
 
 	public int getId() {
 		return id;
@@ -93,6 +102,30 @@ public class UsuarioVO implements Serializable {
 
 	public void setClave(String clave) {
 		this.clave = clave;
+	}
+
+	public String getClave2() {
+		return clave2;
+	}
+
+	public void setClave2(String clave2) {
+		this.clave2 = clave2;
+	}
+
+	public List<RolVO> getListaRoles() {
+		return listaRoles;
+	}
+
+	public void setListaRoles(List<RolVO> listaRoles) {
+		this.listaRoles = listaRoles;
+	}
+
+	public int getIdentificacion() {
+		return identificacion;
+	}
+
+	public void setIdentificacion(int identificacion) {
+		this.identificacion = identificacion;
 	}
 
 }

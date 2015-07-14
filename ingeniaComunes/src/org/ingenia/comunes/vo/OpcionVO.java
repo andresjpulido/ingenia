@@ -14,6 +14,8 @@ public class OpcionVO implements Serializable {
 
 	private boolean seleccionado;
 	
+	private String codigo;
+	
 	public int getIdopcion() {
 		return idopcion;
 	}
@@ -44,5 +46,13 @@ public class OpcionVO implements Serializable {
 
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 }

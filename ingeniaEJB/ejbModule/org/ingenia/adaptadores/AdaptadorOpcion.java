@@ -26,6 +26,7 @@ public class AdaptadorOpcion extends IAdaptadorOpcion {
 		opcion.setNombre(opcionVO.getNombre());
 		opcion.setDescripcion(opcionVO.getDescripcion());
 		opcion.setIdopcion(opcionVO.getIdopcion());
+		opcion.setCodigo(opcionVO.getCodigo());
 		return opcion;
 	}
 
@@ -40,7 +41,7 @@ public class AdaptadorOpcion extends IAdaptadorOpcion {
 		opcionVO.setNombre(opcion.getNombre());
 		opcionVO.setDescripcion(opcion.getDescripcion());
 		opcionVO.setIdopcion(opcion.getIdopcion());
-
+		opcionVO.setCodigo(opcion.getCodigo());
 		return opcionVO;
 	}
 
