@@ -13,40 +13,65 @@
 			
 			
 	    <h:form rendered="#{empty AdmActividadMB.actividadVO1}">
-		<h:panelGrid columns="2" cellpadding="5">
+	<h:panelGrid id="camb" columns="2" cellpadding="10">
 
 	<h:outputLabel  for="curso" value="Esta asociando al curso:" />
  	<h:outputText id="curso" value="#{AdmCursoMB.cursoVO.nombre}" label="curso"/>
 			
-	<p:outputLabel for="tipo" value="Juego: " />
-	<p:selectOneMenu  id="tipo" value="#{AdmActividadMB.juegoVO.idjuego}" >
- 	<f:selectItems value="#{AdmActividadMB.listaJuegos}" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idjuego}" />
-	</p:selectOneMenu>
 	
-						
+			<p:outputLabel for="tipo" value="Juego: " />
+	 <p:selectOneMenu id="tipo" class="category" valueChangeListener="#{AdmActividadMB.selectOneMenuListener}" immediate="true">
+    <f:selectItem itemLabel="Elija un juego" itemValue="0" />
+    <f:selectItems value="#{AdmActividadMB.listaJuegos}"  var="c"
+     itemLabel="#{c.nombre}" itemValue="#{c.idjuego}" />
+     <f:ajax render="camb" />
+      <f:ajax render="camb2" />
+</p:selectOneMenu>
+	
+	<h:outputLabel for="nombre" value="Nombre:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.nombre}"  label="nombre" />
+					
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}"  label="enunciado" />
 										
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
-	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" label="url_conocimiento" />
 
 	<h:outputLabel for="activo" value="Activo:" />
- 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+ 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" label="activo" requiredMessage="Debe indicar si esta activo">
    	<f:selectItem itemValue="1" itemLabel="Si" />
    	<f:selectItem itemValue="0" itemLabel="No" />
  	</p:selectOneMenu>
- 			 
- 	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 	<p:inputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  	
- 		
-	<f:facet name="footer">
+ 	<h:outputLabel rendered="#{not empty AdmActividadMB.actividadVO2}" for="limite_movimientos" value="Limite movimientos:" />
+<p:inputText rendered="#{not empty AdmActividadMB.actividadVO2}" id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+  		</h:panelGrid>
+			
+			 <h:panelGrid  id="camb2" columns="3" cellpadding="10">
+        
+        <h:outputLabel rendered="#{not empty AdmActividadMB.actividadVO2}" for="menu" value="Estructuras:" />
+      
+       
+        <p:selectCheckboxMenu rendered="#{not empty AdmActividadMB.actividadVO2}"  id="menu" value="#{AdmActividadMB.listaelegida}" label="Estructuras"
+                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+ <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
+        </p:selectCheckboxMenu>
+        
+        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
+  
+       
+    <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
+        <p:dataList rendered="#{not empty AdmActividadMB.actividadVO2}" value="#{AdmActividadMB.estructralistaelegida}" var="estructura" emptyMessage="">
+            #{estructura.nombre}
+        </p:dataList>
+    </p:outputPanel>
+    </h:panelGrid>
+    
+     		
 	<p:commandButton value="Asociar" action="#{AdmActividadMB.crearAsociando}">
 	<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
 	</p:commandButton>
-	</f:facet>
-
-			</h:panelGrid>
+	
 			</h:form>
 		
 		<h:form rendered="#{not empty AdmActividadMB.actividadVO1}">

@@ -16,6 +16,8 @@ public class Mensaje implements Serializable {
 	@Id
 	private int idmensaje;
 
+	private String mensaje;
+
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="idusuario_origen")
@@ -35,6 +37,14 @@ public class Mensaje implements Serializable {
 
 	public void setIdmensaje(int idmensaje) {
 		this.idmensaje = idmensaje;
+	}
+
+	public String getMensaje() {
+		return this.mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 
 	public Usuario getUsuario1() {

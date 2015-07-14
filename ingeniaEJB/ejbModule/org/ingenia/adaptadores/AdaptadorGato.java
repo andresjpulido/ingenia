@@ -21,8 +21,6 @@ public class AdaptadorGato extends IAdaptadorGato{
 		if (gatoVO == null)
 			return null;
 		gato = new Gato();
-
-		gato.setDefensa(gatoVO.getDefensa());
 		gato.setIdgato(gatoVO.getIdgato());
 
 		return gato;
@@ -34,7 +32,7 @@ public class AdaptadorGato extends IAdaptadorGato{
 		if (gato == null)
 			return null;
 		gatoVO = new GatoVO();
-		gatoVO.setDefensa(gato.getDefensa());
+		gatoVO.setIdArmadura(gato.getArmadura().getIdarmadura());
 		gatoVO.setIdgato(gato.getIdgato());
 		gatoVO.setOrden(gato.getOrden());
 		gatoVO.setIdarma(gato.getArma().getIdarma());

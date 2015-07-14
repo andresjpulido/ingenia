@@ -22,6 +22,7 @@ import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
 import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Estructura;
+import org.ingenia.negocio.entidades.EstructurasActiva;
 import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
@@ -67,6 +68,13 @@ public class GestorActividades implements IGestorActividadesRemote,
 			cursoActividad.setPosicionActividad((listaActividad.size()+1));
 			em.persist(actividad);
 			em.persist(cursoActividad);
+			for(int i=0;cursoActividadVO.getActividad().getEstructuras().size()>i;i++){
+	    		Estructura estructura = em.find(Estructura.class, cursoActividadVO.getActividad().getEstructuras().get(i).getIdEstructura());
+	    		EstructurasActiva estructurasActiva=new EstructurasActiva();
+	    		estructurasActiva.setActividad(actividad);
+	    		estructurasActiva.setEstructura(estructura);
+	    		em.persist(estructurasActiva);
+	    	}
 
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
@@ -115,6 +123,11 @@ public class GestorActividades implements IGestorActividadesRemote,
 		actividadVO = adaptador.getActividadVO();
 		AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
     	actividadVO.setJuegoVO(adap.getJuegoVO());
+    	AdaptadorEstructura adaptadorest= null;
+    	for(int i=0;actividad.getEstructuras().size()>i;i++){
+    		adaptadorest=new AdaptadorEstructura(actividad.getEstructuras().get(i));
+    		actividadVO.getEstructuras().add(adaptadorest.getEstructuraVO());
+    	}
 		return actividadVO;
 	}
 
@@ -212,6 +225,13 @@ public class GestorActividades implements IGestorActividadesRemote,
 			actividad = adaptador.getActividad();
 			actividad.setJuego(juego);
 			em.persist(actividad);
+			for(int i=0;actividadVO.getEstructuras().size()>i;i++){
+	    		Estructura estructura = em.find(Estructura.class, actividadVO.getEstructuras().get(i).getIdEstructura());
+	    		EstructurasActiva estructurasActiva=new EstructurasActiva();
+	    		estructurasActiva.setActividad(actividad);
+	    		estructurasActiva.setEstructura(estructura);
+	    		em.persist(estructurasActiva);
+	    	}
 
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
@@ -226,8 +246,16 @@ public class GestorActividades implements IGestorActividadesRemote,
 		AdaptadorActividad adaptador = new AdaptadorActividad(actividadVO);
 		Actividad actividad = adaptador.getActividad();
 		Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
-		actividad.setJuego(juego);
+		actividad.setJuego(juego);  
 		em.merge(actividad);
+		//hay que hacer un delete de estructurasActiva con respecto a actividad
+		/*for(int i=0;actividadVO.getEstructuras().size()>i;i++){
+    		Estructura estructura = em.find(Estructura.class, actividadVO.getEstructuras().get(i).getIdEstructura());
+    		EstructurasActiva estructurasActiva=new EstructurasActiva();
+    		estructurasActiva.setActividad(actividad);
+    		estructurasActiva.setEstructura(estructura);
+    		em.persist(estructurasActiva);
+    	}*/
 
 	}
 
@@ -257,12 +285,12 @@ public class GestorActividades implements IGestorActividadesRemote,
 	@Override
 	public List<EstructuraVO> consultarestructuras() throws AdaptadorException {
 	List<EstructuraVO> ListaEstructuraVO = new ArrayList<EstructuraVO>();
-		
+	System.out.println("consulta estruc");
 	EstructuraVO EstructuraVO = new EstructuraVO();
 		AdaptadorEstructura adaptador = null;
 		Query q = em.createQuery("SELECT object(t) FROM Estructura AS t");
 		List<Estructura> listaEstructura = q.getResultList();
-
+		System.out.println(listaEstructura.size());
 		for (int i = 0; listaEstructura.size() > i; i++) {
 
 			adaptador = new AdaptadorEstructura(listaEstructura.get(i));
@@ -275,7 +303,8 @@ public class GestorActividades implements IGestorActividadesRemote,
 			ListaEstructuraVO.add(EstructuraVO);
 			System.out.println("tamaño estrruc "+ListaEstructuraVO.size());
 		}
-		return null;
+		return ListaEstructuraVO;
 	}
+
 
 }

@@ -1,7 +1,6 @@
 package org.ingenia.negocio.gestor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -9,32 +8,22 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorArma;
 import org.ingenia.adaptadores.AdaptadorColor;
 import org.ingenia.adaptadores.AdaptadorGato;
-import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.adaptadores.AdaptadorTipoGato;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
 import org.ingenia.comunes.vo.ColorVO;
-import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.GatoVO;
-import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
 import org.ingenia.negocio.entidades.Actividad;
-import org.ingenia.negocio.entidades.Actividadcurso;
 import org.ingenia.negocio.entidades.Arma;
+import org.ingenia.negocio.entidades.Armadura;
 import org.ingenia.negocio.entidades.Color;
-import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Gato;
-import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Tipogato;
-import org.ingenia.negocio.entidades.Usuario;
-import org.ingenia.negocio.igestor.IGestorActividadesLocal;
-import org.ingenia.negocio.igestor.IGestorActividadesRemote;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.negocio.igestor.IGestorGatosRemote;
 
@@ -131,12 +120,14 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getIdtipogato());
 		Color color = em.find(Color.class,gatoVO.getIdcolor());
 		Arma arma = em.find(Arma.class,gatoVO.getIdarma());
+		Armadura armadura=em.find(Armadura.class,gatoVO.getIdArmadura());
 		try {
 			gato =adaptador.getGato();
 			gato.setActividad(actividad);
 			gato.setArma(arma);
 			gato.setColor(color);
 			gato.setTipogato(tipoGato);
+			gato.setArmadura(armadura);
 			gato.setOrden(gatoVO.getOrden());
 			 em.merge(gato);
 		} catch (AdaptadorException e) {
@@ -157,12 +148,14 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getIdtipogato());
 		Color color = em.find(Color.class,gatoVO.getIdcolor());
 		Arma arma = em.find(Arma.class,gatoVO.getIdarma());
+		Armadura armadura=em.find(Armadura.class,gatoVO.getIdArmadura());
 		try {
 			gato = adaptador.getGato(); 
 			gato.setActividad(actividad);
 			gato.setArma(arma);
 			gato.setColor(color);
 			gato.setTipogato(tipoGato);
+			gato.setArmadura(armadura);
 			gato.setOrden(consultarPosicionDisponible(actividad));
 			em.persist(gato);			
   

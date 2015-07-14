@@ -29,6 +29,7 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividad.setUrlTextoEnsenanza(actividadVO.getUrl_conocimiento());
 		actividad.setActivo(actividadVO.getActivo());
 		actividad.setLimiteMovimientos(actividadVO.getLimite_movimientos());
+		actividad.setNombre(actividadVO.getNombre());
 		return actividad;
 	}
 
@@ -45,6 +46,7 @@ public class AdaptadorActividad extends IAdaptadorActividad{
 		actividadVO.setUrl_conocimiento(actividad.getUrlTextoEnsenanza());
 		actividadVO.setActivo(actividad.getActivo());
 		actividadVO.setLimite_movimientos(actividad.getLimiteMovimientos());
+		actividadVO.setNombre(actividad.getNombre());
 		
 		return actividadVO;
 	}

@@ -22,7 +22,7 @@ public class AdaptadorEstructura extends IAdaptadorEstructura{
 			return null;
 		Estructura = new Estructura();
 		Estructura.setIdestructura(EstructuraVO.getIdEstructura());
-		Estructura.setNombreEstrucutra(EstructuraVO.getNombre());
+		Estructura.setNombre(EstructuraVO.getNombre());
 		return Estructura;
 	}
 
@@ -33,7 +33,7 @@ public class AdaptadorEstructura extends IAdaptadorEstructura{
 			return null;
 		EstructuraVO = new EstructuraVO();
 		EstructuraVO.setIdEstructura(Estructura.getIdestructura());
-		EstructuraVO.setNombre(Estructura.getNombreEstrucutra());
+		EstructuraVO.setNombre(Estructura.getNombre());
 		return EstructuraVO;
 	}
 

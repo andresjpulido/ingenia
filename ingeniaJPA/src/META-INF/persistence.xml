@@ -12,7 +12,7 @@
 		<class>org.ingenia.negocio.entidades.Arma</class>	
 		<class>org.ingenia.negocio.entidades.Color</class>	
 		<class>org.ingenia.negocio.entidades.Curso</class>	
-		<class>org.ingenia.negocio.entidades.Estructura</class>	
+		<class>org.ingenia.negocio.entidades.Estructura</class>
 		<class>org.ingenia.negocio.entidades.Estudiantecurso</class>
 		<class>org.ingenia.negocio.entidades.EstudiantecursoPK</class>
 		<class>org.ingenia.negocio.entidades.Gato</class>
@@ -21,10 +21,10 @@
 		<class>org.ingenia.negocio.entidades.Movimiento</class>
 		<class>org.ingenia.negocio.entidades.Raton</class>
 		<class>org.ingenia.negocio.entidades.Respuesta</class>
-		<class>org.ingenia.negocio.entidades.Tipogato</class>
 		<class>org.ingenia.negocio.entidades.Rol</class>
 		<class>org.ingenia.negocio.entidades.Rolusuario</class>
 		<class>org.ingenia.negocio.entidades.RolusuarioPK</class>
+		<class>org.ingenia.negocio.entidades.Tipogato</class>
 		<class>org.ingenia.negocio.entidades.Usuario</class>	
 		
 	</persistence-unit>

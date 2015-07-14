@@ -1,7 +1,6 @@
 package org.ingenia.comunes.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class GatoVO implements Serializable {
 
@@ -17,7 +16,7 @@ public class GatoVO implements Serializable {
 
 	private int orden;
 	
-	private int defensa;
+	private int idarmadura;
 	
 	private int idarma;
 
@@ -64,12 +63,12 @@ public class GatoVO implements Serializable {
 		this.orden = orden;
 	}
 
-	public int getDefensa() {
-		return defensa;
+	public int getIdArmadura() {
+		return idarmadura;
 	}
 
-	public void setDefensa(int defensa) {
-		this.defensa = defensa;
+	public void setIdArmadura(int idarmadura) {
+		this.idarmadura = idarmadura;
 	}
 
 	public int getIdarma() {

@@ -16,8 +16,6 @@ public class Gato implements Serializable {
 	@Id
 	private int idgato;
 
-	private int defensa;
-
 	private int orden;
 
 	//bi-directional many-to-one association to Actividad
@@ -40,6 +38,11 @@ public class Gato implements Serializable {
 	@JoinColumn(name="idtipo_gato")
 	private Tipogato tipogato;
 
+	//bi-directional many-to-one association to Armadura
+	@ManyToOne
+	@JoinColumn(name="idarmadura")
+	private Armadura armadura;
+
 	public Gato() {
 	}
 
@@ -49,14 +52,6 @@ public class Gato implements Serializable {
 
 	public void setIdgato(int idgato) {
 		this.idgato = idgato;
-	}
-
-	public int getDefensa() {
-		return this.defensa;
-	}
-
-	public void setDefensa(int defensa) {
-		this.defensa = defensa;
 	}
 
 	public int getOrden() {
@@ -97,6 +92,14 @@ public class Gato implements Serializable {
 
 	public void setTipogato(Tipogato tipogato) {
 		this.tipogato = tipogato;
+	}
+
+	public Armadura getArmadura() {
+		return this.armadura;
+	}
+
+	public void setArmadura(Armadura armadura) {
+		this.armadura = armadura;
 	}
 
 }

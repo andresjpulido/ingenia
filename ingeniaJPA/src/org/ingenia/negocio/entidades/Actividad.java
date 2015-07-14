@@ -24,6 +24,8 @@ public class Actividad implements Serializable {
 	@Column(name="limite_movimientos")
 	private int limiteMovimientos;
 
+	private String nombre;
+
 	private int publicado;
 
 	@Column(name="url_texto_ensenanza")
@@ -47,10 +49,6 @@ public class Actividad implements Serializable {
 	@OneToMany(mappedBy="actividad")
 	private List<Actividadusuario> actividadusuarios;
 
-	//bi-directional many-to-many association to Estructura
-	@ManyToMany(mappedBy="actividads")
-	private List<Estructura> estructuras;
-
 	//bi-directional many-to-one association to Gato
 	@OneToMany(mappedBy="actividad")
 	private List<Gato> gatos;
@@ -58,6 +56,10 @@ public class Actividad implements Serializable {
 	//bi-directional many-to-one association to Respuesta
 	@OneToMany(mappedBy="actividad")
 	private List<Respuesta> respuestas;
+
+	//bi-directional many-to-many association to Estructura
+	@ManyToMany(mappedBy="actividads")
+	private List<Estructura> estructuras;
 
 	public Actividad() {
 	}
@@ -92,6 +94,14 @@ public class Actividad implements Serializable {
 
 	public void setLimiteMovimientos(int limiteMovimientos) {
 		this.limiteMovimientos = limiteMovimientos;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public int getPublicado() {
@@ -170,14 +180,6 @@ public class Actividad implements Serializable {
 		return actividadusuario;
 	}
 
-	public List<Estructura> getEstructuras() {
-		return this.estructuras;
-	}
-
-	public void setEstructuras(List<Estructura> estructuras) {
-		this.estructuras = estructuras;
-	}
-
 	public List<Gato> getGatos() {
 		return this.gatos;
 	}
@@ -220,6 +222,14 @@ public class Actividad implements Serializable {
 		respuesta.setActividad(null);
 
 		return respuesta;
+	}
+
+	public List<Estructura> getEstructuras() {
+		return this.estructuras;
+	}
+
+	public void setEstructuras(List<Estructura> estructuras) {
+		this.estructuras = estructuras;
 	}
 
 }

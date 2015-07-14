@@ -20,6 +20,7 @@ import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
+import org.ingenia.negocio.entidades.Estructura;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
 
@@ -38,8 +39,9 @@ public class AdmActividadMB extends BaseMB {
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
-	private List<String> listaJuegos2;
+	private List<String> listaelegida;
 	private List<EstructuraVO> listaestructuras;
+	private List<EstructuraVO> estructralistaelegida;
 	private List<ActividadVO> listaActividades;
 	private int posicion;
    
@@ -86,6 +88,13 @@ public class AdmActividadMB extends BaseMB {
 			 actividadVO1 =null;		
 	        this.actividadVO = new ActividadVO();   
 	        this.actividadVO2 = null; 
+	        try {
+				this.listaestructuras=gestorActividades.consultarestructuras();
+		    	this.listaelegida=consultarListaEstructuras(this.listaestructuras);
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        return NAV_IRACTIVIDAD;
 	    }
 	  
@@ -93,6 +102,14 @@ public class AdmActividadMB extends BaseMB {
 	  public String nuevaAsociarActividad() {
 		  	actividadVO1 =null;
 	        this.actividadVO = new ActividadVO();  
+	        this.actividadVO2 = null; 
+	    	try {
+				this.listaestructuras=gestorActividades.consultarestructuras();
+		    	this.listaelegida=consultarListaEstructuras(this.listaestructuras);
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        return NAV_IRACTIVIDADCURSO;
 	    }
 	
@@ -116,6 +133,7 @@ public class AdmActividadMB extends BaseMB {
 	public void actualizar() {
 		
 		ActividadVO actividadVO = this.actividadVO;		
+		actividadVO.setEstructuras(this.estructralistaelegida);
 
 	try {	
 			gestorActividades.modificarActividad(actividadVO);			
@@ -137,17 +155,21 @@ public class AdmActividadMB extends BaseMB {
 			null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 					"La operacion fue realizada satisfactoriamente !"));
+
 	}
 
 	public String crear() {
-
+		String destino=null;
+		if((!this.actividadVO.getNombre().equals("")) && (!this.actividadVO.getEnunciado().equals("")) && (estructralistaelegida.size()>0) ){
   		 ActividadVO actividadVO = this.actividadVO;		
 	     actividadVO.setJuegoVO(juegoVO);
          UsuarioVO profesorVO = new UsuarioVO();
          profesorVO.setId(7890);
          actividadVO.setProfesor(profesorVO);
+         actividadVO.setEstructuras(estructralistaelegida);
 		try {
-          		gestorActividades.crearActividad(actividadVO); 				
+          		gestorActividades.crearActividad(actividadVO); 	
+          		destino=NAV_IRADMACTIVIDAD;
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -165,12 +187,28 @@ public class AdmActividadMB extends BaseMB {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-						"La operacion fue realizada satisfactoriamente !"));
-		return NAV_IRADMACTIVIDAD;
+						"La operacion fue realizada satisfactoriamente !"));}
+		else if (this.actividadVO.getNombre().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe ingresar el nombre de la actividad"));
+		}
+		else if (this.actividadVO.getEnunciado().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe ingresar el enunciado de la actividad"));
+		}
+		else if (estructralistaelegida.size()==0) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe elegir como minimo una estructura"));
+		}
+		return destino;
 	}
 	
 	public void crearAsociando() {
 
+		if((!this.actividadVO.getNombre().equals("")) && (!this.actividadVO.getEnunciado().equals("")) && (estructralistaelegida.size()>0) ){
 			ActividadVO actividadVO = this.actividadVO;		
 	        actividadVO.setJuegoVO(juegoVO);
 	        int idcurso=Integer.parseInt(recuperarParametro("idcurso"));
@@ -182,7 +220,7 @@ public class AdmActividadMB extends BaseMB {
 			actividadVO.setProfesor(profesorVO);
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setCurso(cursoVO);
-			
+	        actividadVO.setEstructuras(estructralistaelegida);
 		try {
 			gestorActividades.crearActividadCurso(cursoActividadVO); 		
 
@@ -203,6 +241,22 @@ public class AdmActividadMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		}
+		else if (this.actividadVO.getNombre().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe ingresar el nombre de la actividad"));
+		}
+		else if (this.actividadVO.getEnunciado().equals("")) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe ingresar el enunciado de la actividad"));
+		}
+		else if (estructralistaelegida.size()==0) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe elegir como minimo una estructura"));
+		}
 	}
 	
 	public void actualizarAsociando() {
@@ -216,7 +270,8 @@ public class AdmActividadMB extends BaseMB {
 			cursoActividadVO.setPosicion(this.posicion);
 			cursoActividadVO.setCurso(cursoVO);
 		try {	
-				gestorActividades.modificarActividadCurso(cursoActividadVO);			
+				gestorActividades.modificarActividadCurso(cursoActividadVO);	
+				
 			
 	} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -235,6 +290,7 @@ public class AdmActividadMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+
 	}
 
 
@@ -242,7 +298,10 @@ public class AdmActividadMB extends BaseMB {
 
 		 actividadVO1 =new ActividadVO();
 		 try {
+		
 			this.listaestructuras=gestorActividades.consultarestructuras();
+			//faltaria cargar las estrucutras asociadas a la actividad que se esta cargando y mirar si hay que editarlas
+
 		} catch (AdaptadorException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -258,6 +317,7 @@ public class AdmActividadMB extends BaseMB {
 		
 		try {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
+			this.listaelegida=consultarListaEstructuras(this.actividadVO .getEstructuras());
 			 if(this.actividadVO.getJuegoVO().getIdjuego()==1){
 				 System.out.println("actualizando");
 				 actividadVO2 =new ActividadVO();
@@ -276,6 +336,33 @@ public class AdmActividadMB extends BaseMB {
 	}
 		
 	
+	private List<String> consultarListaEstructuras(List<EstructuraVO> estructuras) {
+		// TODO Auto-generated method stub
+		List<String> lista=new 	ArrayList<String>();
+		if (estructuras!=null){
+		   for(int j=0;estructuras.size()>j;j++){
+			   lista.add(String.valueOf(estructuras.get(j).getIdEstructura()));
+			   }}
+		return lista;
+	}
+
+	private List<EstructuraVO> obtenerEstructuras() {
+		// TODO Auto-generated method stub
+	 List<EstructuraVO> estructura = new ArrayList<EstructuraVO>();
+	 if (listaelegida!=null){
+	   for(int i=0;this.listaelegida.size()>i;i++){
+		   
+		   for(int j=0;this.listaestructuras.size()>j;j++){
+			   String temp=String.valueOf(listaestructuras.get(j).getIdEstructura());
+			   if(listaelegida.get(i).equals(temp)){
+			   estructura.add(listaestructuras.get(j));
+			   j=listaestructuras.size()+1;
+			   }
+		   }
+	   }}
+		return estructura;
+	}
+
 	public String irActividadCurso() {
 
 			 actividadVO1 =new ActividadVO();
@@ -295,7 +382,7 @@ public class AdmActividadMB extends BaseMB {
 				cursoVO.setIdcurso(idcurso);
 				this.posicion=gestorActividades.consultarPosicion(cursoVO,actividadVO);
 				this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
-				
+	
 				for (JuegoVO juego : listaJuegos) {
 						if(juego.getIdjuego()==this.actividadVO.getJuegoVO().getIdjuego()){
 							this.juegoVO=juego;		
@@ -310,22 +397,22 @@ public class AdmActividadMB extends BaseMB {
 		}
 	
 	public void selectOneMenuListener(ValueChangeEvent event) {
-	    //This will return you the newly selected
-	    //value as an object. You'll have to cast it.
+
 	    Object newValue = event.getNewValue(); 
 	    
 	   String idjuego= (String) newValue;
 	   if (idjuego.equals("1")){
 		   actividadVO2 = new ActividadVO();
 	    System.out.println("new valiue "+idjuego);
-	 actividadVO.setLimite_movimientos(Integer.parseInt(idjuego));
+	 actividadVO.setLimite_movimientos(1);
+	 this.juegoVO.setIdjuego(Integer.parseInt(idjuego));
+
 	      }
 	   else{
 		   actividadVO2 = null;
 	   }
 	   FacesContext.getCurrentInstance().renderResponse();
-		  
-	    //The rest of your processing logic goes here...
+
 	}
 	
 	
@@ -400,21 +487,41 @@ public class AdmActividadMB extends BaseMB {
 		this.actividadVO2 = actividadVO2;
 	}
 
-	public List<String> getListaJuegos2() {
-		return listaJuegos2;
-	}
-
-	public void setListaJuegos2(List<String> listaJuegos2) {
-		this.listaJuegos2 = listaJuegos2;
-	}
-
 	public List<EstructuraVO> getListaestructuras() {
+		System.out.println("la vino a buscar");
 		return listaestructuras;
 	}
 
 	public void setListaestructuras(List<EstructuraVO> listaestructuras) {
 		this.listaestructuras = listaestructuras;
 	}
+
+	public List<String> getListaelegida() {
+		return listaelegida;
+	}
+
+	public void setListaelegida(List<String> listaelegida) {
+		this.listaelegida = listaelegida;
+	}
+
+	/**
+	 * @return the estructralistaelegida
+	 */
+	public List<EstructuraVO> getEstructralistaelegida() {
+        	  
+      		this.estructralistaelegida=obtenerEstructuras();
+
+		return estructralistaelegida;
+	}
+
+	/**
+	 * @param estructralistaelegida the estructralistaelegida to set
+	 */
+	public void setEstructralistaelegida(List<EstructuraVO> estructralistaelegida) {
+		this.estructralistaelegida = estructralistaelegida;
+	}
+
+
 
 
 

@@ -17,6 +17,8 @@ public class Tipogato implements Serializable {
 	@Id
 	private int idtipogato;
 
+	private String tipo;
+
 	//bi-directional many-to-one association to Gato
 	@OneToMany(mappedBy="tipogato")
 	private List<Gato> gatos;
@@ -30,6 +32,14 @@ public class Tipogato implements Serializable {
 
 	public void setIdtipogato(int idtipogato) {
 		this.idtipogato = idtipogato;
+	}
+
+	public String getTipo() {
+		return this.tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public List<Gato> getGatos() {

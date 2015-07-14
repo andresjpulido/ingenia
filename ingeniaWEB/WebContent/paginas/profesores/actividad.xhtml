@@ -24,12 +24,15 @@
      <f:ajax render="camb" />
       <f:ajax render="camb2" />
 </p:selectOneMenu>
+
+	<h:outputLabel for="nombre" value="Nombre:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.nombre}" label="nombre" />
 				
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" label="Usuario" />
+	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" label="enunciado" />
 											
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
-	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}"  label="Usuario" />
+	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}"  label="url_conocimiento" />
 
 	<h:outputLabel for="activo" value="Activo:" />
  	<p:selectOneMenu id="activo" value="#{AdmActividadMB.actividadVO.activo}" label="activo" requiredMessage="Debe indicar si esta activo">
@@ -49,17 +52,17 @@
         <h:outputLabel rendered="#{not empty AdmActividadMB.actividadVO2}" for="menu" value="Estructuras:" />
       
        
-        <p:selectCheckboxMenu rendered="#{not empty AdmActividadMB.actividadVO2}"  id="menu" value="#{AdmActividadMB.listaJuegos2}" label="Estructuras"
+        <p:selectCheckboxMenu rendered="#{not empty AdmActividadMB.actividadVO2}"  id="menu" value="#{AdmActividadMB.listaelegida}" label="Estructuras"
                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-            <f:selectItems value="#{AdmActividadMB.listaJuegos}" />
+ <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
         </p:selectCheckboxMenu>
         
         <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
   
        
     <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
-        <p:dataList rendered="#{not empty AdmActividadMB.actividadVO2}" value="#{AdmActividadMB.listaJuegos2}" var="city" emptyMessage="">
-            #{city}
+        <p:dataList rendered="#{not empty AdmActividadMB.actividadVO2}" value="#{AdmActividadMB.estructralistaelegida}" var="estructura" emptyMessage="">
+            #{estructura.nombre}
         </p:dataList>
     </p:outputPanel>
     </h:panelGrid>
@@ -82,6 +85,9 @@
 	
 	<p:outputLabel for="juego" value="Juego: " />
 	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>	
+			
+	<h:outputLabel for="nombre" value="Nombre:" />
+	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.nombre}" required="true" label="nombre" />		
 						
 	<h:outputLabel for="enunciado" value="Enunciado:" />
 	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
@@ -104,17 +110,17 @@
         <h:outputLabel rendered="#{not empty AdmActividadMB.actividadVO2}" for="menu" value="Estructuras:" />
       
        
-        <p:selectCheckboxMenu rendered="#{not empty AdmActividadMB.actividadVO2}"  id="menu" value="#{AdmActividadMB.listaJuegos2}" label="Estructuras"
+        <p:selectCheckboxMenu rendered="#{not empty AdmActividadMB.actividadVO2}"  id="menu" value="#{AdmActividadMB.listaelegida}" label="Estructuras"
                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-            <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idestructura}" />
+            <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
         </p:selectCheckboxMenu>
         
         <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
   
        
     <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
-        <p:dataList rendered="#{not empty AdmActividadMB.actividadVO2}" value="#{AdmActividadMB.listaJuegos2}" var="city" emptyMessage="">
-           #{city}
+        <p:dataList rendered="#{not empty AdmActividadMB.actividadVO2}" value="#{AdmActividadMB.estructralistaelegida}" var="estructura" emptyMessage="">
+           #{estructura.nombre}
         </p:dataList>
     </p:outputPanel>
     </h:panelGrid>

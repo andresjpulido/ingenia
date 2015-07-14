@@ -17,13 +17,13 @@ public class Estructura implements Serializable {
 	@Id
 	private int idestructura;
 
-	@Column(name="nombre_estrucutra")
-	private String nombreEstrucutra;
+	@Column(name="nombre")
+	private String nombre;
 
 	//bi-directional many-to-many association to Actividad
 	@ManyToMany
 	@JoinTable(
-		name="estructurabloqueada_actividad"
+		name="estructuras_activas"
 		, joinColumns={
 			@JoinColumn(name="idestructura")
 			}
@@ -48,12 +48,12 @@ public class Estructura implements Serializable {
 		this.idestructura = idestructura;
 	}
 
-	public String getNombreEstrucutra() {
-		return this.nombreEstrucutra;
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setNombreEstrucutra(String nombreEstrucutra) {
-		this.nombreEstrucutra = nombreEstrucutra;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public List<Actividad> getActividads() {

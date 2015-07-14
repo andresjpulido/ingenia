@@ -13,9 +13,13 @@ public class ActividadVO implements Serializable {
 
 	private String enunciado;
 	
+	private String nombre;
+	
 	private int publicado;
 	
 	private List<CursoVO> cursos;
+	
+	private List<EstructuraVO> estructuras;
 
 	private List<RespuestaVO> respuestas;
 	
@@ -123,6 +127,28 @@ public class ActividadVO implements Serializable {
 
 	public void setJuegoVO(JuegoVO juegoVO) {
 		this.juegoVO = juegoVO;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * @return the estructuras
+	 */
+	public List<EstructuraVO> getEstructuras() {
+		return estructuras;
+	}
+
+	/**
+	 * @param estructuras the estructuras to set
+	 */
+	public void setEstructuras(List<EstructuraVO> estructuras) {
+		this.estructuras = estructuras;
 	}
 
 

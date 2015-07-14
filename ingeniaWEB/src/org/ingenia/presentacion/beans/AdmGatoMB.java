@@ -78,7 +78,7 @@ public class AdmGatoMB extends BaseMB {
 				 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 				 actividadVO.setIdactividad(idactividad);
 	try {	
-		System.out.println(gatoVO.getDefensa());
+		System.out.println(gatoVO.getIdArmadura());
 		gestorGatos.modificarGato(gatoVO,actividadVO);		
 		actualizaGatos();
 		
