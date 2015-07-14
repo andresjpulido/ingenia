@@ -23,22 +23,25 @@
 			<h:panelGrid columns="4" cellpadding="5">
 			
 	<p:outputLabel for="tipogato" value="Tipo Gato: " />
-	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.gatoVO.idtipogato}" >
- 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.idTipoGato}" itemValue="#{tipogato.idTipoGato}" />
+	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato.idTipoGato}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato.idTipoGato}" />
 	</p:selectOneMenu>		
 	
 	<p:outputLabel for="tipocolor" value="Color Gato: " />
-	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.gatoVO.idcolor}" >
+	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.color.idcolor}" >
  	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor.idcolor}" />
 	</p:selectOneMenu>						
 										
 	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
-	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.gatoVO.idarma}" >
+	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma.idarma}" >
  	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma.idarma}" />
 	</p:selectOneMenu>	
- 			 
- 	<h:outputLabel for="defensa" value="Valor Defensa:" />
- 	<p:inputText id="defensa" value="#{AdmGatoMB.gatoVO.defensa}" label="defensa"/>
+	
+	<p:outputLabel for="defensa" value="Tipo Armadura: " />
+	<p:selectOneMenu  id="defensa" value="#{AdmGatoMB.armadura.idarmadura}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura.idarmadura}" />
+	</p:selectOneMenu>	
+
  		
 	<f:facet name="footer">
 	<p:commandButton  value="Agregar Gato" action="#{AdmGatoMB.crear}">
@@ -56,22 +59,24 @@
 <h:panelGrid columns="4" cellpadding="5">
 				
 	<p:outputLabel for="tipogato" value="Tipo Gato: " />
-	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.gatoVO1.idtipogato}" >
- 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.idTipoGato}" itemValue="#{tipogato.idTipoGato}" />
+	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato.idTipoGato}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato.idTipoGato}" />
 	</p:selectOneMenu>		
 	
 	<p:outputLabel for="tipocolor" value="Color Gato: " />
-	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.gatoVO1.idcolor}" >
+	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.color.idcolor}" >
  	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor.idcolor}" />
 	</p:selectOneMenu>						
 										
 	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
-	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.gatoVO1.idarma}" >
+	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma.idarma}" >
  	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma.idarma}" />
 	</p:selectOneMenu>	
- 			 
- 	<h:outputLabel for="defensa" value="Valor Defensa:" />
- 	<p:inputText id="defensa" value="#{AdmGatoMB.gatoVO1.defensa}" label="defensa"/>
+ 			
+ 	<p:outputLabel for="defensa" value="Tipo Armadura: " />
+	<p:selectOneMenu  id="defensa" value="#{AdmGatoMB.armadura.idarmadura}" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura.idarmadura}" />
+	</p:selectOneMenu>	
  		
 	<f:facet name="footer">
 	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}">
@@ -99,19 +104,19 @@
 				</p:column> 
 				
 				<p:column headerText="Color">
-					<h:outputText name="color" value="#{gato.idcolor}" />
+					<h:outputText name="color" value="#{gato.color.nombre}" />
 				</p:column>
 
 				<p:column headerText="Tipo Gato">
-					<h:outputText value="#{gato.idtipogato}" />
+					<h:outputText value="#{gato.tipogato.nombre}" />
 				</p:column>
 				
 				<p:column headerText="Armadura">
-					<h:outputText value="#{gato.defensa}" />
+					<h:outputText value="#{gato.armadura.nombre}" />
 				</p:column>
 				
 					<p:column headerText="Arma">
-					<h:outputText value="#{gato.idarma}" />
+					<h:outputText value="#{gato.arma.nombre}" />
 				</p:column>
 
 			

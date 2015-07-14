@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
+import org.ingenia.comunes.vo.ArmaduraVO;
 import org.ingenia.comunes.vo.ColorVO;
 import org.ingenia.comunes.vo.GatoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
@@ -29,6 +30,8 @@ public interface IGestorGatosLocal {
 	GatoVO consultarGatoVO(GatoVO gatoVO) throws AdaptadorException;
 
 	List<GatoVO> consultarGatos(ActividadVO actividadVO) throws AdaptadorException;
+
+	List<ArmaduraVO> consultarArmaduras() throws AdaptadorException;
 	
 	
 }

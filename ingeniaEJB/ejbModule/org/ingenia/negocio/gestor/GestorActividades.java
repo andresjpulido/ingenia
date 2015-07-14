@@ -114,7 +114,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 	@Override
 	public ActividadVO consultarActividadVO(ActividadVO actividadVO)
 			throws AdaptadorException {
-
+		List<EstructuraVO> lista = new ArrayList<EstructuraVO>();
 		AdaptadorActividad adaptador = null;
 		Actividad actividad = em.find(Actividad.class,
 				actividadVO.getIdactividad());
@@ -124,10 +124,15 @@ public class GestorActividades implements IGestorActividadesRemote,
 		AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
     	actividadVO.setJuegoVO(adap.getJuegoVO());
     	AdaptadorEstructura adaptadorest= null;
+    	System.out.println("estruc "+actividad.getEstructuras().size());
+    	 
     	for(int i=0;actividad.getEstructuras().size()>i;i++){
+    		System.out.println("id estrucura "+actividad.getEstructuras().get(i).getIdestructura());
     		adaptadorest=new AdaptadorEstructura(actividad.getEstructuras().get(i));
-    		actividadVO.getEstructuras().add(adaptadorest.getEstructuraVO());
+    		
+    		lista.add(adaptadorest.getEstructuraVO());
     	}
+    	actividadVO.setEstructuras(lista);
 		return actividadVO;
 	}
 

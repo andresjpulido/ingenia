@@ -10,7 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
@@ -20,7 +19,6 @@ import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
-import org.ingenia.negocio.entidades.Estructura;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
 

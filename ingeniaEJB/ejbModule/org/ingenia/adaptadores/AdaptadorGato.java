@@ -32,12 +32,9 @@ public class AdaptadorGato extends IAdaptadorGato{
 		if (gato == null)
 			return null;
 		gatoVO = new GatoVO();
-		gatoVO.setIdArmadura(gato.getArmadura().getIdarmadura());
+
 		gatoVO.setIdgato(gato.getIdgato());
 		gatoVO.setOrden(gato.getOrden());
-		gatoVO.setIdarma(gato.getArma().getIdarma());
-		gatoVO.setIdcolor(gato.getColor().getIdcolor());
-		gatoVO.setIdtipogato(gato.getTipogato().getIdtipogato());
 		
 		return gatoVO;
 	}

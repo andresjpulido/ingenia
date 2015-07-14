@@ -22,7 +22,7 @@ public class AdaptadorTipoGato extends IAdaptadorTipoGato{
 			return null;
 		tipoGato = new Tipogato();
 		tipoGato.setIdtipogato(tipoGatoVO.getIdTipoGato());
-		//tipoGato.setNombre(tipoGatoVO.getNombre());
+		tipoGato.setTipo(tipoGatoVO.getNombre());
 		return tipoGato;
 	}
 
@@ -33,7 +33,7 @@ public class AdaptadorTipoGato extends IAdaptadorTipoGato{
 			return null;
 		tipoGatoVo = new TipoGatoVO();
 		tipoGatoVo.setIdTipoGato(tipoGato.getIdtipogato());
-		//tipoGatoVo.setNombre(tipoGato.getNombre());
+		tipoGatoVo.setNombre(tipoGato.getTipo());
 		return tipoGatoVo;
 	}
 

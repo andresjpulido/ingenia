@@ -12,13 +12,12 @@ import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
-import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
 import org.ingenia.presentacion.BaseMB;
-import org.springframework.context.annotation.Scope;
+
 
 @ManagedBean(name = "AdmCursoMB")
 @SessionScoped

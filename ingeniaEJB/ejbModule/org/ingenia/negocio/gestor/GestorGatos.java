@@ -8,13 +8,16 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.ingenia.adaptadores.AdaptadorArma;
+import org.ingenia.adaptadores.AdaptadorArmadura;
 import org.ingenia.adaptadores.AdaptadorColor;
 import org.ingenia.adaptadores.AdaptadorGato;
 import org.ingenia.adaptadores.AdaptadorTipoGato;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
+import org.ingenia.comunes.vo.ArmaduraVO;
 import org.ingenia.comunes.vo.ColorVO;
 import org.ingenia.comunes.vo.GatoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
@@ -23,6 +26,7 @@ import org.ingenia.negocio.entidades.Arma;
 import org.ingenia.negocio.entidades.Armadura;
 import org.ingenia.negocio.entidades.Color;
 import org.ingenia.negocio.entidades.Gato;
+import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Tipogato;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.negocio.igestor.IGestorGatosRemote;
@@ -117,10 +121,10 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		Gato gato = null;		        
 		adaptador = new AdaptadorGato(gatoVO);
 		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
-		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getIdtipogato());
-		Color color = em.find(Color.class,gatoVO.getIdcolor());
-		Arma arma = em.find(Arma.class,gatoVO.getIdarma());
-		Armadura armadura=em.find(Armadura.class,gatoVO.getIdArmadura());
+		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getTipogato().getIdTipoGato());
+		Color color = em.find(Color.class,gatoVO.getColor().getIdcolor());
+		Arma arma = em.find(Arma.class,gatoVO.getArma().getIdarma());
+		Armadura armadura=em.find(Armadura.class,gatoVO.getArmadura().getIdarmadura());
 		try {
 			gato =adaptador.getGato();
 			gato.setActividad(actividad);
@@ -145,10 +149,10 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		 gatoVO.setIdgato(((Number) q.getResultList().get(0)).intValue()+1);
 		adaptador = new AdaptadorGato(gatoVO);
 		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
-		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getIdtipogato());
-		Color color = em.find(Color.class,gatoVO.getIdcolor());
-		Arma arma = em.find(Arma.class,gatoVO.getIdarma());
-		Armadura armadura=em.find(Armadura.class,gatoVO.getIdArmadura());
+		Tipogato tipoGato = em.find(Tipogato.class,gatoVO.getTipogato().getIdTipoGato());
+		Color color = em.find(Color.class,gatoVO.getColor().getIdcolor());
+		Arma arma = em.find(Arma.class,gatoVO.getArma().getIdarma());
+		Armadura armadura=em.find(Armadura.class,gatoVO.getArmadura().getIdarmadura());
 		try {
 			gato = adaptador.getGato(); 
 			gato.setActividad(actividad);
@@ -198,11 +202,26 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	public GatoVO consultarGatoVO(GatoVO gatoVO) throws AdaptadorException {
 
 		AdaptadorGato adaptador = null;
+		AdaptadorArma adap_arma=null;
+		AdaptadorArmadura adap_armadura=null;
+		AdaptadorColor adap_color=null;
+		AdaptadorTipoGato adap_tipo=null;
 		Gato gato = em.find(Gato.class,gatoVO.getIdgato());
-
+		Tipogato Tipogato = em.find(Tipogato.class, gato.getTipogato().getIdtipogato());
+		Arma Arma = em.find(Arma.class, gato.getArma().getIdarma());
+		Color Color = em.find(Color.class, gato.getColor().getIdcolor());
+		Armadura Armadura = em.find(Armadura.class, gato.getArmadura().getIdarmadura());
+		adap_arma=new AdaptadorArma(Arma);
+		adap_armadura = new AdaptadorArmadura(Armadura);
+		adap_color = new AdaptadorColor(Color);
+		adap_tipo = new AdaptadorTipoGato(Tipogato);
 		adaptador = new AdaptadorGato(gato);
 		gatoVO =adaptador.getGatoVO();
-
+		gatoVO.setArma(adap_arma.getArmaVO());
+		gatoVO.setArmadura(adap_armadura.getArmaduraVO());
+		gatoVO.setColor(adap_color.getColorVO());
+		gatoVO.setTipogato(adap_tipo.getTipogatoVO());
+				
 	return gatoVO;
 	}
 
@@ -215,10 +234,30 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		List<GatoVO> listagatosVO= new ArrayList<GatoVO>();
 		GatoVO gatoVO= new GatoVO();
 		AdaptadorGato adaptador;
-		 for (int i=0;listagatos.size()>i;i++) {
+		AdaptadorArma adap_arma=null;
+		AdaptadorArmadura adap_armadura=null;
+		AdaptadorColor adap_color=null;
+		AdaptadorTipoGato adap_tipo=null;
+
+	
+		for (int i=0;listagatos.size()>i;i++) {
 		           adaptador = new AdaptadorGato(listagatos.get(i));
+		   		Tipogato Tipogato = em.find(Tipogato.class, listagatos.get(i).getTipogato().getIdtipogato());
+				Arma Arma = em.find(Arma.class, listagatos.get(i).getArma().getIdarma());
+				Color Color = em.find(Color.class, listagatos.get(i).getColor().getIdcolor());
+				Armadura Armadura = em.find(Armadura.class, listagatos.get(i).getArmadura().getIdarmadura());
+				adap_arma=new AdaptadorArma(Arma);
+				adap_armadura = new AdaptadorArmadura(Armadura);
+				adap_color = new AdaptadorColor(Color);
+				adap_tipo = new AdaptadorTipoGato(Tipogato);
+		      
 	            try {
 	            	gatoVO=adaptador.getGatoVO();
+	             	gatoVO.setArma(adap_arma.getArmaVO());
+					gatoVO.setArmadura(adap_armadura.getArmaduraVO());
+					gatoVO.setColor(adap_color.getColorVO());
+					gatoVO.setTipogato(adap_tipo.getTipogatoVO());
+	            	
 				} catch (AdaptadorException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -227,6 +266,29 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 			}
 
 		return listagatosVO;
+	}
+
+	@Override
+	public List<ArmaduraVO> consultarArmaduras() throws AdaptadorException {
+		List<ArmaduraVO> ListaArmaduraVO = new ArrayList<ArmaduraVO>();;
+		ArmaduraVO armaduraVO=new ArmaduraVO();
+		AdaptadorArmadura adaptador = null;
+		Query q = em.createQuery("SELECT object(a) FROM Armadura AS a");
+		List<Armadura> listaArmadura= q.getResultList();
+ 
+        for (int i=0;listaArmadura.size()>i;i++) {
+    
+            adaptador = new AdaptadorArmadura(listaArmadura.get(i));
+            try {
+            	armaduraVO=adaptador.getArmaduraVO();
+			} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            ListaArmaduraVO.add(armaduraVO);
+		}
+        
+        return ListaArmaduraVO;
 	}
 
 	

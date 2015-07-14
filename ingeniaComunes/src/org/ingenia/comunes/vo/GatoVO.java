@@ -8,17 +8,17 @@ public class GatoVO implements Serializable {
 
 	private int idgato;
 
-	private int idtipogato;
+	private TipoGatoVO tipogato;
 
 	private String enunciado;
 	
-	private int idcolor;
+	private ColorVO color;
 
 	private int orden;
 	
-	private int idarmadura;
+	private ArmaduraVO armadura;
 	
-	private int idarma;
+	private ArmaVO arma;
 
 	public GatoVO() {
 	}
@@ -31,12 +31,12 @@ public class GatoVO implements Serializable {
 		this.idgato = idgato;
 	}
 
-	public int getIdtipogato() {
-		return idtipogato;
+	public TipoGatoVO getTipogato() {
+		return tipogato;
 	}
 
-	public void setIdtipogato(int idtipogato) {
-		this.idtipogato = idtipogato;
+	public void setTipogato(TipoGatoVO tipogato) {
+		this.tipogato = tipogato;
 	}
 
 	public String getEnunciado() {
@@ -47,12 +47,12 @@ public class GatoVO implements Serializable {
 		this.enunciado = enunciado;
 	}
 
-	public int getIdcolor() {
-		return idcolor;
+	public ColorVO getColor() {
+		return color;
 	}
 
-	public void setIdcolor(int idcolor) {
-		this.idcolor = idcolor;
+	public void setColor(ColorVO color) {
+		this.color = color;
 	}
 
 	public int getOrden() {
@@ -63,24 +63,29 @@ public class GatoVO implements Serializable {
 		this.orden = orden;
 	}
 
-	public int getIdArmadura() {
-		return idarmadura;
+
+	public ArmaVO getArma() {
+		return arma;
 	}
 
-	public void setIdArmadura(int idarmadura) {
-		this.idarmadura = idarmadura;
+	public void setArma(ArmaVO arma) {
+		this.arma = arma;
 	}
 
-	public int getIdarma() {
-		return idarma;
+
+
+	/**
+	 * @return the armadura
+	 */
+	public ArmaduraVO getArmadura() {
+		return armadura;
 	}
 
-	public void setIdarma(int idarma) {
-		this.idarma = idarma;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	/**
+	 * @param armadura the armadura to set
+	 */
+	public void setArmadura(ArmaduraVO armadura) {
+		this.armadura = armadura;
 	}
 
 

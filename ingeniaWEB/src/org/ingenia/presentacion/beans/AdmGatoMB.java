@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -15,8 +14,8 @@ import javax.faces.context.FacesContext;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
+import org.ingenia.comunes.vo.ArmaduraVO;
 import org.ingenia.comunes.vo.ColorVO;
-
 import org.ingenia.comunes.vo.GatoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
@@ -37,6 +36,11 @@ public class AdmGatoMB extends BaseMB {
 	private List<ColorVO> listaColores;
 	private List<ArmaVO> listaArmas;
 	private List<GatoVO> listaGatos;
+	private List<ArmaduraVO> listaArmaduras;
+	private ArmaVO arma = new ArmaVO();
+	private ArmaduraVO armadura= new ArmaduraVO();
+	private ColorVO color = new ColorVO();
+	private TipoGatoVO tipogato= new TipoGatoVO();
 	private int idactividad;
 
 	private final static String NAV_IRACTIVIDAD = "iractividad";
@@ -60,10 +64,10 @@ public class AdmGatoMB extends BaseMB {
 			this.setListaTiposGato(gestorGatos.consultarTiposGato());
 			this.setListaColores(gestorGatos.consultarColores());
 			this.setListaArmas(gestorGatos.consultarArmas());
-			// idactividad=Integer.parseInt(recuperarParametro("idactividad"));
+			this.setListaArmaduras(gestorGatos.consultarArmaduras());
+
 			ActividadVO actividadVO = new ActividadVO();
 			 actividadVO.setIdactividad(1);
-			// this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 		
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -74,11 +78,15 @@ public class AdmGatoMB extends BaseMB {
 
 	public String actualizar() {
 				GatoVO gatoVO = this.gatoVO1;
+				gatoVO.setArma(arma);
+				 gatoVO.setArmadura(armadura);
+				 gatoVO.setColor(color);
+				 gatoVO.setTipogato(tipogato);
 				ActividadVO actividadVO = new ActividadVO();
 				 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 				 actividadVO.setIdactividad(idactividad);
 	try {	
-		System.out.println(gatoVO.getIdArmadura());
+		
 		gestorGatos.modificarGato(gatoVO,actividadVO);		
 		actualizaGatos();
 		
@@ -167,6 +175,10 @@ public class AdmGatoMB extends BaseMB {
 		ActividadVO actividadVO = new ActividadVO();
 		 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 		 actividadVO.setIdactividad(idactividad);
+		 gatoVO.setArma(arma);
+		 gatoVO.setArmadura(armadura);
+		 gatoVO.setColor(color);
+		 gatoVO.setTipogato(tipogato);
 		try {
 			gestorGatos.crearGato(gatoVO,actividadVO); 				
 			actualizaGatos();
@@ -221,18 +233,23 @@ public class AdmGatoMB extends BaseMB {
 	
 	public String modificarGato() {
 
-
+  String destino= null;
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
 		String id = params.get("idgatomod");
 		GatoVO gatoVO = new GatoVO();
 		gatoVO.setIdgato(Integer.parseInt(id));
+
 		System.out.println(gatoVO.getIdgato());
 		try {
 			
 			this.gatoVO1 = gestorGatos.consultarGatoVO(gatoVO);
-			
+			this.setArma(this.gatoVO1.getArma());
+			this.setArmadura(this.gatoVO1.getArmadura());
+			this.setColor(this.gatoVO1.getColor());
+			this.setTipogato(this.gatoVO1.getTipogato());
+			destino=NAV_CONFIGURARACTIVIDAD;
 
 			/*for (JuegoVO juego : listaJuegos) {
 					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
@@ -245,7 +262,7 @@ public class AdmGatoMB extends BaseMB {
 		}
 
 
-		return NAV_CONFIGURARACTIVIDAD;
+		return destino;
 	}
 
 	public List<TipoGatoVO> getListaTiposGato() {
@@ -304,6 +321,76 @@ public class AdmGatoMB extends BaseMB {
 
 	public void setGatoVO1(GatoVO gatoVO1) {
 		this.gatoVO1 = gatoVO1;
+	}
+
+	/**
+	 * @return the listaArmaduras
+	 */
+	public List<ArmaduraVO> getListaArmaduras() {
+		return listaArmaduras;
+	}
+
+	/**
+	 * @param listaArmaduras the listaArmaduras to set
+	 */
+	public void setListaArmaduras(List<ArmaduraVO> listaArmaduras) {
+		this.listaArmaduras = listaArmaduras;
+	}
+
+	/**
+	 * @return the arma
+	 */
+	public ArmaVO getArma() {
+		return arma;
+	}
+
+	/**
+	 * @param arma the arma to set
+	 */
+	public void setArma(ArmaVO arma) {
+		this.arma = arma;
+	}
+
+	/**
+	 * @return the armadura
+	 */
+	public ArmaduraVO getArmadura() {
+		return armadura;
+	}
+
+	/**
+	 * @param armadura the armadura to set
+	 */
+	public void setArmadura(ArmaduraVO armadura) {
+		this.armadura = armadura;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public ColorVO getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(ColorVO color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the tipogato
+	 */
+	public TipoGatoVO getTipogato() {
+		return tipogato;
+	}
+
+	/**
+	 * @param tipogato the tipogato to set
+	 */
+	public void setTipogato(TipoGatoVO tipogato) {
+		this.tipogato = tipogato;
 	}
 
 
