@@ -28,22 +28,26 @@
 			<p:dataTable var="rol" value="#{AdmRolMB.listaRoles}"
 				rendered="#{not empty AdmRolMB.listaRoles}" paginator="true"
 				rows="10" dynamic="true">
-				<p:column headerText="Id">
-					<p:commandButton icon="ui-icon-search" value="#{rol.idRol}"
-						process="@this" action="#{AdmRolMB.irRol}">
+				<p:column headerText="" style="width:80px">
+					<p:commandButton icon="ui-icon-search" value="Ver" process="@this"
+						action="#{AdmRolMB.irRol}">
 						<f:param name="id" value="#{rol.idRol}" />
 					</p:commandButton>
-				</p:column> 
-				
+				</p:column>
+
 				<p:column headerText="Nombre">
 					<h:outputText name="nombre" value="#{rol.nombre}" />
 				</p:column>
 
-				<p:column headerText="Nombre">
+				<p:column headerText="Descripcion">
 					<h:outputText value="#{rol.descripcion}" />
 				</p:column>
 
 			</p:dataTable>
+
+			<p:commandButton value="Buscar" action="#{AdmRolMB.buscar}">
+
+			</p:commandButton>
 
 			<p:link outcome="rol" value="Crear">
 				<f:param name="productId" value="10" />
