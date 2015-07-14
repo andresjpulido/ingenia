@@ -34,5 +34,6 @@ public class GestorServicioWS {
 		logger.debug("Se ejecuta OK el Dummy de servicio rest de actividades !!!");
 
 		return actividad;
+		
 	}
 }

@@ -23,19 +23,19 @@
 	</p:selectOneMenu>
 				
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
 											
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
 	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
 
 	<h:outputLabel for="activo" value="Activo:" />
- 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+ 	<p:selectOneMenu id="activo" value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
    	<f:selectItem itemValue="1" itemLabel="Si" />
    	<f:selectItem itemValue="0" itemLabel="No" />
  	</p:selectOneMenu>
  			 
  	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 	<p:inputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  
  	<f:facet name="footer">
 	<p:commandButton  value="Guardar" action="#{AdmActividadMB.crear}">
@@ -61,19 +61,19 @@
 	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}" label="juego"/>	
 						
 	<h:outputLabel for="enunciado" value="Enunciado:" />
-	<p:inputText id="nombre" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
+	<p:inputText id="enunciado" value="#{AdmActividadMB.actividadVO.enunciado}" required="true" label="Usuario" />
 										
 	<h:outputLabel for="url_conocimiento" value= "URL Apoyo:" />
 	<p:inputText id="url_conocimiento" value="#{AdmActividadMB.actividadVO.url_conocimiento}" required="true" label="Usuario" />
 
 	<h:outputLabel for="activo" value="Activo:" />
- 	<p:selectOneMenu value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+ 	<p:selectOneMenu id="activo" value="#{AdmActividadMB.actividadVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
    	<f:selectItem itemValue="1" itemLabel="Si" />
    	<f:selectItem itemValue="0" itemLabel="No" />
  	</p:selectOneMenu>
  			 
  	<h:outputLabel for="limite_movimientos" value="Limite movimientos:" />
- 	<p:inputText value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
+ 	<p:inputText id="limite_movimientos" value="#{AdmActividadMB.actividadVO.limite_movimientos}" label="limite_movimientos"/>
  		
 	<f:facet name="footer">
 	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizar}">
