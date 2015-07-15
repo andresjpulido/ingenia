@@ -6,6 +6,7 @@ ingeniaComunes/.classpath
 ingeniaComunes/.settings/org.eclipse.wst.common.project.facet.core.xml
 ingeniaEJB/.classpath
 ingeniaWEB/.classpath
+ingeniaSW/.classpath
 ingeniaprofesorJPA/.classpath
 ingeniaprofesorEJBClient/.classpath
 ingeniaprofesorEJB/.classpath

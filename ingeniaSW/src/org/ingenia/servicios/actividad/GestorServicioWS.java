@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.*;
 import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.servicios.FachadaServicios;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class GestorServicioWS {
         return actividad;
 	}
 	
-	@RequestMapping(value = GIngeniaURI.GET_ACTIVIDAD, method = RequestMethod.GET)
+	@RequestMapping(value = GIngeniaURI.GET_ESTRUCTURAS_ACTIVIDAD, method = RequestMethod.GET)
 	public ArrayList<EstructuraVO> getEstructurasPorActividad(@PathVariable String IdActividad) {
 		
 		ArrayList<EstructuraVO> estructuras = new ArrayList<EstructuraVO>(); 		
@@ -63,5 +63,47 @@ public class GestorServicioWS {
 		estructuras =  fachada.ConsultaEstructurasPorActividad(IdActividad);
 			
         return estructuras;
+	}
+
+	@RequestMapping(value = GIngeniaURI.GET_MOVIMIENTOS_ACTIVIDAD, method = RequestMethod.GET)
+	public ArrayList<MovimientoVO> getMovimientosActividad(@PathVariable String IdActividad) {
+		
+		ArrayList<MovimientoVO> movimientos = new ArrayList<MovimientoVO>(); 		
+		
+		//consulta a BD
+		
+		FachadaServicios fachada = new FachadaServicios();
+		movimientos =  fachada.ConsultaMovimientosPorActividad(IdActividad);
+			
+        return movimientos;
+	}
+
+	@RequestMapping(value = GIngeniaURI.GET_GATOS_ACTIVIDAD, method = RequestMethod.GET)
+	public ArrayList<GatoVO> getGatosActividad(@PathVariable String IdActividad) {
+		
+		ArrayList<GatoVO> gatos = new ArrayList<GatoVO>(); 		
+		
+		//consulta a BD
+		
+		FachadaServicios fachada = new FachadaServicios();
+		gatos =  fachada.ConsultaGatosPorActividad(IdActividad);
+			
+        return gatos;
+	}
+
+	@RequestMapping(value = GIngeniaURI.REGISTRAR_AVANCE_ACTIVIDAD, method = RequestMethod.POST)
+	public Boolean saveAvanceActividad(@PathVariable String IdActividad) {
+		
+		Boolean Resultado = false;
+		//Guardamos el avance en la tabla de la BD
+		ActividadxUsuarioVO avance = new ActividadxUsuarioVO();
+		//avance.setActivo(0);
+		//avance.setEnunciado("enunciado");
+		//avance.setLimite_movimientos(1);
+
+		FachadaServicios fachada = new FachadaServicios();
+		fachada.GuardarActividadxUsuario(avance);
+			
+        return Resultado;
 	}
 }
