@@ -11,49 +11,51 @@
 	<ui:define name="content">
 Datos de rol
 		<h:form>
+			<h:panelGrid columns="1" cellpadding="5">
+				<h:panelGrid columns="2" cellpadding="5">
 
-			<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="nombre" value="Nombre:" />
+					<h:outputText id="nombre" value="#{AdmRolMB.rolVO.nombre}"
+						label="nombre" />
 
-				<h:outputLabel for="nombre" value="Nombre:" />
-				<h:outputText id="nombre" value="#{AdmRolMB.rolVO.nombre}"
-					label="nombre" />
+					<h:outputLabel for="descripcion" value="Descripcion:" />
+					<p:inputTextarea id="descripcion"
+						value="#{AdmRolMB.rolVO.descripcion}" required="false"
+						label="descripcion"></p:inputTextarea>
 
-				<h:outputLabel for="descripcion" value="Descripcion:" />
-				<p:inputText id="descripcion" value="#{AdmRolMB.rolVO.descripcion}"
-					required="false" label="descripcion" />
+					<h:outputLabel for="activo" value="Activo:" />
+					<h:selectBooleanCheckbox id="activo" value="true" required="false"
+						label="activo" />
 
-				<h:outputLabel for="activo" value="Activo:" />
-				<h:selectBooleanCheckbox id="activo" value="true" required="false"
-					label="activo" />
+				</h:panelGrid>
+
+				<p:dataTable var="opcion" value="#{AdmRolMB.rolVO.opcions}"
+					rendered="#{not empty AdmRolMB.rolVO.opcions}" paginator="true"
+					rows="10" dynamic="true" id="tb_opcion">
+
+					<p:column headerText="" style="width:80px">
+						<p:selectBooleanCheckbox icon="ui-icon-search"
+							value="#{opcion.seleccionado}" process="@this"
+							action="#{AdmRolMB.irRol}" id="cb_idopcion">
+							<f:param name="id" value="#{opcion.idopcion}" />
+						</p:selectBooleanCheckbox>
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<h:outputText name="activo" value="#{opcion.nombre}" />
+					</p:column>
+
+					<p:column headerText="Descripcion">
+						<h:outputText value="#{opcion.descripcion}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<f:facet name="footer">
+					<p:commandButton value="Guardar" action="#{AdmRolMB.guardar}" />
+				</f:facet>
 
 			</h:panelGrid>
-
-			<p:dataTable var="opcion" value="#{AdmRolMB.rolVO.opcions}"
-				rendered="#{not empty AdmRolMB.rolVO.opcions}" paginator="true"
-				rows="10" dynamic="true" id="tb_opcion">
-
-				<p:column headerText="Id">
-					<p:selectBooleanCheckbox icon="ui-icon-search"
-						value="#{opcion.seleccionado}" process="@this"
-						action="#{AdmRolMB.irRol}" id="cb_idopcion">
-						<f:param name="id" value="#{opcion.idopcion}" />
-					</p:selectBooleanCheckbox>
-				</p:column>
-
-				<p:column headerText="Nombre">
-					<h:outputText name="activo" value="#{opcion.nombre}" />
-				</p:column>
-
-				<p:column headerText="Descripcion">
-					<h:outputText value="#{opcion.descripcion}" />
-				</p:column>
-
-			</p:dataTable>
-
-			<f:facet name="footer">
-				<p:commandButton value="Guardar" action="#{AdmRolMB.guardar}" />
-			</f:facet>
-
 		</h:form>
 
 	</ui:define>
