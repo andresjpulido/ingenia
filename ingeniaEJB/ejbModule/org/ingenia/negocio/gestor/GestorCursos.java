@@ -292,4 +292,11 @@ public class GestorCursos implements IGestorCursosRemote,
 		em.persist(cursoActividad);
 	}
 
+	@Override
+	public void consultarActividadesCursoEstudiante(CursoVO cursoVO,
+			EstudianteVO estudianteVO) throws AdaptadorException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
