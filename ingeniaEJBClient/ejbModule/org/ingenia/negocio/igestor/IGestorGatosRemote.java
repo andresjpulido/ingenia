@@ -9,9 +9,7 @@ import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ArmaVO;
 import org.ingenia.comunes.vo.ArmaduraVO;
 import org.ingenia.comunes.vo.ColorVO;
-import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.GatoVO;
-import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
 
 @Remote

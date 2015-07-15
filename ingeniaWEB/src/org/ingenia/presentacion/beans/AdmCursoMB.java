@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
@@ -31,8 +32,12 @@ public class AdmCursoMB extends BaseMB {
 	private String curso;
 	private List<CursoVO> listaCursos;
     private CursoVO cursoVOtemp=new CursoVO();
+	private boolean buscando=false;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
+	private UsuarioVO UsuarioVO=new UsuarioVO();	
+    private HttpServletRequest httpServletRequest;
+    private FacesContext faceContext;
 
 	@EJB
 	IGestorCursosLocal gestorCursos;
@@ -41,8 +46,17 @@ public class AdmCursoMB extends BaseMB {
 	public void init() {
 		
 		cursoVO=new CursoVO();		
+		
 		try {
-			listaCursos = gestorCursos.consultarCursosProfesor(7890);
+			 faceContext=FacesContext.getCurrentInstance();
+		        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
+		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
+		        {
+		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
+		            System.out.println("id profe"+UsuarioVO.getId());
+					listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId());
+		        }
+
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,12 +73,12 @@ public class AdmCursoMB extends BaseMB {
 	public String buscar() {//es mas como un filtro
 		CursoVO CursoVO = new CursoVO();
 		CursoVO.setNombre(curso);
-		UsuarioVO profesorVO = new UsuarioVO();
-		profesorVO.setId(7890);
-		CursoVO.setProfesor(profesorVO);
+		CursoVO.setProfesor(this.UsuarioVO);
 	
 		try {
-			listaCursos = gestorCursos.consultarCursosPorNombre(CursoVO);
+			this.buscando=true;
+			setListaCursos(gestorCursos.consultarCursosPorNombre(CursoVO));
+			
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +99,7 @@ public class AdmCursoMB extends BaseMB {
 			cursoActividadVO.setPosicion((this.cursoVO.getActividades().size()+1));
 			gestorCursos.asociarActividad(cursoActividadVO);
 			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
-			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);			
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);			
 			
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -135,19 +149,21 @@ public class AdmCursoMB extends BaseMB {
 	public String crear() {
 
 		CursoVO cursoVO = this.cursoVO;
-		UsuarioVO profesorVO = new UsuarioVO();
+
 		try {
 
 			if (cursoVO.getIdcurso()==0){
-				profesorVO.setId(7890);
-				cursoVO.setProfesor(profesorVO);
+				//profesorVO.setId(7890);
+				cursoVO.setProfesor(this.UsuarioVO);
 				gestorCursos.crearCursoVO(cursoVO);
+				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
 			}
 			else 
 			{	
 				gestorCursos.modificarCursoVO(cursoVO);
+          		this.buscando=false;
 			}
-			listaCursos = gestorCursos.consultarCursosProfesor(7890);
+
 			
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -181,8 +197,8 @@ public class AdmCursoMB extends BaseMB {
 		cursoVO.setIdcurso(Integer.parseInt(id));
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
-			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO);
-
+			System.out.println("lista est "+this.cursoVO.getEstudiantes().size());
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);		
             
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
@@ -192,15 +208,22 @@ public class AdmCursoMB extends BaseMB {
 	}
 
 	public CursoVO getCursoVO() {
-
+		try {
+			this.cursoVO = gestorCursos.consultarCursoVO(this.cursoVO);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return cursoVO;
 	}
 
 	public void setCursoVO(CursoVO cursoVO) {
+		
 		this.cursoVO = cursoVO;
 	}
 
 	public String getCurso() {
+		
 		return curso;
 	}
 
@@ -209,7 +232,15 @@ public class AdmCursoMB extends BaseMB {
 	}
 
 	public List<CursoVO> getListaCursos() {
+		try {
+			if(buscando==false){
+				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
+			}
 
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return listaCursos;
 	}
 
@@ -226,6 +257,12 @@ public class AdmCursoMB extends BaseMB {
 	}
 
 	public List<ActividadVO> getListaActividades() {
+		try {
+			gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		return listaActividades;
 	}
 
@@ -240,6 +277,7 @@ public class AdmCursoMB extends BaseMB {
 	public void setActividadVO(ActividadVO actividadVO) {
 		this.actividadVO = actividadVO;
 	}
+
 
 
 }

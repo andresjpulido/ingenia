@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -23,7 +22,6 @@ import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
-import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Opcion;
 import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.entidades.Usuario;

@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,11 +38,17 @@ public class UsuarioMB extends BaseMB {
 	private List<MensajeVO> listaMensajesRecibidos;
 
 	private List<MensajeVO> listaMensajesEnviados;
+	
+	private HttpServletRequest httpServletRequest=null;
+	  
+    private FacesContext faceContext=null;
 
 	@EJB
 	private IGestorUsuariosLocal gestorUsuarios;
 
 	private static Logger logger = LogManager.getLogger(UsuarioMB.class);
+	
+	  
 
 	public String autenticar() {
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -63,6 +70,11 @@ public class UsuarioMB extends BaseMB {
 			resultado = ReglasNavegacion.INICIO;
 			logger.debug("El usuario " + usu.getAlias()
 					+ " se ha autenticado !");
+			//guarda el usuario para la sesion 
+			faceContext=FacesContext.getCurrentInstance();
+	        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
+	        httpServletRequest.getSession().setAttribute("sessionUsuario", this.usuariovo);
+			
 		} else {
 			logeado = false;
 			FacesContext

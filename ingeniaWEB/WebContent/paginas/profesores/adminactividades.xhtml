@@ -9,16 +9,16 @@
 	</ui:define>
 
 	<ui:define name="content">
-									Mis Actividades
+					<center><h3>Mis Actividades</h3> </center>				
 		<h:form>
 			 
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="actividad" value="Actividad:" />
-				<p:inputText id="actividad" value="#{AdmUsuarioMB.usuario}"
-					required="false" label="Usuario" />
+				<p:inputText id="actividad" value="#{AdmActividadMB.actividad}"
+					required="false" label="Actividad" />
 
 				<f:facet name="footer">
-					<p:commandButton value="Buscar" action="#{AdmUsuarioMB.buscar}" />
+					<p:commandButton value="Buscar" action="#{AdmActividadMB.buscar}" />
 				</f:facet>
 
 			</h:panelGrid>

@@ -49,5 +49,7 @@ public interface IGestorActividadesRemote {
 	
 	public List<EstructuraVO> consultarestructuras() throws AdaptadorException;
 	
+	public List<ActividadVO> consultarActividadesPorNombre(ActividadVO actividadVO)throws AdaptadorException;
+	
 	
 }

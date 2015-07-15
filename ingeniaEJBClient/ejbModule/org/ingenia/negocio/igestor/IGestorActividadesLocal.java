@@ -49,4 +49,6 @@ public interface IGestorActividadesLocal {
 
 	public List<EstructuraVO> consultarestructuras() throws AdaptadorException;
 
+	public List<ActividadVO> consultarActividadesPorNombre(ActividadVO actividadVO)throws AdaptadorException;
+
 }

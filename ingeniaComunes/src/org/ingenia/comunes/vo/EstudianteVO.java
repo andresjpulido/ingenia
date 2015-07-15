@@ -3,7 +3,7 @@ package org.ingenia.comunes.vo;
 import java.io.Serializable;
 import java.util.List;
 
-public class EstudianteVO implements Serializable {
+public class EstudianteVO extends UsuarioVO implements Serializable {
 
 	private static final long serialVersionUID = -1788169485656747855L;
 
@@ -11,6 +11,8 @@ public class EstudianteVO implements Serializable {
 
 	private List<CursoVO> cursos;
 
+	private int puntaje;
+	
 	public EstudianteVO() {
 	}
 
@@ -28,6 +30,14 @@ public class EstudianteVO implements Serializable {
 
 	public void setCursos(List<CursoVO> cursos) {
 		this.cursos = cursos;
+	}
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje = puntaje;
 	}
 
 }

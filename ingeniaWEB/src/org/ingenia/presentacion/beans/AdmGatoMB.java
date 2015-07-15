@@ -44,7 +44,6 @@ public class AdmGatoMB extends BaseMB {
 	private int idactividad;
 
 	private final static String NAV_IRACTIVIDAD = "iractividad";
-	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
 	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
 
 	@EJB

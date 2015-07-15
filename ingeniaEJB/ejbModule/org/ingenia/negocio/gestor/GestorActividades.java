@@ -8,6 +8,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorEstructura;
@@ -273,15 +278,14 @@ public class GestorActividades implements IGestorActividadesRemote,
 	public int consultarPosicion(CursoVO cursoVO, ActividadVO actividadVO)
 			throws AdaptadorException {
 		int posicion=0;
-		Actividadcurso actividadCurso=new Actividadcurso();
+
 		Actividad actividad = em.find(Actividad.class, actividadVO.getIdactividad());
 		Curso curso = em.find(Curso.class, cursoVO.getIdcurso());
 		Query q = em.createQuery("SELECT ac FROM Actividadcurso as ac where ac.actividad=:actividad and ac.curso=:curso");
 		q.setParameter("actividad", actividad);
 		q.setParameter("curso", curso);
 		List<Actividadcurso> listaCurso = q.getResultList();
-		for (Actividadcurso resultado : listaCurso) {
-			//actividadCurso = resultado;		
+		for (Actividadcurso resultado : listaCurso) {	
 			posicion=resultado.getPosicionActividad();
 		}
 		return posicion;
@@ -309,6 +313,57 @@ public class GestorActividades implements IGestorActividadesRemote,
 			System.out.println("tamaño estrruc "+ListaEstructuraVO.size());
 		}
 		return ListaEstructuraVO;
+	}
+
+	@Override
+	public List<ActividadVO> consultarActividadesPorNombre(ActividadVO actividadVO) throws AdaptadorException {
+		AdaptadorActividad adaptador = null;
+		List<ActividadVO> resultadosVO = null;
+		CriteriaBuilder cb = null;
+		CriteriaQuery<Actividad> cq = null;
+		Root<Actividad> actividad= null;
+		List<Predicate> listaPredicados = null;
+		List<Actividad> resultados = null;
+
+		try {
+
+			cb = em.getCriteriaBuilder();
+			cq = cb.createQuery(Actividad.class);
+			actividad = cq.from(Actividad.class);
+			listaPredicados = new ArrayList<Predicate>();
+			cq.select(actividad);
+
+			if (actividadVO.getNombre() != null
+					&& actividadVO.getNombre().length() != 0) {
+				listaPredicados.add(cb.like(
+						actividad.get("nombre").as(String.class),
+						"%" + actividadVO.getNombre() + "%"));
+			}
+
+			if (listaPredicados.size() > 0) {
+				Predicate[] predicados = new Predicate[listaPredicados.size()];
+				listaPredicados.toArray(predicados);
+				cq.where(predicados);
+			}
+
+	
+			TypedQuery<Actividad> tq = em.createQuery(cq);
+			resultados = tq.getResultList();
+
+			if (resultados != null) {
+				resultadosVO = new ArrayList<ActividadVO>();
+				for (Actividad actividadResultado : resultados) {
+					if (actividadResultado.getUsuario().getIdusuario()==actividadVO.getProfesor().getId()){
+					adaptador = new AdaptadorActividad(actividadResultado);
+					resultadosVO.add(adaptador.getActividadVO());}
+				}
+			}
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+
+		return resultadosVO;
 	}
 
 

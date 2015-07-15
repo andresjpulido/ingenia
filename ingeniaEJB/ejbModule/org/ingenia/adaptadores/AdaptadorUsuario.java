@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
@@ -122,5 +123,23 @@ public class AdaptadorUsuario extends IAdaptadorUsuario {
 
 		return usuarioVO;
 	}
+	
 
+	public EstudianteVO getEstudianteVO() throws AdaptadorException {
+
+		if (usuario == null)
+			return null;
+
+		EstudianteVO estudianteVO = null;
+		
+		estudianteVO = new EstudianteVO();
+		estudianteVO.setApellido(usuario.getApellido());
+		estudianteVO.setCorreo(usuario.getCorreo());
+		estudianteVO.setId(usuario.getIdusuario());
+		estudianteVO.setNombre(usuario.getNombre());
+		estudianteVO.setIdentificacion(usuario.getIdentificacion());
+
+		System.out.println("si lo guardo "+estudianteVO.getIdentificacion());
+		return estudianteVO;
+	}
 }

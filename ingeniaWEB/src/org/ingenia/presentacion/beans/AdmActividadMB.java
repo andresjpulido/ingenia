@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
@@ -42,8 +43,11 @@ public class AdmActividadMB extends BaseMB {
 	private List<EstructuraVO> estructralistaelegida;
 	private List<ActividadVO> listaActividades;
 	private int posicion;
-   
-	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
+	private boolean buscando=false;
+	private UsuarioVO UsuarioVO=new UsuarioVO();	
+    private HttpServletRequest httpServletRequest;
+    private FacesContext faceContext;
+
 	private final static String NAV_IRACTIVIDADCURSO = "iractividadcurso";
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
@@ -61,7 +65,17 @@ public class AdmActividadMB extends BaseMB {
 	@PostConstruct
 	public void init() {
 		try {
-			this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
+			
+			 faceContext=FacesContext.getCurrentInstance();
+		        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
+		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
+		        {
+		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
+		            System.out.println("id profe"+UsuarioVO.getId());
+		        	this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
+		        	setListaActividades(gestorActividades.consultarActividadesProfesor(UsuarioVO.getId()));
+		        	}
+		
 
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -69,18 +83,6 @@ public class AdmActividadMB extends BaseMB {
 		}
 	}
 	
-	/* public String configurarActividad() {
-		  System.out.println("entrrooooo");
-			 actividadVO1 =null;	
-			 String destino=null;
-	        //this.actividadVO = new ActividadVO(); 
-			 if(juegoVO.getIdjuego()==1){
-				 destino=NAV_CONFIGURARACTIVIDAD;
-			 }
-
-	        return destino;
-	    }*/
-	  
 	
 	  public String nuevaActividad() {
 			 actividadVO1 =null;		
@@ -113,10 +115,12 @@ public class AdmActividadMB extends BaseMB {
 	
 	public String buscar() {
 		ActividadVO actividadVO = new ActividadVO();
-		actividadVO.setEnunciado(this.actividad);
-
+		actividadVO.setNombre(actividad);
+		actividadVO.setProfesor(this.UsuarioVO);
+        System.out.println(actividadVO.getNombre());
 		try {
-			setListaActividades(gestorActividades.consultarActividadesProfesor(7890));
+			this.buscando=true;
+			setListaActividades(gestorActividades.consultarActividadesPorNombre(actividadVO));
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -134,9 +138,11 @@ public class AdmActividadMB extends BaseMB {
 		actividadVO.setEstructuras(this.estructralistaelegida);
 
 	try {	
-			gestorActividades.modificarActividad(actividadVO);			
-		
-} catch (AdaptadorException e) {
+			gestorActividades.modificarActividad(actividadVO);	
+      		this.buscando=false;
+      		} 
+	
+	catch (AdaptadorException e) {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroraaaa",
@@ -161,12 +167,11 @@ public class AdmActividadMB extends BaseMB {
 		if((!this.actividadVO.getNombre().equals("")) && (!this.actividadVO.getEnunciado().equals("")) && (estructralistaelegida.size()>0) ){
   		 ActividadVO actividadVO = this.actividadVO;		
 	     actividadVO.setJuegoVO(juegoVO);
-         UsuarioVO profesorVO = new UsuarioVO();
-         profesorVO.setId(7890);
-         actividadVO.setProfesor(profesorVO);
+         actividadVO.setProfesor(this.UsuarioVO);
          actividadVO.setEstructuras(estructralistaelegida);
 		try {
           		gestorActividades.crearActividad(actividadVO); 	
+          		this.buscando=false;
           		destino=NAV_IRADMACTIVIDAD;
 
 		} catch (AdaptadorException e) {
@@ -204,8 +209,8 @@ public class AdmActividadMB extends BaseMB {
 		return destino;
 	}
 	
-	public void crearAsociando() {
-
+	public String crearAsociando() {
+   String destino=null;
 		if((!this.actividadVO.getNombre().equals("")) && (!this.actividadVO.getEnunciado().equals("")) && (estructralistaelegida.size()>0) ){
 			ActividadVO actividadVO = this.actividadVO;		
 	        actividadVO.setJuegoVO(juegoVO);
@@ -213,14 +218,14 @@ public class AdmActividadMB extends BaseMB {
 			CursoActividadVO cursoActividadVO = new CursoActividadVO();
          	CursoVO cursoVO=new CursoVO();
          	cursoVO.setIdcurso(idcurso);
-         	UsuarioVO profesorVO = new UsuarioVO();
-			profesorVO.setId(7890);
-			actividadVO.setProfesor(profesorVO);
+			actividadVO.setProfesor(this.UsuarioVO);
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setCurso(cursoVO);
 	        actividadVO.setEstructuras(estructralistaelegida);
 		try {
-			gestorActividades.crearActividadCurso(cursoActividadVO); 		
+			gestorActividades.crearActividadCurso(cursoActividadVO); 
+      		this.buscando=false;
+      		destino="ircurso";
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -255,6 +260,7 @@ public class AdmActividadMB extends BaseMB {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nombre", "Debe elegir como minimo una estructura"));
 		}
+		return destino;
 	}
 	
 	public void actualizarAsociando() {
@@ -269,9 +275,9 @@ public class AdmActividadMB extends BaseMB {
 			cursoActividadVO.setCurso(cursoVO);
 		try {	
 				gestorActividades.modificarActividadCurso(cursoActividadVO);	
-				
-			
-	} catch (AdaptadorException e) {
+          		this.buscando=false;
+          		} 
+		catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erroraaaa",
@@ -439,6 +445,12 @@ public class AdmActividadMB extends BaseMB {
 	}
 
 	public List<JuegoVO> getListaJuegos() {
+    	try {
+			this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return listaJuegos;
 	}
 
@@ -465,11 +477,15 @@ public class AdmActividadMB extends BaseMB {
 
 	public List<ActividadVO> getListaActividades() {
 		try {
-			setListaActividades(gestorActividades.consultarActividadesProfesor(7890));
+
+			if(buscando==false){
+			setListaActividades(gestorActividades.consultarActividadesProfesor(UsuarioVO.getId()));
+			}
+
 		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 		return listaActividades;
 	}
 

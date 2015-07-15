@@ -26,7 +26,7 @@ public interface IGestorCursosLocal {
 
 	public void crearCursoVO(CursoVO cursoVO) throws AdaptadorException;
 	
-	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO) throws AdaptadorException;
+	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO,UsuarioVO profesorVO) throws AdaptadorException;
 
 	public void asociarActividad(CursoActividadVO cursoActividadVO) throws AdaptadorException;
 }

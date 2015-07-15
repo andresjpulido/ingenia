@@ -22,13 +22,13 @@ import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.JuegoVO;
-import org.ingenia.comunes.vo.RolVO;
-import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
 import org.ingenia.negocio.entidades.Curso;
+import org.ingenia.negocio.entidades.Estudiantecurso;
 import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
@@ -135,16 +135,47 @@ public class GestorCursos implements IGestorCursosRemote,
 		// TODO Auto-generated method stub
 		AdaptadorCurso adaptador = null;
 		AdaptadorActividad adaptadorA = null;
-		List<ActividadVO> listaactividadesVO = null;
+		AdaptadorUsuario adap_est=null;
+		List<Actividad> listaactividades = new ArrayList<Actividad>();
+		List<ActividadVO> listaactividadesVO = new ArrayList<ActividadVO>();;
+		List<Estudiantecurso> listacursousuario =  new ArrayList<Estudiantecurso>();;
+		List<EstudianteVO> listaestudianteVO = new ArrayList<EstudianteVO>();
+		EstudianteVO estudiante = new EstudianteVO();
+		ActividadVO actividad=new ActividadVO();
+		JuegoVO juegovo=new JuegoVO();
 		Curso curso = new Curso();
 		curso = em.find(Curso.class,cursoVO.getIdcurso());
-		adaptador = new AdaptadorCurso(curso);
-		listaactividadesVO = new ArrayList<ActividadVO>();
+		
+			
 		Query q = em.createQuery("SELECT c.actividad FROM Actividadcurso AS c where c.curso=:curso order by c.posicionActividad");
 		 q.setParameter("curso", curso);
-		 listaactividadesVO= q.getResultList();		
+		 listaactividades= q.getResultList();	
+		 
+		 for (int i=0;listaactividades.size()>i;i++) {
+	        adaptadorA = new AdaptadorActividad(listaactividades.get(i));
+	        Juego juego = em.find(Juego.class,listaactividades.get(i).getJuego().getIdjuego());
+	        AdaptadorJuego adap =new AdaptadorJuego(juego);
+	        juegovo=adap.getJuegoVO();
+	        actividad = adaptadorA.getActividadVO();
+	        actividad.setJuegoVO(juegovo);
+	        listaactividadesVO.add(actividad);	        
+		 }
+		 
+		Query q2 = em.createQuery("SELECT c FROM Estudiantecurso AS c where c.curso=:curso");
+		q2.setParameter("curso", curso);
+		listacursousuario= q2.getResultList();	
+			 
+		 for (int i=0;listacursousuario.size()>i;i++) {
+			 adap_est=new AdaptadorUsuario(listacursousuario.get(i).getUsuario());
+			 estudiante=adap_est.getEstudianteVO();
+			 estudiante.setPuntaje(listacursousuario.get(i).getPuntaje());
+			 listaestudianteVO.add(estudiante);			 	 
+		 }
+		 
+		 adaptador = new AdaptadorCurso(curso);	
 		 cursoVO =adaptador.getCursoVO();
 		 cursoVO.setActividades(listaactividadesVO);
+		 cursoVO.setEstudiantes(listaestudianteVO);
 
 		return cursoVO;
 		
@@ -198,18 +229,19 @@ public class GestorCursos implements IGestorCursosRemote,
 	}
 	
 	@Override
-	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO) {
+	public List<ActividadVO> consultarActividadesDisponibles(CursoVO cursoVO, UsuarioVO profesorVO) {
 
 		List<ActividadVO> ListaActividadVO = new ArrayList<ActividadVO>();;
 		ActividadVO ActividadVO=new ActividadVO();
 		AdaptadorActividad adaptador = null;
 		Curso curso=em.find(Curso.class,cursoVO.getIdcurso());
-		
+		Usuario profesor = em.find(Usuario.class,profesorVO.getId());
 		Query q = em.createQuery("SELECT c.actividad FROM Actividadcurso AS c where c.curso=:curso");
 		q.setParameter("curso", curso);
 		List<Actividad> listaActividadactuales= q.getResultList();
 		//System.out.println("tamñom" +listaActividadactuales.size());		
-		Query q2 = em.createQuery("SELECT object(a) FROM Actividad AS a ");
+		Query q2 = em.createQuery("SELECT object(a) FROM Actividad AS a WHERE a.usuario=:profesor");
+		q2.setParameter("profesor", profesor);
 		List<Actividad> totallistaActividades= q2.getResultList();
 		List<Actividad> listaactualizada = new ArrayList<Actividad>();
 		listaactualizada=totallistaActividades;

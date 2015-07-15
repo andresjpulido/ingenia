@@ -26,7 +26,6 @@ import org.ingenia.negocio.entidades.Arma;
 import org.ingenia.negocio.entidades.Armadura;
 import org.ingenia.negocio.entidades.Color;
 import org.ingenia.negocio.entidades.Gato;
-import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Tipogato;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.negocio.igestor.IGestorGatosRemote;

@@ -2,7 +2,7 @@ package org.ingenia.comunes.vo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 
 public class ActividadxUsuarioVO implements Serializable {
 
