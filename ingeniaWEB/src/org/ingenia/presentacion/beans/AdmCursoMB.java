@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
+import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
@@ -35,7 +36,9 @@ public class AdmCursoMB extends BaseMB {
 	private boolean buscando=false;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
+	private final static String NAV_IRACTCURSOEST = "iractcursoest";
 	private UsuarioVO UsuarioVO=new UsuarioVO();	
+	private EstudianteVO estudianteVO=new EstudianteVO();
     private HttpServletRequest httpServletRequest;
     private FacesContext faceContext;
 
@@ -207,6 +210,21 @@ public class AdmCursoMB extends BaseMB {
 		return NAV_IRCURSO;
 	}
 
+	
+	public String verCursoActividadesEstudiante(){
+		 int id=Integer.parseInt(recuperarParametro("idestudiante"));
+		this.estudianteVO.setId(id);
+		try {
+			gestorCursos.consultarActividadesCursoEstudiante(this.cursoVO,this.estudianteVO);
+			//aca debera retornar una lista de avances 
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("actividades estudiante"+id);
+		return NAV_IRACTCURSOEST;
+	}
+	
 	public CursoVO getCursoVO() {
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(this.cursoVO);
@@ -277,6 +295,16 @@ public class AdmCursoMB extends BaseMB {
 	public void setActividadVO(ActividadVO actividadVO) {
 		this.actividadVO = actividadVO;
 	}
+
+	public EstudianteVO getEstudianteVO() {
+		return estudianteVO;
+	}
+
+	public void setEstudianteVO(EstudianteVO estudianteVO) {
+		this.estudianteVO = estudianteVO;
+	}
+
+
 
 
 

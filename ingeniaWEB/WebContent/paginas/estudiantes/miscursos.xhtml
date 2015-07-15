@@ -9,45 +9,46 @@
 	</ui:define>
 
 	<ui:define name="content">
-Mis cursos
-	 <h:form>
+<h:form>
+				<center><h3>Cursos Disponibles</h3> </center>
+			<h:panelGrid columns="3" cellpadding="10">
 
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel for="rol" value="Rol:" />
-				<p:inputText id="rol" value="#{AdmRolMB.rol}" required="false"
-					label="Rol" />
-
-				<f:facet name="footer">
-					<p:commandButton value="Buscar" action="#{AdmRolMB.buscar}" />
-				</f:facet>	
-
+				<h:outputLabel for="curso" value="Nombre Curso:" />
+				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
+			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
+		
 			</h:panelGrid>
+	
 		</h:form>
+	<h:form id="form">
 
-		<h:form>
-			<p:dataTable var="rol" value="#{AdmRolMB.listaRoles}"
-				rendered="#{not empty AdmRolMB.listaRoles}" paginator="true"
-				rows="10" dynamic="true">
-				<p:column headerText="Id">
-					<p:commandButton icon="ui-icon-search" value="#{rol.idRol}"
-						process="@this" action="#{AdmRolMB.irRol}">
-						<f:param name="id" value="#{rol.idRol}" />
+    	  <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3" layout="grid"
+        rows="12" paginator="true" id="cars"
+        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+ 
+        <f:facet name="header">
+          
+        </f:facet>
+ 
+        <p:panel header="#{curso.nombre}" style="text-align:center">
+            <p:panelGrid columns="1" style="width:100%">
+            <p:column >
+             <p:commandButton icon="ui-icon-search" value="Ingresar "
+						process="@this" action="#{AdmCursoMB.irCurso}">
+						<f:param name="id" value="#{curso.idcurso}" />
 					</p:commandButton>
-				</p:column> 
-				
-				<p:column headerText="Nombre">
-					<h:outputText name="nombre" value="#{rol.nombre}" />
-				</p:column>
+					  <h:outputText value="  #{curso.descripcion}" />
+                </p:column>
+            </p:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
+    
+    
+    
+			
 
-				<p:column headerText="Nombre">
-					<h:outputText value="#{rol.descripcion}" />
-				</p:column>
-
-			</p:dataTable>
-
-			<p:link outcome="rol" value="Crear">
-				<f:param name="productId" value="10" />
-			</p:link>
-		</h:form>
+	</h:form>
 	</ui:define>
 </ui:composition>

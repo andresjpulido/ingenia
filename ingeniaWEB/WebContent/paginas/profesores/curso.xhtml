@@ -51,7 +51,7 @@
 			<h:panelGrid columns="1" cellpadding="10">
 			<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"><center ><h3>Lista de Actividades</h3></center></p:outputLabel>   
 			<h:panelGrid columns="4" cellpadding="10">
-			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear y Asociar nueva actividad a este curso"/>
+			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear actividad para este curso"/>
 			<p:outputLabel rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp)}" for="tipo" value="Actividades disponibles: " />
 	<p:selectOneMenu rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) }" id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}" >
  	<f:selectItems value="#{(AdmCursoMB.listaActividades) }" var="tipoA" itemLabel="#{tipoA.enunciado}" itemValue="#{tipoA.idactividad}" />
@@ -98,7 +98,7 @@
 
 						<p:column headerText="Accion">
 					<p:commandButton icon="ui-icon-search" value="Ver Estudiante" 
-						process="@this" action="#{AdmActividadMB.iralgunlado}" >
+						process="@this" action="#{AdmCursoMB.verCursoActividadesEstudiante}" >
 						<f:param name="idestudiante" value="#{estudiante.id}" />
 						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
 					</p:commandButton>

@@ -26,27 +26,31 @@
 		</h:form>
 
 		<h:form>
-			<p:dataTable var="curso" value="#{AdmCursoMB.listaCursos}"
-				rendered="#{not empty AdmCursoMB.listaCursos}" paginator="true"
-				rows="8" dynamic="true">
-				<p:column headerText="Accion">
-					<p:commandButton icon="ui-icon-search" value="Ver Curso"
+			
+	
+			
+	 <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3" layout="grid"
+        rows="12" paginator="true" id="cars"
+        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+ 
+        <f:facet name="header">
+          
+        </f:facet>
+ 
+        <p:panel header="#{curso.nombre}" style="text-align:center">
+            <p:panelGrid columns="1" style="width:100%">
+            <p:column >
+             <p:commandButton icon="ui-icon-search" value="Ver Curso "
 						process="@this" action="#{AdmCursoMB.irCurso}">
 						<f:param name="id" value="#{curso.idcurso}" />
 					</p:commandButton>
-				</p:column> 				
-				<p:column headerText="Nombre">
-					<h:outputText name="nombre" value="#{curso.nombre}" />
-				</p:column>
-				<p:column headerText="Descripción">
-					<h:outputText name="descripcion" value="#{curso.descripcion}" />
-				</p:column>
-
-				<p:column headerText="Estado">
-					<h:outputText value="#{curso.estado}" />
-				</p:column>
-
-			</p:dataTable>
+					  <h:outputText value="  #{curso.descripcion}" />
+                </p:column>
+            </p:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
 
 
 		</h:form>
