@@ -34,6 +34,7 @@ public class AdmCursoMB extends BaseMB {
 	private List<CursoVO> listaCursos;
     private CursoVO cursoVOtemp=new CursoVO();
 	private boolean buscando=false;
+	private boolean creando=true;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
@@ -160,6 +161,7 @@ public class AdmCursoMB extends BaseMB {
 				cursoVO.setProfesor(this.UsuarioVO);
 				gestorCursos.crearCursoVO(cursoVO);
 				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
+				creando=false;
 			}
 			else 
 			{	
@@ -227,7 +229,9 @@ public class AdmCursoMB extends BaseMB {
 	
 	public CursoVO getCursoVO() {
 		try {
+			if(creando=false){
 			this.cursoVO = gestorCursos.consultarCursoVO(this.cursoVO);
+			}
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
