@@ -8,7 +8,7 @@
 		<project>ingeniaJPA</project>
 		<project>ingeniaWEB</project>
 		<project>ingeniaEJBClient</project>
-		<project>ingeniaSW</project>
+		<project>IngeniaSW</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
