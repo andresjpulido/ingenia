@@ -18,9 +18,5 @@
         <dependent-module archiveName="ingeniaEJBClient.jar" deploy-path="/lib" handle="module:/resource/ingeniaEJBClient/ingeniaEJBClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="IngeniaSW.war" deploy-path="/" handle="module:/resource/IngeniaSW/IngeniaSW">
-            <dependent-object>Module_1437051461497</dependent-object>
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
     </wb-module>
 </project-modules>

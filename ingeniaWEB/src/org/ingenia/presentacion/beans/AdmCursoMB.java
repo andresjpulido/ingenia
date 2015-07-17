@@ -12,12 +12,14 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
+import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
 
 
@@ -28,13 +30,14 @@ public class AdmCursoMB extends BaseMB {
 	private static final long serialVersionUID = 6956796593946333976L;
 
 	private CursoVO cursoVO=new CursoVO();
+	private CursoVO cursoVOcrear=new CursoVO();
 	ActividadVO actividadVO = new ActividadVO();
 	private List<ActividadVO> listaActividades;
+	private List<ActividadxUsuarioVO> listaActividadesEstudiante;
 	private String curso;
 	private List<CursoVO> listaCursos;
     private CursoVO cursoVOtemp=new CursoVO();
 	private boolean buscando=false;
-	private boolean creando=true;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
@@ -44,7 +47,9 @@ public class AdmCursoMB extends BaseMB {
     private FacesContext faceContext;
 
 	@EJB
-	IGestorCursosLocal gestorCursos;
+	private IGestorCursosLocal gestorCursos;
+	@EJB
+	private IGestorUsuariosLocal gestorUsuarios;
 
 	@PostConstruct
 	public void init() {
@@ -69,7 +74,7 @@ public class AdmCursoMB extends BaseMB {
 	}
 	
 	  public String nuevoCurso() {	   
-	        this.cursoVO = new CursoVO();   
+	        this.cursoVOcrear = new CursoVO();   
 	        setCursoVOtemp(null);
 	        return NAV_IRCURSO;
 	    }
@@ -152,19 +157,20 @@ public class AdmCursoMB extends BaseMB {
 
 	public String crear() {
 
-		CursoVO cursoVO = this.cursoVO;
+		
 
 		try {
 
-			if (cursoVO.getIdcurso()==0){
+			if (this.cursoVOcrear.getIdcurso()==0){
 				//profesorVO.setId(7890);
+				CursoVO cursoVO = this.cursoVOcrear;
 				cursoVO.setProfesor(this.UsuarioVO);
 				gestorCursos.crearCursoVO(cursoVO);
 				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
-				creando=false;
 			}
 			else 
 			{	
+				CursoVO cursoVO = this.cursoVO;
 				gestorCursos.modificarCursoVO(cursoVO);
           		this.buscando=false;
 			}
@@ -202,7 +208,7 @@ public class AdmCursoMB extends BaseMB {
 		cursoVO.setIdcurso(Integer.parseInt(id));
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
-			System.out.println("lista est "+this.cursoVO.getEstudiantes().size());
+			//System.out.println("lista est "+this.cursoVO.getEstudiantes().size());
 			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);		
             
 		} catch (AdaptadorException e) {
@@ -217,8 +223,12 @@ public class AdmCursoMB extends BaseMB {
 		 int id=Integer.parseInt(recuperarParametro("idestudiante"));
 		this.estudianteVO.setId(id);
 		try {
-			gestorCursos.consultarActividadesCursoEstudiante(this.cursoVO,this.estudianteVO);
-			//aca debera retornar una lista de avances 
+			setListaActividadesEstudiante(gestorCursos.consultarActividadesCursoEstudiante(this.cursoVO,this.estudianteVO));
+			UsuarioVO usuario= gestorUsuarios.consultarUsuarioPorId(this.estudianteVO.getId());
+			this.estudianteVO.setNombre(usuario.getNombre());
+			this.estudianteVO.setApellido(usuario.getApellido());
+			
+
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,9 +239,11 @@ public class AdmCursoMB extends BaseMB {
 	
 	public CursoVO getCursoVO() {
 		try {
-			if(creando=false){
-			this.cursoVO = gestorCursos.consultarCursoVO(this.cursoVO);
-			}
+
+			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
+			
+			
+		
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -280,7 +292,7 @@ public class AdmCursoMB extends BaseMB {
 
 	public List<ActividadVO> getListaActividades() {
 		try {
-			gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
+			listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -306,6 +318,23 @@ public class AdmCursoMB extends BaseMB {
 
 	public void setEstudianteVO(EstudianteVO estudianteVO) {
 		this.estudianteVO = estudianteVO;
+	}
+
+	public CursoVO getCursoVOcrear() {
+		return cursoVOcrear;
+	}
+
+	public void setCursoVOcrear(CursoVO cursoVOcrear) {
+		this.cursoVOcrear = cursoVOcrear;
+	}
+
+	public List<ActividadxUsuarioVO> getListaActividadesEstudiante() {
+		return listaActividadesEstudiante;
+	}
+
+	public void setListaActividadesEstudiante(
+			List<ActividadxUsuarioVO> listaActividadesEstudiante) {
+		this.listaActividadesEstudiante = listaActividadesEstudiante;
 	}
 
 
