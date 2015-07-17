@@ -28,7 +28,7 @@ public class MovimientoVO implements Serializable {
 
 
 
-	public void setIdEstructura(int idMovimiento) {
+	public void setIdMovimiento(int idMovimiento) {
 		this.idMovimiento = idMovimiento;
 	}
 

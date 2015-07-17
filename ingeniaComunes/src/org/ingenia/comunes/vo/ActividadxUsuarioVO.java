@@ -3,11 +3,12 @@ package org.ingenia.comunes.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class ActividadxUsuarioVO implements Serializable {
 
 	private static final long serialVersionUID = -949796013955276126L;
 
+	private int id;
+	
 	private int idActividad;
 	
 	private int idUsuario;
@@ -79,6 +80,14 @@ public class ActividadxUsuarioVO implements Serializable {
 
 	public void setPuntos(int puntos) {
 		Puntos = puntos;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

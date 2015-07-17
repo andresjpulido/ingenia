@@ -90,7 +90,7 @@ public class FachadaServicios {
 		ActividadxUsuarioVO Resultado = null;
 				
 		try {
-			Resultado = gestorActividadxUsuario.crearActividadXUsuario(actividadxUsuario);
+			Resultado = gestorActividadxUsuario.crearActividadxUsuario(actividadxUsuario);
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}

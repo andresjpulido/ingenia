@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ingenia.comunes.vo.*;
-import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.servicios.FachadaServicios;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GestorServicioWS {
 
 	private static final Logger logger = LoggerFactory.getLogger(GestorServicioWS.class);
-
-	Map<Integer, ActividadVO> actividades = new HashMap<Integer, ActividadVO>();
-
+	
 	@RequestMapping(value = GIngeniaURI.DUMMY_ACTIVIDAD, method = RequestMethod.GET)
 	public @ResponseBody ActividadVO getDummyACtividad() {
+
+		Map<Integer, ActividadVO> actividades = new HashMap<Integer, ActividadVO>();
 
 		ActividadVO actividad = new ActividadVO();
 		actividad.setActivo(0);
@@ -92,15 +92,10 @@ public class GestorServicioWS {
 	}
 
 	@RequestMapping(value = GIngeniaURI.REGISTRAR_AVANCE_ACTIVIDAD, method = RequestMethod.POST)
-	public Boolean saveAvanceActividad(@PathVariable String IdActividad) {
+	public Boolean saveAvanceActividad(@RequestBody ActividadxUsuarioVO avance) {
 		
 		Boolean Resultado = false;
 		//Guardamos el avance en la tabla de la BD
-		ActividadxUsuarioVO avance = new ActividadxUsuarioVO();
-		//avance.setActivo(0);
-		//avance.setEnunciado("enunciado");
-		//avance.setLimite_movimientos(1);
-
 		FachadaServicios fachada = new FachadaServicios();
 		fachada.GuardarActividadxUsuario(avance);
 			
