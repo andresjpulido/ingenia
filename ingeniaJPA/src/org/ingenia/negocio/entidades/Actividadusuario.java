@@ -23,15 +23,15 @@ public class Actividadusuario implements Serializable {
 	@Column(name="numero_intento")
 	private int numeroIntento;
 
+	@Column(name="num_movimientos")
+	private int numeroMovimientos;
+	
 	private int puntos;
 
 	//bi-directional many-to-one association to Actividad
 	@ManyToOne
 	private Actividad actividad;
 
-	//bi-directional many-to-one association to Raton
-	@ManyToOne
-	private Raton raton;
 
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
@@ -80,20 +80,20 @@ public class Actividadusuario implements Serializable {
 		this.actividad = actividad;
 	}
 
-	public Raton getRaton() {
-		return this.raton;
-	}
-
-	public void setRaton(Raton raton) {
-		this.raton = raton;
-	}
-
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public int getNumeroMovimientos() {
+		return numeroMovimientos;
+	}
+
+	public void setNumeroMovimientos(int numeroMovimientos) {
+		this.numeroMovimientos = numeroMovimientos;
 	}
 
 }

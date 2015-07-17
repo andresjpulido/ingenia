@@ -11,9 +11,9 @@
 
 	<ui:define name="content">
 									Configuración Actividad
-	
-	
-		
+									
+
+		<h:panelGrid id="camb" columns="1" cellpadding="10">
 <h:form rendered="#{empty AdmGatoMB.gatoVO1}" >
 	<h:outputText id="act" value="#{AdmActividadMB.actividadVO.enunciado}       " label="act"/>	 
 			
@@ -56,7 +56,7 @@
 		
 			<h:form  rendered="#{not empty AdmGatoMB.gatoVO1}" >
   Editar
-<h:panelGrid columns="4" cellpadding="5">
+<h:panelGrid id="camb2" columns="4" cellpadding="5">
 				
 	<p:outputLabel for="tipogato" value="Tipo Gato: " />
 	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato.idTipoGato}" >
@@ -79,12 +79,14 @@
 	</p:selectOneMenu>	
  		
 	<f:facet name="footer">
-	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}">
+	<p:commandButton value="Actualizar" actionListener="#{AdmGatoMB.actualizar}" >
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
+   <f:ajax render="camb" />
 	</p:commandButton>
 	
 	<p:commandButton value="Cancelar" process="@this" action="#{AdmGatoMB.cancelar}">
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
+	
 	</p:commandButton>	
 
 	</f:facet>
@@ -93,6 +95,8 @@
 
 			</h:panelGrid>
 		</h:form>
+			</h:panelGrid>
+			
 			
 		<p:dataTable var="gato" value="#{AdmGatoMB.listaGatos}"
 				rendered="#{not empty AdmGatoMB.listaGatos}" paginator="true"

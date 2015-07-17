@@ -20,9 +20,9 @@ public class Movimiento implements Serializable {
 	@Column(name="nombre_movimiento")
 	private String nombreMovimiento;
 
-	//bi-directional many-to-many association to Raton
+	/*//bi-directional many-to-many association to Raton
 	@ManyToMany(mappedBy="movimientos")
-	private List<Raton> ratons;
+	private List<Raton> ratons;*/
 
 	public Movimiento() {
 	}
@@ -43,12 +43,5 @@ public class Movimiento implements Serializable {
 		this.nombreMovimiento = nombreMovimiento;
 	}
 
-	public List<Raton> getRatons() {
-		return this.ratons;
-	}
-
-	public void setRatons(List<Raton> ratons) {
-		this.ratons = ratons;
-	}
 
 }

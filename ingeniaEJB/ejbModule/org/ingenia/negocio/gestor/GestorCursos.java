@@ -15,21 +15,21 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
+import org.ingenia.adaptadores.AdaptadorActividadxUsuario;
 import org.ingenia.adaptadores.AdaptadorCurso;
-import org.ingenia.adaptadores.AdaptadorJuego;
 import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstudianteVO;
-import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
+import org.ingenia.negocio.entidades.Actividadusuario;
 import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Estudiantecurso;
-import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
 import org.ingenia.negocio.igestor.IGestorCursosRemote;
@@ -142,7 +142,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		List<EstudianteVO> listaestudianteVO = new ArrayList<EstudianteVO>();
 		EstudianteVO estudiante = new EstudianteVO();
 		ActividadVO actividad=new ActividadVO();
-		JuegoVO juegovo=new JuegoVO();
+
 		Curso curso = new Curso();
 		curso = em.find(Curso.class,cursoVO.getIdcurso());
 		
@@ -153,11 +153,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		 
 		 for (int i=0;listaactividades.size()>i;i++) {
 	        adaptadorA = new AdaptadorActividad(listaactividades.get(i));
-	        Juego juego = em.find(Juego.class,listaactividades.get(i).getJuego().getIdjuego());
-	        AdaptadorJuego adap =new AdaptadorJuego(juego);
-	        juegovo=adap.getJuegoVO();
-	        actividad = adaptadorA.getActividadVO();
-	        actividad.setJuegoVO(juegovo);
+	       actividad = adaptadorA.getActividadVO();
 	        listaactividadesVO.add(actividad);	        
 		 }
 		 
@@ -239,7 +235,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		Query q = em.createQuery("SELECT c.actividad FROM Actividadcurso AS c where c.curso=:curso");
 		q.setParameter("curso", curso);
 		List<Actividad> listaActividadactuales= q.getResultList();
-		//System.out.println("tam�om" +listaActividadactuales.size());		
+	
 		Query q2 = em.createQuery("SELECT object(a) FROM Actividad AS a WHERE a.usuario=:profesor");
 		q2.setParameter("profesor", profesor);
 		List<Actividad> totallistaActividades= q2.getResultList();
@@ -264,11 +260,9 @@ public class GestorCursos implements IGestorCursosRemote,
             for (int i=0;listaactualizada.size()>i;i++) {
  
         adaptador = new AdaptadorActividad(listaactualizada.get(i));
-        Juego juego = em.find(Juego.class,listaactualizada.get(i).getJuego().getIdjuego());
-        AdaptadorJuego adap =new AdaptadorJuego(juego);
+
     	try {
 			ActividadVO=adaptador.getActividadVO();
-	    	ActividadVO.setJuegoVO(adap.getJuegoVO());
 
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -293,10 +287,34 @@ public class GestorCursos implements IGestorCursosRemote,
 	}
 
 	@Override
-	public void consultarActividadesCursoEstudiante(CursoVO cursoVO,
+	public List<ActividadxUsuarioVO> consultarActividadesCursoEstudiante(CursoVO cursoVO,
 			EstudianteVO estudianteVO) throws AdaptadorException {
-		// TODO Auto-generated method stub
-		
+		List<ActividadxUsuarioVO> listaActividadesEstudianteVO= new ArrayList<ActividadxUsuarioVO>();
+		List<Actividad> listaActividades = new ArrayList<Actividad>();
+		Actividadusuario actividadUsuario = new Actividadusuario();
+		ActividadxUsuarioVO actividadUsuarioVO = new ActividadxUsuarioVO();
+		AdaptadorActividadxUsuario adaptador ;
+		Curso curso=em.find(Curso.class,cursoVO.getIdcurso());
+		 for (int i=0;curso.getActividadcursos().size()>i;i++) {
+			 listaActividades.add(curso.getActividadcursos().get(i).getActividad());
+		 }
+		 for (int i=0;curso.getEstudiantecursos().size()>i;i++) {
+			 if(curso.getEstudiantecursos().get(i).getUsuario().getIdusuario()==estudianteVO.getId()){
+			 for (int j=0;listaActividades.size()>j;j++) {
+				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.usuario=:usuario and ac.actividad=:actividad");
+					q.setParameter("usuario", curso.getEstudiantecursos().get(i).getUsuario());
+					q.setParameter("actividad", listaActividades.get(j));
+					List<Actividadusuario> resultados = q.getResultList();	
+					for (Actividadusuario resultado : resultados) {
+						actividadUsuario = resultado;
+						adaptador = new AdaptadorActividadxUsuario(actividadUsuario);
+						actividadUsuarioVO=adaptador.getActividadxUsuarioVO();
+						listaActividadesEstudianteVO.add(actividadUsuarioVO);
+					}
+			     }
+			 }
+		 }
+		 return listaActividadesEstudianteVO;
 	}
 
 }
