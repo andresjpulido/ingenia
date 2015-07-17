@@ -10,9 +10,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
+import org.ingenia.presentacion.ReglasNavegacion;
 
 @ManagedBean(name = "AdmRolMB")
 @SessionScoped
@@ -24,8 +26,8 @@ public class AdmRolesMB extends BaseMB {
 	private List<RolVO> listaRoles;
 	private RolVO rolVO;
 
-	private final static String NAV_IRROL = "irrol";
-	private final static String NAV_IRADMROL = "iradminrol";
+	private List<OpcionVO> listaOpciones;
+	
 
 	@EJB
 	IGestorUsuariosLocal gestorUsuarios;
@@ -35,7 +37,7 @@ public class AdmRolesMB extends BaseMB {
 		RolVO rolVO = new RolVO();
 		rolVO.setNombre(rol);
 		listaRoles = gestorUsuarios.consultarRoles(rolVO);
-		return NAV_IRADMROL;
+		return ReglasNavegacion.NAV_IRADMROL;
 	}
 
 	public void crear() {
@@ -73,7 +75,10 @@ public class AdmRolesMB extends BaseMB {
 		rolVOt.setIdRol(Integer.parseInt(id));
 		this.rolVO = gestorUsuarios.consultarRol(rolVOt);
 
-		return NAV_IRROL;
+		//cargar la lista de opciones 
+		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(rolVOt.getIdRol());
+
+		return ReglasNavegacion.NAV_IRROL;
 	}
  
 	public String getRol() {
@@ -98,5 +103,13 @@ public class AdmRolesMB extends BaseMB {
 
 	public void setRolVO(RolVO rolVO) {
 		this.rolVO = rolVO;
+	}
+
+	public List<OpcionVO> getListaOpciones() {
+		return listaOpciones;
+	}
+
+	public void setListaOpciones(List<OpcionVO> listaOpciones) {
+		this.listaOpciones = listaOpciones;
 	}
 }

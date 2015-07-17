@@ -29,8 +29,8 @@ Datos de rol
 
 				</h:panelGrid>
 
-				<p:dataTable var="opcion" value="#{AdmRolMB.rolVO.opcions}"
-					rendered="#{not empty AdmRolMB.rolVO.opcions}" paginator="true"
+				<p:dataTable var="opcion" value="#{AdmRolMB.listaOpciones}"
+					rendered="#{not empty AdmRolMB.listaOpciones}" paginator="true"
 					rows="10" dynamic="true" id="tb_opcion">
 
 					<p:column headerText="" style="width:80px">

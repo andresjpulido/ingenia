@@ -33,5 +33,7 @@ public interface IGestorUsuariosLocal {
 			throws AdaptadorException;
 
 	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol);
-	
+
+	public List<RolVO> consultarRolVOPorIdUsuario(int idUsuario);
+
 }

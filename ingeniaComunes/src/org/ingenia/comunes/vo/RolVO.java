@@ -16,6 +16,8 @@ public class RolVO implements Serializable {
 	private List<OpcionVO> opcions;
 
 	private boolean estado;
+	
+	private boolean seleccionado;
 
 	public int getIdRol() {
 		return idRol;
@@ -55,5 +57,13 @@ public class RolVO implements Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
+
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
 	}
 }

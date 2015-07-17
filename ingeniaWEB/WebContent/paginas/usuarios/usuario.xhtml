@@ -43,14 +43,14 @@ Datos de usuario
 				</h:panelGrid>
 
 				 
-				<p:dataTable var="rol" value="#{AdmUsuarioMB.usuarioVO.listaRoles}"
-					rendered="#{not empty AdmUsuarioMB.usuarioVO.listaRoles}"
+				<p:dataTable var="rol" value="#{AdmUsuarioMB.listaRoles}"
+					rendered="#{not empty AdmUsuarioMB.listaRoles}"
 					paginator="true" rows="10" dynamic="true" id="tb_rolopcion">
 <f:facet name="header">
-        Permisos
+        Roles
     </f:facet>
 					<p:column headerText="Id">
-						<p:selectBooleanCheckbox icon="ui-icon-search" value="true"
+						<p:selectBooleanCheckbox icon="ui-icon-search" value="#{rol.seleccionado}"
 							process="@this" action="#{AdmRolMB.irRol}" id="cb_idopcion">
 							<f:param name="id" value="true" />
 						</p:selectBooleanCheckbox>

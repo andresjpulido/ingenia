@@ -2,6 +2,7 @@ package org.ingenia.negocio.gestor;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -280,18 +281,71 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	}
 
 	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol) {
+		AdaptadorOpcion adaptador = null;
+		OpcionVO opcionVO = null;
+		List<OpcionVO> listaOpciones = null;
+		Iterator iter = null;
 
-		Query q = em
-				.createQuery("SELECT op FROM Opcion AS op left join (select opr from Opcionrol opr where opr.idrol = 1) as t on op.idopcion = t.opcion.idopcion ");
-		List<Opcion> listaJuego = q.getResultList();
-		
-		System.out.println(listaJuego);
-		
-		for (Opcion opcion : listaJuego) {
-			System.out.println(opcion.getNombre());
+		@SuppressWarnings({ "unchecked", "unused" })
+		List<Object[]> opciones = (List<Object[]>) em
+				.createNativeQuery(
+						"SELECT op.idopcion, op.nombre, op.descripcion, op.codigo, t.idopcion as seleccionado FROM Opcion AS op left join (select * from Opcionrol opr where opr.idrol = "
+								+ idRol + ") as t on op.idopcion = t.idopcion ")
+				.getResultList();
+
+		if (opciones == null) {
+			return null;
 		}
-		// AdaptadorOpcion adaptador = new AdaptadorOpcion(rol)
 
-		return null;
+		listaOpciones = new ArrayList<OpcionVO>();
+		iter = opciones.iterator();
+		while (iter.hasNext()) {
+			Object[] row = (Object[]) iter.next();
+			opcionVO = new OpcionVO();
+			opcionVO.setCodigo(row[3].toString());
+			opcionVO.setDescripcion(row[2].toString());
+			opcionVO.setIdopcion(Integer.parseInt(row[0].toString()));
+			opcionVO.setNombre(row[1].toString());
+			opcionVO.setSeleccionado(row[4] == null ? false : true);
+			listaOpciones.add(opcionVO);
+		}
+
+		return listaOpciones;
 	}
+
+	public List<RolVO> consultarRolVOPorIdUsuario(int idUsuario) {
+		AdaptadorOpcion adaptador = null;
+		RolVO rolVO = null;
+		List<RolVO> listaRoles = null;
+		Iterator iter = null;
+		List<Object[]> roles = null;
+
+		roles = (List<Object[]>) em
+				.createNativeQuery(
+						"SELECT r.idrol, r.nombre,r.descripcion, r.estado, t.idrol seleccionado FROM rol AS r left join (select * from rolusuario ru where ru.idusuario = "
+								+ idUsuario + ") as t on r.idrol = t.idrol ")
+				.getResultList();
+
+		if (roles == null) {
+			return null;
+		}
+
+		listaRoles = new ArrayList<RolVO>();
+		iter = roles.iterator();
+		while (iter.hasNext()) {
+			Object[] row = (Object[]) iter.next();
+			rolVO = new RolVO();
+			rolVO.setDescripcion(row[2].toString());
+			if (row[3] != null) {
+				rolVO.setEstado(row[3].toString().equals("S") ? true : false);
+			}
+			rolVO.setIdRol(Integer.parseInt(row[0].toString()));
+			rolVO.setNombre(row[1].toString());
+			rolVO.setSeleccionado(row[4] == null ? false : true);
+			listaRoles.add(rolVO);
+		}
+
+		return listaRoles;
+	}
+
 }

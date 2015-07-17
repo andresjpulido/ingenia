@@ -8,5 +8,10 @@ public class ReglasNavegacion {
 	public final static String ADMUSUARIO = "iradminusuario";
 	public final static String ADMROL = "iradminrol";
 	public final static String USUARIO = "irusuario";
+	public final static String NAV_IRROL = "irrol";
+	public final static String NAV_IRADMROL = "iradminrol";
+	public final static String NAV_IRUSUARIO = "irusuario";
+	public final static String NAV_IRADMUSUARIO = "iradminusuario";
 
+	
 }

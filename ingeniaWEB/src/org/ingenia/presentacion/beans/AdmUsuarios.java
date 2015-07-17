@@ -13,8 +13,10 @@ import javax.faces.context.FacesContext;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
+import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
+import org.ingenia.presentacion.ReglasNavegacion;
 
 @ManagedBean(name = "AdmUsuarioMB")
 @SessionScoped
@@ -24,9 +26,7 @@ public class AdmUsuarios extends BaseMB {
 	private List<UsuarioVO> listaUsuarios = null;
 	private String usuario = null;
 	private UsuarioVO usuarioVO = null;
-
-	private final static String NAV_IRUSUARIO = "irusuario";
-	private final static String NAV_IRADMUSUARIO = "iradminusuario";
+	private List<RolVO> listaRoles = null;
 
 	public AdmUsuarios() {
 		this.usuarioVO = new UsuarioVO();
@@ -39,7 +39,7 @@ public class AdmUsuarios extends BaseMB {
 		UsuarioVO usuarioVO = new UsuarioVO();
 		usuarioVO.setNombre(this.usuario);
 		listaUsuarios = gestorUsuarios.consultarUsuarios(usuarioVO);
-		return NAV_IRADMUSUARIO;
+		return ReglasNavegacion.NAV_IRADMUSUARIO;
 	}
 
 	public void guardar() {
@@ -147,10 +147,10 @@ public class AdmUsuarios extends BaseMB {
 		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
 			this.usuarioVO = listaUsuarios.get(0);
 
-			//gestorUsuarios.consultarOpcionVOPorIdRol(1);
+			listaRoles = gestorUsuarios.consultarRolVOPorIdUsuario(this.usuarioVO.getId());
 		}
 
-		return NAV_IRUSUARIO;
+		return ReglasNavegacion.NAV_IRUSUARIO;
 	}
 
 	public List<UsuarioVO> getListaUsuarios() {
@@ -176,4 +176,14 @@ public class AdmUsuarios extends BaseMB {
 	public void setUsuarioVO(UsuarioVO usuarioVO) {
 		this.usuarioVO = usuarioVO;
 	}
+
+	public List<RolVO> getListaRoles() {
+		return listaRoles;
+	}
+
+	public void setListaRoles(List<RolVO> listaRoles) {
+		this.listaRoles = listaRoles;
+	}
+
+ 
 }
