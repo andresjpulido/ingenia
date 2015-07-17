@@ -79,9 +79,8 @@
 	</p:selectOneMenu>	
  		
 	<f:facet name="footer">
-	<p:commandButton value="Actualizar" actionListener="#{AdmGatoMB.actualizar}" >
+	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}" >
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
-   <f:ajax render="camb" />
 	</p:commandButton>
 	
 	<p:commandButton value="Cancelar" process="@this" action="#{AdmGatoMB.cancelar}">
