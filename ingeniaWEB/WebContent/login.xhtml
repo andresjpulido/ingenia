@@ -4,9 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-
-<f:view contentType="text/html" id="fview">
+	xmlns:f="http://java.sun.com/jsf/core"> <f:view
+	contentType="text/html" id="fview">
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Ingenia</title>
@@ -23,7 +22,7 @@
 		<h:form>
 			<p:messages autoUpdate="true" id="msgs" showDetail="true"
 				showSummary="false" />
-
+ 
 			<p:dialog header="Autenticacion" widgetVar="dlg" resizable="false"
 				visible="true">
 				<h:panelGrid columns="2" cellpadding="5">
@@ -36,7 +35,8 @@
 						required="true" label="password" />
 
 					<f:facet name="footer">
-						<p:commandButton value="Ingresar" action="#{usuarioMB.autenticar}" />
+						<p:commandButton value="Ingresar" actionListener="#{usuarioMB.autenticar}"
+							oncomplete="manejarLogin(xhr, status, args)" />
 					</f:facet>
 
 				</h:panelGrid>
@@ -45,13 +45,27 @@
 				<br />
 				Si no se encuentra registrado ingrese <p:link outcome="irregistro"
 					value="aqui">
-					<f:param name="productId" value="10" />
+					<f:param name="p" value="x" />
 				</p:link>
 
 			</p:dialog>
 		</h:form>
-
-
+ 
 	</h:body>
-</f:view>
+	<script type="text/javascript">
+  //<![CDATA[
+  function manejarLogin(xhr, status, args) {
+    if (!args.validationFailed && args.estaLogeado) {
+      setTimeout(function() {
+        window.location = args.view;
+      }, 250);
+    }
+  }
+//]]>
+</script>
+
+</f:view> 
+
+
+
 </html>

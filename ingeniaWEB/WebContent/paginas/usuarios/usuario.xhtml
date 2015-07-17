@@ -16,7 +16,9 @@ Datos de usuario
 
 					<h:outputLabel for="alias" value="Alias:" />
 					<h:outputText id="alias" value="#{AdmUsuarioMB.usuarioVO.alias}"
-						label="Alias" />
+						label="Alias" rendered="#{not AdmUsuarioMB.esEdicion}" />
+					<p:inputText  value="#{AdmUsuarioMB.usuarioVO.alias}"
+						required="false" label="Usuario" rendered="#{not AdmUsuarioMB.esEdicion}" />	
 
 					<h:outputLabel for="nombre" value="Usuario:" />
 					<p:inputText id="nombre" value="#{AdmUsuarioMB.usuarioVO.nombre}"

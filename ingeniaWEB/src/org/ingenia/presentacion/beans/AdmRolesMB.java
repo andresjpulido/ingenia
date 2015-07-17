@@ -21,27 +21,37 @@ import org.ingenia.presentacion.ReglasNavegacion;
 public class AdmRolesMB extends BaseMB {
 
 	private static final long serialVersionUID = 5198983008576748399L;
-	
+
 	private String rol;
 	private List<RolVO> listaRoles;
 	private RolVO rolVO;
 
 	private List<OpcionVO> listaOpciones;
-	
+
+	private boolean esEdicion;
 
 	@EJB
 	IGestorUsuariosLocal gestorUsuarios;
 
-	public String buscar() {
+	public AdmRolesMB() {
+		rolVO = new RolVO();
+	}
 
-		RolVO rolVO = new RolVO();
+	public String buscar() {
 		rolVO.setNombre(rol);
 		listaRoles = gestorUsuarios.consultarRoles(rolVO);
 		return ReglasNavegacion.NAV_IRADMROL;
 	}
 
-	public void crear() {
-		RolVO rolVO = new RolVO();
+	public String ircrear() {		
+		this.esEdicion = false;
+		rolVO = new RolVO();
+		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(0);
+		return ReglasNavegacion.NAV_IRROL;
+	}
+
+	public String guardar() {
+		rolVO = new RolVO();
 		rolVO.setNombre(this.rol);
 		try {
 			gestorUsuarios.CrearRol(rolVO);
@@ -63,24 +73,29 @@ public class AdmRolesMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+
+		return null;
 	}
 
 	public String irRol() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
-
+		
+		this.esEdicion = true;
+		
 		String id = params.get("id");
 		RolVO rolVOt = new RolVO();
 		rolVOt.setIdRol(Integer.parseInt(id));
 		this.rolVO = gestorUsuarios.consultarRol(rolVOt);
 
-		//cargar la lista de opciones 
-		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(rolVOt.getIdRol());
+		// cargar la lista de opciones
+		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(rolVOt
+				.getIdRol());
 
 		return ReglasNavegacion.NAV_IRROL;
 	}
- 
+
 	public String getRol() {
 		return rol;
 	}
@@ -111,5 +126,13 @@ public class AdmRolesMB extends BaseMB {
 
 	public void setListaOpciones(List<OpcionVO> listaOpciones) {
 		this.listaOpciones = listaOpciones;
+	}
+
+	public boolean isEsEdicion() {
+		return esEdicion;
+	}
+
+	public void setEsEdicion(boolean esEdicion) {
+		this.esEdicion = esEdicion;
 	}
 }

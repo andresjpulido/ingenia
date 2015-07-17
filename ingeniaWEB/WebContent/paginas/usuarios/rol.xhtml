@@ -16,7 +16,11 @@ Datos de rol
 
 					<h:outputLabel for="nombre" value="Nombre:" />
 					<h:outputText id="nombre" value="#{AdmRolMB.rolVO.nombre}"
-						label="nombre" />
+						label="nombre" rendered="#{AdmRolMB.esEdicion}" />
+					<h:inputText value="#{AdmRolMB.rolVO.nombre}"
+						rendered="#{not AdmRolMB.esEdicion}" required="true"
+						label="Nombre" />
+
 
 					<h:outputLabel for="descripcion" value="Descripcion:" />
 					<p:inputTextarea id="descripcion"

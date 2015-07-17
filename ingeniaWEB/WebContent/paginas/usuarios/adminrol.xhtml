@@ -45,13 +45,9 @@
 
 			</p:dataTable>
 
-			<p:commandButton value="Buscar" action="#{AdmRolMB.buscar}">
+			<p:commandButton value="Crear" process="@this"
+				action="#{AdmRolMB.ircrear}" />
 
-			</p:commandButton>
-
-			<p:link outcome="rol" value="Crear">
-				<f:param name="productId" value="10" />
-			</p:link>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -23,7 +23,6 @@ import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
-import org.ingenia.negocio.entidades.Opcion;
 import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;

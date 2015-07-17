@@ -11,7 +11,7 @@
 	<ui:define name="content">
 Administracion de Usuarios
 		<h:form>
-			 
+
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="username" value="Usuario:" />
 				<p:inputText id="username" value="#{AdmUsuarioMB.usuario}"
@@ -56,10 +56,9 @@ Administracion de Usuarios
 				</p:column>
 			</p:dataTable>
 
-			<p:link outcome="usuario" value="Crear">
-				<f:param name="productId" value="10" />
-			</p:link>
-
+			<p:commandButton value="Crear" process="@this"
+				action="#{AdmRolMB.ircrear}" />
+ 
 		</h:form>
 
 	</ui:define>
