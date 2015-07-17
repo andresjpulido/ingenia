@@ -47,7 +47,7 @@ public class GestorServicioWS {
 		
 		FachadaServicios fachada = new FachadaServicios();
 		 
-		actividad = fachada.consultaActividadVO(IdActividad);
+		actividad = fachada.consultaActividadVO1(IdActividad);
 			
         return actividad;
 	}

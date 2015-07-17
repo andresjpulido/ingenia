@@ -239,7 +239,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		Query q = em.createQuery("SELECT c.actividad FROM Actividadcurso AS c where c.curso=:curso");
 		q.setParameter("curso", curso);
 		List<Actividad> listaActividadactuales= q.getResultList();
-		//System.out.println("tamñom" +listaActividadactuales.size());		
+		//System.out.println("tamï¿½om" +listaActividadactuales.size());		
 		Query q2 = em.createQuery("SELECT object(a) FROM Actividad AS a WHERE a.usuario=:profesor");
 		q2.setParameter("profesor", profesor);
 		List<Actividad> totallistaActividades= q2.getResultList();
@@ -249,7 +249,7 @@ public class GestorCursos implements IGestorCursosRemote,
 			 System.out.println("es esta "+totallistaActividades.get(i).getIdactividad());		 
 		 }
         for (int i=0;totallistaActividades.size()>i;i++) {
-        	System.out.println("tamñom" +totallistaActividades.size());
+        	System.out.println("tamï¿½om" +totallistaActividades.size());
         	 for (int j=0;listaActividadactuales.size()>j;j++) {        	   
       	System.out.println("compara "+totallistaActividades.get(i).getIdactividad()+" con "+listaActividadactuales.get(j).getIdactividad());
               	if((listaActividadactuales.get(j).equals(totallistaActividades.get(i)))){

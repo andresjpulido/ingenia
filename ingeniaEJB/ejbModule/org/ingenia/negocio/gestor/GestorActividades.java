@@ -310,7 +310,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 				e.printStackTrace();
 			}
 			ListaEstructuraVO.add(EstructuraVO);
-			System.out.println("tamaño estrruc "+ListaEstructuraVO.size());
+			System.out.println("tamaï¿½o estrruc "+ListaEstructuraVO.size());
 		}
 		return ListaEstructuraVO;
 	}

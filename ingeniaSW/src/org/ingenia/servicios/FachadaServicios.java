@@ -27,7 +27,7 @@ public class FachadaServicios {
 		//this.gestorActividadxUsuario = new GestorActividadxUsuario();
 	}
 
-	public ActividadVO consultaActividadVO(String idActividad) {
+	public ActividadVO consultaActividadVO1(String idActividad) {
 		ActividadVO actividadVO = new ActividadVO();
 		if (idActividad != null) {
 			actividadVO.setIdactividad(Integer.parseInt(idActividad));

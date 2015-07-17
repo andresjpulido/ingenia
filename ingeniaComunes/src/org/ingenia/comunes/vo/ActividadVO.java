@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ActividadVO implements Serializable {
 
-	private static final long serialVersionUID = -949796013955276126L;
+	private static final long serialVersionUID = -949796013955276125L;
 
 	private int idactividad;
 
