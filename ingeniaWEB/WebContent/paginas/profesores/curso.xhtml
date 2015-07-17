@@ -5,85 +5,48 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/plantillas/plantilla.xhtml">
 
-
- 
 	<ui:define name="metadata">
-	</ui:define>	
+	</ui:define>
 
 	<ui:define name="content">
 
 		<h:form>
 
-				<center ><h1><p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"  value="#{AdmCursoMB.cursoVO.nombre}"/></h1></center> 
+				<center ><h1><p:outputLabel value="#{AdmCursoMB.cursoVO.nombre}"/></h1></center> 
 			<h:panelGrid columns="2" cellpadding="5">
-			<h:panelGrid rendered="#{empty AdmCursoMB.cursoVOtemp}"   columns="1" cellpadding="10">
-
-			<center><h3> Creación del Curso </h3></center>
-			<h:panelGrid  columns="2" cellpadding="10">
+			<h:panelGrid columns="1" cellpadding="10">
+			<center><h3> Información del Curso </h3></center>
+			<h:panelGrid columns="2" cellpadding="10">
 			
 				<h:outputLabel for="nombre" value="Nombre:" />
-				<p:inputText id="nombre" value="#{AdmCursoMB.cursoVOcrear.nombre}"
+				<p:inputText id="nombre" value="#{AdmCursoMB.cursoVO.nombre}"
 					required="true" label="nombre" requiredMessage="Debe indicar el nombre del curso" />
 
 				<h:outputLabel for="descripcion" value="Descripcion:" />
-				<p:inputText id="descripcion" value="#{AdmCursoMB.cursoVOcrear.descripcion}"
+				<p:inputText id="descripcion" value="#{AdmCursoMB.cursoVO.descripcion}"
 					required="true" label="descripcion" requiredMessage="Debe indicar la descripcion"/>
 
 				
 			<h:outputLabel for="estado" value="Estado:" />
- 			 <p:selectOneMenu id="estado" value="#{AdmCursoMB.cursoVOcrear.estado}" required="true" label="estado" requiredMessage="Debe indicar el estado">
+ 			 <p:selectOneMenu id="estado" value="#{AdmCursoMB.cursoVO.estado}" required="true" label="estado" requiredMessage="Debe indicar el estado">
   			  <f:selectItem itemValue="En Creacion" itemLabel="En Creación" />
    			<f:selectItem itemValue="En Edicion" itemLabel="En Edición" />
    			<f:selectItem itemValue="Publicado" itemLabel="Publicado" />
  			 </p:selectOneMenu>
  			 
  			 <h:outputLabel for="activo" value="Activo:" />
- 			 <p:selectOneMenu id="activo" value="#{AdmCursoMB.cursoVOcrear.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
+ 			 <p:selectOneMenu id="activo" value="#{AdmCursoMB.cursoVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
    			<f:selectItem itemValue="1" itemLabel="Si" />
    			<f:selectItem itemValue="0" itemLabel="No" />
  			 </p:selectOneMenu>
  			 
  			  <h:outputLabel for="limite_actividades" value="Maximo Actividades:" />
- 			 <p:inputText id="limite_actividades" value="#{AdmCursoMB.cursoVOcrear.limite_actividades}" label="limite_actividades"/>
+ 			 <p:inputText id="limite_actividades" value="#{AdmCursoMB.cursoVO.limite_actividades}" label="limite_actividades"/>
 
 		<p:commandButton value="Guardar" action="#{AdmCursoMB.crear}" />
 			</h:panelGrid>
+
 			</h:panelGrid>
-			<h:panelGrid rendered="#{not empty AdmCursoMB.cursoVOtemp}"   columns="1" cellpadding="10">
-
-			<center><h3> Información del Curso </h3></center>
-			<h:panelGrid  rendered="#{not empty AdmCursoMB.cursoVOtemp}"  columns="2" cellpadding="10">
-			
-				<h:outputLabel for="nombreact" value="Nombre:" />
-				<p:inputText id="nombreact" value="#{AdmCursoMB.cursoVO.nombre}"
-					required="true" label="nombre" requiredMessage="Debe indicar el nombre del curso" />
-
-				<h:outputLabel for="descripcionact" value="Descripcion:" />
-				<p:inputText id="descripcionact" value="#{AdmCursoMB.cursoVO.descripcion}"
-					required="true" label="descripcion" requiredMessage="Debe indicar la descripcion"/>
-
-				
-			<h:outputLabel for="estadoact" value="Estado:" />
- 			 <p:selectOneMenu id="estadoact" value="#{AdmCursoMB.cursoVO.estado}" required="true" label="estado" requiredMessage="Debe indicar el estado">
-  			  <f:selectItem itemValue="En Creacion" itemLabel="En Creación" />
-   			<f:selectItem itemValue="En Edicion" itemLabel="En Edición" />
-   			<f:selectItem itemValue="Publicado" itemLabel="Publicado" />
- 			 </p:selectOneMenu>
- 			 
- 			 <h:outputLabel for="activoact" value="Activo:" />
- 			 <p:selectOneMenu id="activoact" value="#{AdmCursoMB.cursoVO.activo}" required="true" label="activo" requiredMessage="Debe indicar si esta activo">
-   			<f:selectItem itemValue="1" itemLabel="Si" />
-   			<f:selectItem itemValue="0" itemLabel="No" />
- 			 </p:selectOneMenu>
- 			 
- 			  <h:outputLabel for="limite_actividadesact" value="Maximo Actividades:" />
- 			 <p:inputText id="limite_actividadesact" value="#{AdmCursoMB.cursoVO.limite_actividades}" label="limite_actividades"/>
-
-		<p:commandButton value="Actualizar" action="#{AdmCursoMB.crear}" />
-			</h:panelGrid>
-			<br></br>
-			</h:panelGrid>
-
 			
 			<h:panelGrid columns="1" cellpadding="10">
 			<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"><center ><h3>Lista de Actividades</h3></center></p:outputLabel>   
@@ -95,7 +58,6 @@
 	</p:selectOneMenu>
 	<p:commandButton rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) }" action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad"/>
 			</h:panelGrid>
-			<h:panelGrid rendered="#{not empty AdmCursoMB.cursoVOtemp}" columns="1" cellpadding="10">
 			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
 				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
 				rows="4" dynamic="true" id="tb_actividades">
@@ -122,15 +84,15 @@
 				</p:column>
 
 			</p:dataTable>
-			</h:panelGrid>
+			
 			
 			</h:panelGrid>
 			</h:panelGrid>	
 			
 			<h:panelGrid columns="1" cellpadding="10">
-		<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}"><center ><h3>Lista de Estudiantes</h3> </center></p:outputLabel> 
+		<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVO.estudiantes}"><center ><h3>Lista de Estudiantes</h3> </center></p:outputLabel> 
 				<p:dataTable var="estudiante" value="#{AdmCursoMB.cursoVO.estudiantes}"
-				rendered="#{not empty AdmCursoMB.cursoVO.estudiantes and not empty AdmCursoMB.cursoVOtemp}" paginator="true"
+				rendered="#{not empty AdmCursoMB.cursoVO.estudiantes}" paginator="true"
 				rows="5" dynamic="true" id="tb_estudiantes">
 				
 

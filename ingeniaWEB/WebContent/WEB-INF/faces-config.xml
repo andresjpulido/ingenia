@@ -130,12 +130,6 @@
 			<to-view-id>/paginas/profesores/curso.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
-		<navigation-case>
-			<from-outcome>iractcursoest</from-outcome>
-			<to-view-id>/paginas/profesores/avanceestudiante.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
 
 	</navigation-rule>
 

@@ -18,6 +18,9 @@ public class ActividadusuarioPK implements Serializable {
 	@Column(name="actividad_idactividad", insertable=false, updatable=false)
 	private int actividadIdactividad;
 
+	@Column(name="raton_idraton", insertable=false, updatable=false)
+	private int ratonIdraton;
+
 	public ActividadusuarioPK() {
 	}
 	public int getUsuarioIdusuario() {
@@ -32,6 +35,12 @@ public class ActividadusuarioPK implements Serializable {
 	public void setActividadIdactividad(int actividadIdactividad) {
 		this.actividadIdactividad = actividadIdactividad;
 	}
+	public int getRatonIdraton() {
+		return this.ratonIdraton;
+	}
+	public void setRatonIdraton(int ratonIdraton) {
+		this.ratonIdraton = ratonIdraton;
+	}
 
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -43,7 +52,8 @@ public class ActividadusuarioPK implements Serializable {
 		ActividadusuarioPK castOther = (ActividadusuarioPK)other;
 		return 
 			(this.usuarioIdusuario == castOther.usuarioIdusuario)
-			&& (this.actividadIdactividad == castOther.actividadIdactividad);
+			&& (this.actividadIdactividad == castOther.actividadIdactividad)
+			&& (this.ratonIdraton == castOther.ratonIdraton);
 	}
 
 	public int hashCode() {
@@ -51,6 +61,7 @@ public class ActividadusuarioPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.usuarioIdusuario;
 		hash = hash * prime + this.actividadIdactividad;
+		hash = hash * prime + this.ratonIdraton;
 		
 		return hash;
 	}

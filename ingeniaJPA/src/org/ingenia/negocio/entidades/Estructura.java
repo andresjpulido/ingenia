@@ -33,9 +33,9 @@ public class Estructura implements Serializable {
 		)
 	private List<Actividad> actividads;
 
-	/*//bi-directional many-to-many association to Raton
+	//bi-directional many-to-many association to Raton
 	@ManyToMany(mappedBy="estructuras")
-	private List<Raton> ratons;*/
+	private List<Raton> ratons;
 
 	public Estructura() {
 	}
@@ -64,5 +64,12 @@ public class Estructura implements Serializable {
 		this.actividads = actividads;
 	}
 
+	public List<Raton> getRatons() {
+		return this.ratons;
+	}
+
+	public void setRatons(List<Raton> ratons) {
+		this.ratons = ratons;
+	}
 
 }

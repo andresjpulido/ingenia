@@ -6,12 +6,10 @@ import javax.ejb.Local;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
-import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.UsuarioVO;
-
 
 @Local
 public interface IGestorCursosLocal {
@@ -33,5 +31,5 @@ public interface IGestorCursosLocal {
 
 	public void asociarActividad(CursoActividadVO cursoActividadVO) throws AdaptadorException;
 
-	public List<ActividadxUsuarioVO> consultarActividadesCursoEstudiante(CursoVO cursoVO,EstudianteVO estudianteVO) throws AdaptadorException;
+	public void consultarActividadesCursoEstudiante(CursoVO cursoVO,EstudianteVO estudianteVO) throws AdaptadorException;
 }

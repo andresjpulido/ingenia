@@ -16,4 +16,10 @@
       <context-root>ingeniaSW</context-root>
     </web>
   </module>
+  <module id="Module_1437051461497">
+  	<web>
+  		<web-uri>IngeniaSW.war</web-uri>
+  		<context-root>/IngeniaSW</context-root>
+  	</web>
+  </module>
 </application>

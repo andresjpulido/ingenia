@@ -17,13 +17,11 @@ public class ActividadxUsuarioVO implements Serializable {
 
 	private UsuarioVO estudiante;
 	
-	private int numeroIntento;
+	private int NumeroIntento;
 
-	private Date fecha;
+	private Date Fecha;
 	
-	private int puntos;
-	
-	private int numeroMovimientos;
+	private int Puntos;
 
 	public ActividadxUsuarioVO() {
 	}
@@ -61,27 +59,27 @@ public class ActividadxUsuarioVO implements Serializable {
 	}
 
 	public int getNumeroIntento() {
-		return numeroIntento;
+		return NumeroIntento;
 	}
 
 	public void setNumeroIntento(int numeroIntento) {
-		this.numeroIntento = numeroIntento;
+		NumeroIntento = numeroIntento;
 	}
 
 	public Date getFecha() {
-		return fecha;
+		return Fecha;
 	}
 
 	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+		Fecha = fecha;
 	}
 
 	public int getPuntos() {
-		return puntos;
+		return Puntos;
 	}
 
 	public void setPuntos(int puntos) {
-		this.puntos = puntos;
+		Puntos = puntos;
 	}
 
 	public int getId() {
@@ -90,14 +88,6 @@ public class ActividadxUsuarioVO implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getNumeroMovimientos() {
-		return numeroMovimientos;
-	}
-
-	public void setNumeroMovimientos(int numeroMovimientos) {
-		this.numeroMovimientos = numeroMovimientos;
 	}
 
 }
