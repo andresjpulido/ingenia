@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -50,7 +51,7 @@ public class UsuarioMB extends BaseMB {
 	
 	  
 
-	public String autenticar() {
+	public String autenticar(ActionEvent event) {
 		RequestContext context = RequestContext.getCurrentInstance();
 		FacesMessage message = null;
 		logeado = false;
@@ -65,6 +66,7 @@ public class UsuarioMB extends BaseMB {
 		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
 			this.usuariovo = listaUsuarios.get(0);
 			logeado = true;
+			
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Bienvenido", usuario);
 			resultado = ReglasNavegacion.INICIO;
@@ -74,7 +76,12 @@ public class UsuarioMB extends BaseMB {
 			faceContext=FacesContext.getCurrentInstance();
 	        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
 	        httpServletRequest.getSession().setAttribute("sessionUsuario", this.usuariovo);
-			
+	         
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+	        //context.addCallbackParam(ReglasNavegacion.INICIO, this);
+	        context.addCallbackParam("estaLogeado", logeado);
+	        context.addCallbackParam("view", "paginas/inicio.xhtml");
+	        
 		} else {
 			logeado = false;
 			FacesContext
@@ -87,8 +94,10 @@ public class UsuarioMB extends BaseMB {
 			resultado = ReglasNavegacion.LOGIN;
 			logger.debug("El usuario " + usu.getAlias()
 					+ " NO se ha autenticado !");
+			
+			this.clave = "";
 		}
-
+		 
 		return resultado;
 
 	}

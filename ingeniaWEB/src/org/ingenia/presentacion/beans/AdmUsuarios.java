@@ -28,6 +28,8 @@ public class AdmUsuarios extends BaseMB {
 	private UsuarioVO usuarioVO = null;
 	private List<RolVO> listaRoles = null;
 
+	private boolean esEdicion;
+	
 	public AdmUsuarios() {
 		this.usuarioVO = new UsuarioVO();
 	}
@@ -109,6 +111,12 @@ public class AdmUsuarios extends BaseMB {
 		return null;
 	}
 
+	public String ircrear() {		
+		this.esEdicion = false;
+		this.usuarioVO = new UsuarioVO();
+		return ReglasNavegacion.NAV_IRUSUARIO;
+	}
+	
 	public void crear() {
 		UsuarioVO usuarioVO = new UsuarioVO();
 		usuarioVO.setNombre(this.usuario);
@@ -183,6 +191,14 @@ public class AdmUsuarios extends BaseMB {
 
 	public void setListaRoles(List<RolVO> listaRoles) {
 		this.listaRoles = listaRoles;
+	}
+
+	public boolean isEsEdicion() {
+		return esEdicion;
+	}
+
+	public void setEsEdicion(boolean esEdicion) {
+		this.esEdicion = esEdicion;
 	}
 
  
