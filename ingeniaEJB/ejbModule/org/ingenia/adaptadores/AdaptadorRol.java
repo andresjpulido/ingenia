@@ -21,21 +21,34 @@ public class AdaptadorRol extends IAdaptadorRol {
 
 	@Override
 	public Rol getRol() throws AdaptadorException {
-		Rol rol = null;
+		
 		if (rolVO == null)
 			return null;
+		
+		Rol rol = null;
+		List<Opcion> listaOpciones = null;
+		AdaptadorOpcion adaptadorOpcion = null;
+		
 		rol = new Rol();
 		rol.setNombre(rolVO.getNombre());
 		rol.setDescripcion(rolVO.getDescripcion());
 		rol.setIdRol(rolVO.getIdRol());
 		rol.setEstado(rolVO.isEstado() ? "S" : "N");
+		if (rolVO.getOpcions() != null) {
+			listaOpciones = new ArrayList<Opcion>();
+			for (OpcionVO opcionVO : rolVO.getOpcions()) {
+				adaptadorOpcion = new AdaptadorOpcion(opcionVO);
+				listaOpciones.add(adaptadorOpcion.getOpcion());
+			}
+			rol.setOpcions(listaOpciones);
+		}		
 		return rol;
 	}
 
 	@Override
 	public RolVO getRolVO() throws AdaptadorException {
 		RolVO rolVO = null;
-		List<OpcionVO> listaOpciones;
+		List<OpcionVO> listaOpciones = null;;
 		AdaptadorOpcion adaptadorOpcion = null;
 
 		if (rol == null)

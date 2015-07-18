@@ -5,18 +5,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/plantillas/plantilla.xhtml">
 
-	<ui:define name="metadata">
-	</ui:define>
-
 	<ui:define name="content">
-Administracion de Usuarios
+		<h1>Administracion de Usuarios</h1>
 		<h:form>
 
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="username" value="Usuario:" />
-				<p:inputText id="username" value="#{AdmUsuarioMB.usuario}"
+				<p:inputText id="username" value="#{AdmUsuarioMB.usuarioVO.nombre}"
 					required="false" label="Usuario" />
-
 				<f:facet name="footer">
 					<p:commandButton value="Buscar" action="#{AdmUsuarioMB.buscar}" />
 				</f:facet>
@@ -25,20 +21,25 @@ Administracion de Usuarios
 
 		</h:form>
 
+		<div align="right">
+			<p:commandButton value="Crear" process="@this"
+				action="#{AdmUsuarioMB.ircrear}" />
+		</div>
+
 		<h:form>
 			<p:dataTable var="usuario" value="#{AdmUsuarioMB.listaUsuarios}"
-				rendered="#{not empty AdmUsuarioMB.listaUsuarios}" paginator="true"
-				rows="10" dynamic="true"
+				paginator="true" rendered="#{not empty AdmUsuarioMB.listaUsuarios}"
+				rows="5" dynamic="true"
 				emptyMessages="No se han encontrado resultados">
 
-				<p:column headerText="id">
-					<p:commandButton icon="ui-icon-search" value="#{usuario.id}"
+				<p:column headerText="" style="width:80px">
+					<p:commandButton icon="ui-icon-search" value="Ver"
 						id="irusuario1" process="@this" action="#{AdmUsuarioMB.irUsuario}">
 						<f:param name="id" value="#{usuario.id}" />
-					</p:commandButton>
+					</p:commandButton>					 
 				</p:column>
 
-				<p:column headerText="Alias">
+				<p:column headerText="Alias" style="width:15%">
 					<h:outputText value="#{usuario.alias}" />
 
 				</p:column>
@@ -48,17 +49,20 @@ Administracion de Usuarios
 				</p:column>
 
 				<p:column headerText="Fecha Creacion">
-					<h:outputText value="#{usuario.fechaCreacion}" />
+					<h:outputText value="#{usuario.fechaCreacion}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Fecha Ultimo Ingreso">
-					<h:outputText value="#{usuario.fechaUltimoIngreso}" />
+					<h:outputText value="#{usuario.fechaUltimoIngreso}" >
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 				</p:column>
 			</p:dataTable>
 
-			<p:commandButton value="Crear" process="@this"
-				action="#{AdmRolMB.ircrear}" />
- 
+
+
 		</h:form>
 
 	</ui:define>

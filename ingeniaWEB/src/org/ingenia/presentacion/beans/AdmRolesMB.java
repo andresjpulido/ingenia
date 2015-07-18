@@ -1,5 +1,6 @@
 package org.ingenia.presentacion.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,25 +38,32 @@ public class AdmRolesMB extends BaseMB {
 		rolVO = new RolVO();
 	}
 
-	public String buscar() {
-		rolVO.setNombre(rol);
+	public String buscar() {	 
 		listaRoles = gestorUsuarios.consultarRoles(rolVO);
 		return ReglasNavegacion.NAV_IRADMROL;
 	}
 
 	public String ircrear() {		
-		this.esEdicion = false;
+		this.esEdicion = true;
 		rolVO = new RolVO();
 		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(0);
 		return ReglasNavegacion.NAV_IRROL;
 	}
 
 	public String guardar() {
-		rolVO = new RolVO();
-		rolVO.setNombre(this.rol);
+		List<OpcionVO> listaNuevasOpciones = null;
 		try {
+			if(listaOpciones != null && !listaOpciones.isEmpty()){
+				listaNuevasOpciones = new ArrayList<OpcionVO>();
+				for (OpcionVO opcionVO : listaOpciones) {
+					if (opcionVO.isSeleccionado()){
+						listaNuevasOpciones.add(opcionVO) ;
+					}
+				}	
+				rolVO.setOpcions(listaNuevasOpciones);
+			} 
 			gestorUsuarios.CrearRol(rolVO);
-
+			 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -82,18 +90,24 @@ public class AdmRolesMB extends BaseMB {
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
 		
-		this.esEdicion = true;
+		this.esEdicion = false;
 		
 		String id = params.get("id");
-		RolVO rolVOt = new RolVO();
-		rolVOt.setIdRol(Integer.parseInt(id));
-		this.rolVO = gestorUsuarios.consultarRol(rolVOt);
+		this.rolVO = new RolVO();
+		this.rolVO.setIdRol(Integer.parseInt(id));
+		this.rolVO = gestorUsuarios.consultarRol(rolVO);
 
 		// cargar la lista de opciones
-		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(rolVOt
+		listaOpciones = gestorUsuarios.consultarOpcionVOPorIdRol(rolVO
 				.getIdRol());
 
 		return ReglasNavegacion.NAV_IRROL;
+	}
+	
+	public String iradminrol(){
+		this.listaRoles = null;
+		this.rolVO = new RolVO();
+		return ReglasNavegacion.NAV_IRADMROL;
 	}
 
 	public String getRol() {

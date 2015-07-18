@@ -7,20 +7,23 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<h:form>
-
+ 
 		<p:outputPanel id="menuPanel" layout="block">
+		 
 			<p:menu autoSubmenuDisplay="true" 
 				style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
 				ajax="false" type="sliding" backLabel="Ingenia">
-				
-				<p:submenu label="Menu" icon="ui-icon ui-icon-refresh" >
+
 					<p:menuitem value="Inicio" url="/paginas/inicio.xhtml" />
-					<p:menuitem value="Administracion de Roles" url="/paginas/usuarios/adminrol.xhtml" rendered="#{usuarioMB.esPermitido('OP002')}"/>
-					<p:menuitem value="Administracion de Usuarios" url="/paginas/usuarios/adminusuarios.xhtml" rendered="#{usuarioMB.esPermitido('OP001')}"/>				 
-					<p:menuitem value="Administracion de Cursos" url="/paginas/profesores/admincursos.xhtml" rendered="#{usuarioMB.esPermitido('OP003')}"/>
-					<p:menuitem value="Administracion de Actividades" url="/paginas/profesores/adminactividades.xhtml" rendered="#{usuarioMB.esPermitido('OP004')}"/>
+					<p:menuitem value="Administraci&oacute;n de Roles" url="/paginas/usuarios/adminrol.xhtml" rendered="#{usuarioMB.esPermitido('OP002')}"/>
+					<p:menuitem value="Administraci&oacute;n de Usuarios" url="/paginas/usuarios/adminusuarios.xhtml" rendered="#{usuarioMB.esPermitido('OP001')}"/>				 
+					<p:menuitem value="Administraci&oacute;n de Cursos" url="/paginas/profesores/admincursos.xhtml" rendered="#{usuarioMB.esPermitido('OP003')}"/>
+					<p:menuitem value="Administraci&oacute;n de Actividades" url="/paginas/profesores/adminactividades.xhtml" rendered="#{usuarioMB.esPermitido('OP004')}"/>
 					<p:menuitem value="Mis Cursos" url="/paginas/estudiantes/miscursos.xhtml" rendered="#{usuarioMB.esPermitido('OP005')}" />
-					<p:menuitem value="Inscripcion Cursos" url="/paginas/estudiantes/inscripcioncurso.xhtml" rendered="#{usuarioMB.esPermitido('OP006')}"/>
+					<p:menuitem value="Inscripci&oacute;n Cursos" url="/paginas/estudiantes/inscripcioncurso.xhtml" rendered="#{usuarioMB.esPermitido('OP006')}"/>
+									
+				<p:submenu label="" icon="ui-icon ui-icon-refresh" >
+
 				</p:submenu>
 								
  			</p:menu>

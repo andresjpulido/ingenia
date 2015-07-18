@@ -9,46 +9,47 @@
 	</ui:define>
 
 	<ui:define name="content">
-<h:form>
-				<center><h3>Cursos Disponibles</h3> </center>
-			<h:panelGrid columns="3" cellpadding="10">
+		<h:form>
+			<h1>Cursos Disponibles</h1>
+			<h:panelGrid columns="2" cellpadding="10">
 
 				<h:outputLabel for="curso" value="Nombre Curso:" />
-				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
-			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
-		
+				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false"
+					label="curso" />
+				<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
+
 			</h:panelGrid>
-	
+
 		</h:form>
-	<h:form id="form">
+		<h:form id="form">
 
-    	  <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3" layout="grid"
-        rows="12" paginator="true" id="cars"
-        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16">
- 
-        <f:facet name="header">
-          
-        </f:facet>
- 
-        <p:panel header="#{curso.nombre}" style="text-align:center">
-            <p:panelGrid columns="1" style="width:100%">
-            <p:column >
-             <p:commandButton icon="ui-icon-search" value="Ingresar "
-						process="@this" action="#{AdmCursoMB.irCurso}">
-						<f:param name="id" value="#{curso.idcurso}" />
-					</p:commandButton>
-					  <h:outputText value="  #{curso.descripcion}" />
-                </p:column>
-            </p:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
-    
-    
-    
-			
+			<p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3"
+				layout="grid" rows="12" paginator="true" id="cars"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
 
-	</h:form>
+				<f:facet name="header">
+
+				</f:facet>
+
+				<p:panel header="#{curso.nombre}" style="text-align:center">
+					<p:panelGrid columns="1" style="width:100%">
+						<p:column>
+							<p:commandButton icon="ui-icon-search" value="Ingresar "
+								process="@this" action="#{AdmCursoMB.irCurso}">
+								<f:param name="id" value="#{curso.idcurso}" />
+							</p:commandButton>
+							<h:outputText value="  #{curso.descripcion}" />
+						</p:column>
+					</p:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+
+
+
+
+		</h:form>
 	</ui:define>
 </ui:composition>

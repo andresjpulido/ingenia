@@ -1,5 +1,6 @@
 package org.ingenia.presentacion.beans;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.MensajeVO;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
@@ -39,21 +41,18 @@ public class UsuarioMB extends BaseMB {
 	private List<MensajeVO> listaMensajesRecibidos;
 
 	private List<MensajeVO> listaMensajesEnviados;
-	
-	private HttpServletRequest httpServletRequest=null;
-	  
-    private FacesContext faceContext=null;
+
+	private HttpServletRequest httpServletRequest = null;
+
+	private FacesContext faceContext = null;
 
 	@EJB
 	private IGestorUsuariosLocal gestorUsuarios;
 
 	private static Logger logger = LogManager.getLogger(UsuarioMB.class);
-	
-	  
 
 	public String autenticar(ActionEvent event) {
 		RequestContext context = RequestContext.getCurrentInstance();
-		FacesMessage message = null;
 		logeado = false;
 		String resultado = null;
 		List<UsuarioVO> listaUsuarios = null;
@@ -65,23 +64,50 @@ public class UsuarioMB extends BaseMB {
 
 		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
 			this.usuariovo = listaUsuarios.get(0);
-			logeado = true;
 			
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Bienvenido", usuario);
-			resultado = ReglasNavegacion.INICIO;
-			logger.debug("El usuario " + usu.getAlias()
-					+ " se ha autenticado !");
-			//guarda el usuario para la sesion 
-			faceContext=FacesContext.getCurrentInstance();
-	        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
-	        httpServletRequest.getSession().setAttribute("sessionUsuario", this.usuariovo);
-	         
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-	        //context.addCallbackParam(ReglasNavegacion.INICIO, this);
-	        context.addCallbackParam("estaLogeado", logeado);
-	        context.addCallbackParam("view", "paginas/inicio.xhtml");
-	        
+			if(this.usuariovo.isActivo()){
+				logeado = true;
+
+				resultado = ReglasNavegacion.INICIO;
+				logger.debug("El usuario " + usu.getAlias()
+						+ " se ha autenticado !");
+				
+				try {
+					this.usuariovo.setFechaUltimoIngreso(new Date());
+					gestorUsuarios.crearUsuario(this.usuariovo);
+				} catch (AdaptadorException e) {
+					e.printStackTrace();
+				}
+
+				// guarda el usuario para la sesion
+				faceContext = FacesContext.getCurrentInstance();
+				httpServletRequest = (HttpServletRequest) faceContext
+						.getExternalContext().getRequest();
+				httpServletRequest.getSession().setAttribute("sessionUsuario",
+						this.usuariovo);
+
+				// FacesContext.getCurrentInstance().addMessage(null, message);
+				// context.addCallbackParam(ReglasNavegacion.INICIO, this);
+				context.addCallbackParam("estaLogeado", logeado);
+				context.addCallbackParam("view", "paginas/inicio.xhtml");
+				return resultado;
+
+			}else{
+				logeado = false;
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR,
+										"Error",
+										"Usuario no activo, consulte con el administrador!"));
+				resultado = ReglasNavegacion.LOGIN;
+				logger.debug("El usuario " + usu.getAlias()
+						+ " esta inactivo !");
+
+				this.clave = "";
+			}
+
 		} else {
 			logeado = false;
 			FacesContext
@@ -94,10 +120,10 @@ public class UsuarioMB extends BaseMB {
 			resultado = ReglasNavegacion.LOGIN;
 			logger.debug("El usuario " + usu.getAlias()
 					+ " NO se ha autenticado !");
-			
+
 			this.clave = "";
 		}
-		 
+
 		return resultado;
 
 	}
@@ -113,8 +139,8 @@ public class UsuarioMB extends BaseMB {
 				if (rolVO.getOpcions() != null && !rolVO.getOpcions().isEmpty()) {
 					for (OpcionVO opcionVO : rolVO.getOpcions()) {
 						if (opcionVO != null
-								&& String.valueOf(opcionVO.getCodigo())
-										.equals(idOpcion))
+								&& String.valueOf(opcionVO.getCodigo()).equals(
+										idOpcion))
 							return true;
 					}
 				}
@@ -130,6 +156,7 @@ public class UsuarioMB extends BaseMB {
 				.getExternalContext().getSession(false);
 		// session.invalidate();
 		this.logeado = false;
+		this.usuariovo = null;
 		return ReglasNavegacion.LOGIN;
 	}
 

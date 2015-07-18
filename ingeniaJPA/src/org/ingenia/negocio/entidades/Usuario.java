@@ -58,6 +58,8 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy="usuario")
 	private List<Rolusuario> rolusuarios;
 
+	private int activo;
+	
 	public Usuario() {
 	}
 
@@ -169,6 +171,14 @@ public class Usuario implements Serializable {
 
 	public void setIdentificacion(int identificacion) {
 		this.identificacion = identificacion;
+	}
+
+	public int getActivo() {
+		return activo;
+	}
+
+	public void setActivo(int activo) {
+		this.activo = activo;
 	}
 
 }

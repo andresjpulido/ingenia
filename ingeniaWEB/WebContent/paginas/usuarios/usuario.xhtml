@@ -9,17 +9,20 @@
 	</ui:define>
 
 	<ui:define name="content">
-Datos de usuario
+		<h1>Datos de usuario</h1>
 		<h:form>
 			<h:panelGrid columns="1" cellpadding="5">
 				<h:panelGrid columns="2" cellpadding="5">
 
 					<h:outputLabel for="alias" value="Alias:" />
-					<h:outputText id="alias" value="#{AdmUsuarioMB.usuarioVO.alias}"
-						label="Alias" rendered="#{not AdmUsuarioMB.esEdicion}" />
-					<p:inputText  value="#{AdmUsuarioMB.usuarioVO.alias}"
-						required="false" label="Usuario" rendered="#{not AdmUsuarioMB.esEdicion}" />	
-
+					<h:panelGroup>
+						<h:outputText id="alias" value="#{AdmUsuarioMB.usuarioVO.alias}"
+							label="Alias" rendered="#{AdmUsuarioMB.esEdicion eq 'false'}" />
+						<p:inputText value="#{AdmUsuarioMB.usuarioVO.alias}"
+							required="true" label="Usuario"
+							rendered="#{AdmUsuarioMB.esEdicion eq 'true'}" />
+					</h:panelGroup>
+					
 					<h:outputLabel for="nombre" value="Usuario:" />
 					<p:inputText id="nombre" value="#{AdmUsuarioMB.usuarioVO.nombre}"
 						required="false" label="Usuario" />
@@ -39,26 +42,27 @@ Datos de usuario
 						required="true" label="correo" />
 
 					<h:outputLabel for="activo" value="Activo:" />
-					<h:selectBooleanCheckbox id="activo" value="true" required="false"
+					<h:selectBooleanCheckbox id="activo" value="#{AdmUsuarioMB.usuarioVO.activo}" required="false"
 						label="activo" />
 
 				</h:panelGrid>
 
-				 
+
 				<p:dataTable var="rol" value="#{AdmUsuarioMB.listaRoles}"
-					rendered="#{not empty AdmUsuarioMB.listaRoles}"
-					paginator="true" rows="10" dynamic="true" id="tb_rolopcion">
-<f:facet name="header">
+					rendered="#{not empty AdmUsuarioMB.listaRoles}" paginator="true"
+					rows="10" dynamic="true" id="tb_rolopcion">
+					<f:facet name="header">
         Roles
     </f:facet>
-					<p:column headerText="Id">
-						<p:selectBooleanCheckbox icon="ui-icon-search" value="#{rol.seleccionado}"
-							process="@this" action="#{AdmRolMB.irRol}" id="cb_idopcion">
+					<p:column headerText="" style="width:80px">
+						<p:selectBooleanCheckbox icon="ui-icon-search"
+							value="#{rol.seleccionado}" process="@this"
+							action="#{AdmRolMB.irRol}" id="cb_idopcion">
 							<f:param name="id" value="true" />
 						</p:selectBooleanCheckbox>
 					</p:column>
 
-					<p:column headerText="Nombre">
+					<p:column headerText="Nombre" style="width:25%">
 						<h:outputText name="activo" value="#{rol.nombre}" />
 					</p:column>
 
@@ -70,6 +74,7 @@ Datos de usuario
 
 				<f:facet name="footer">
 					<p:commandButton value="Guardar" action="#{AdmUsuarioMB.guardar}" />
+					<p:commandButton value="Atras" action="#{AdmUsuarioMB.iradminusuario}" immediate="true" />
 				</f:facet>
 			</h:panelGrid>
 		</h:form>

@@ -30,6 +30,8 @@ public class UsuarioVO implements Serializable {
 	
 	private int identificacion;
 	
+	private boolean activo;
+	
 	private List<RolVO> listaRoles;
 
 	public int getId() {
@@ -128,4 +130,12 @@ public class UsuarioVO implements Serializable {
 		this.identificacion = identificacion;
 	}
 
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+ 
 }

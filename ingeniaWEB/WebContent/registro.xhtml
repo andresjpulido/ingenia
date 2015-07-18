@@ -29,39 +29,39 @@
 
 					<h:outputLabel for="alias" value="*Alias:" />
 					<p:inputText id="alias" value="#{AdmUsuarioMB.usuarioVO.alias}"
-						required="true" label="Alias" />
+						required="true" label="Alias" maxlength="11" />
 
 					<h:outputLabel for="clave" value="*Clave:" />
 					<p:password id="clave" value="#{AdmUsuarioMB.usuarioVO.clave}"
-						required="true" label="Clave 1" />
+						required="true" label="Clave 1" maxlength="11" />
 
 					<h:outputLabel for="rclave" value="*Repita la clave:" />
 					<p:password id="rclave" value="#{AdmUsuarioMB.usuarioVO.clave2}"
-						required="true" label="Clave 2" />
+						required="true" label="Clave 2" maxlength="11" />
 
 					<h:outputLabel for="nombre" value="*Nombres:" />
 					<p:inputText id="nombre" value="#{AdmUsuarioMB.usuarioVO.nombre}"
-						required="true" label="Nombres" />
+						required="true" label="Nombres" maxlength="150" />
 
 					<h:outputLabel for="apellido" value="*Apellido:" />
 					<p:inputText id="apellido"
 						value="#{AdmUsuarioMB.usuarioVO.apellido}" required="true"
-						label="Apellidos" />
+						label="Apellidos" maxlength="150" />
 
 					<h:outputLabel for="identificacion" value="*Identificacion:" />
 					<p:inputText id="identificacion"
 						value="#{AdmUsuarioMB.usuarioVO.identificacion}" required="true"
-						label="Identificacion" />
+						label="Identificacion" maxlength="11" />
 
 					<h:outputLabel for="correo" value="*Correo:" />
 					<p:inputText id="correo" value="#{AdmUsuarioMB.usuarioVO.correo}"
-						required="true" label="correo" />
+						required="true" label="correo" maxlength="30" />
 
 					<f:facet name="footer">
 						<p:commandButton value="Guardar"
 							action="#{AdmUsuarioMB.guardarRegistro}" />
 						<p:commandButton value="Atras" action="irAutenticacion"
-							immediate="false" />
+							immediate="true" />
 					</f:facet>
 
 				</h:panelGrid>

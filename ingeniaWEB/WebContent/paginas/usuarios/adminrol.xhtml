@@ -9,13 +9,13 @@
 	</ui:define>
 
 	<ui:define name="content">
-			Administracion de Roles
+		<h1>Administración de Roles</h1>
 		<h:form>
 
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="rol" value="Rol:" />
-				<p:inputText id="rol" value="#{AdmRolMB.rol}" required="false"
-					label="Rol" />
+				<p:inputText id="rol" value="#{AdmRolMB.rolVO.nombre}"
+					required="false" label="Rol" />
 
 				<f:facet name="footer">
 					<p:commandButton value="Buscar" action="#{AdmRolMB.buscar}" />
@@ -23,6 +23,11 @@
 
 			</h:panelGrid>
 		</h:form>
+
+		<div align="right">
+			<p:commandButton value="Crear" process="@this"
+				action="#{AdmRolMB.ircrear}" style="align:right" />
+		</div>
 
 		<h:form>
 			<p:dataTable var="rol" value="#{AdmRolMB.listaRoles}"
@@ -35,7 +40,7 @@
 					</p:commandButton>
 				</p:column>
 
-				<p:column headerText="Nombre">
+				<p:column headerText="Nombre" style="width:25%">
 					<h:outputText name="nombre" value="#{rol.nombre}" />
 				</p:column>
 
@@ -45,8 +50,7 @@
 
 			</p:dataTable>
 
-			<p:commandButton value="Crear" process="@this"
-				action="#{AdmRolMB.ircrear}" />
+
 
 		</h:form>
 	</ui:define>

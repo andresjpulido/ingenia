@@ -9,48 +9,49 @@
 	</ui:define>
 
 	<ui:define name="content">
-	
-			<h:form>
-				<center><h3>Mis Cursos</h3> </center>
-			<h:panelGrid columns="3" cellpadding="10">
 
+		<h:form>
+			<h1>Mis Cursos</h1>
+			<h:panelGrid columns="2" cellpadding="10">
 				<h:outputLabel for="curso" value="Nombre Curso:" />
-				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
-			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
-		
+				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false"
+					label="curso" />
+				<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
+
 			</h:panelGrid>
-			
-			<div id="crear" align="right" >
-          <p:commandButton value="Crear nuevo curso" id="ajax" action="#{AdmCursoMB.nuevoCurso}"  styleClass="ui-priority-primary" />
+
+			<div id="crear" align="right">
+				<p:commandButton value="Crear nuevo curso" id="ajax"
+					action="#{AdmCursoMB.nuevoCurso}" styleClass="ui-priority-primary" />
 			</div>
 		</h:form>
 
 		<h:form>
-			
-	
-			
-	 <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3" layout="grid"
-        rows="12" paginator="true" id="cars"
-        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16">
- 
-        <f:facet name="header">
-          
-        </f:facet>
- 
-        <p:panel header="#{curso.nombre}" style="text-align:center">
-            <p:panelGrid columns="1" style="width:100%">
-            <p:column >
-             <p:commandButton icon="ui-icon-search" value="Ver Curso "
-						process="@this" action="#{AdmCursoMB.irCurso}">
-						<f:param name="id" value="#{curso.idcurso}" />
-					</p:commandButton>
-					  <h:outputText value="  #{curso.descripcion}" />
-                </p:column>
-            </p:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
+
+
+
+			<p:dataGrid var="curso" value="#{AdmCursoMB.listaCursos}" columns="3"
+				layout="grid" rows="12" paginator="true" id="cars"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
+
+				<f:facet name="header">
+
+				</f:facet>
+
+				<p:panel header="#{curso.nombre}" style="text-align:center">
+					<p:panelGrid columns="1" style="width:100%">
+						<p:column>
+							<p:commandButton icon="ui-icon-search" value="Ver Curso "
+								process="@this" action="#{AdmCursoMB.irCurso}">
+								<f:param name="id" value="#{curso.idcurso}" />
+							</p:commandButton>
+							<h:outputText value="  #{curso.descripcion}" />
+						</p:column>
+					</p:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
 
 
 		</h:form>

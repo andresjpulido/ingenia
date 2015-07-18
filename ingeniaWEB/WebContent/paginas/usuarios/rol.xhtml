@@ -9,23 +9,23 @@
 	</ui:define>
 
 	<ui:define name="content">
-Datos de rol
+		<h1>Datos de rol</h1>
 		<h:form>
 			<h:panelGrid columns="1" cellpadding="5">
 				<h:panelGrid columns="2" cellpadding="5">
 
 					<h:outputLabel for="nombre" value="Nombre:" />
 					<h:outputText id="nombre" value="#{AdmRolMB.rolVO.nombre}"
-						label="nombre" rendered="#{AdmRolMB.esEdicion}" />
+						label="nombre" rendered="#{AdmRolMB.esEdicion eq 'false'}" />
 					<h:inputText value="#{AdmRolMB.rolVO.nombre}"
-						rendered="#{not AdmRolMB.esEdicion}" required="true"
-						label="Nombre" />
+						rendered="#{AdmRolMB.esEdicion eq 'true'}" required="true"
+						label="Nombre" maxlength="45" />
 
 
 					<h:outputLabel for="descripcion" value="Descripcion:" />
 					<p:inputTextarea id="descripcion"
 						value="#{AdmRolMB.rolVO.descripcion}" required="false"
-						label="descripcion"></p:inputTextarea>
+						label="descripcion" maxlength="300"></p:inputTextarea>
 
 					<h:outputLabel for="activo" value="Activo:" />
 					<h:selectBooleanCheckbox id="activo" value="true" required="false"
@@ -57,6 +57,7 @@ Datos de rol
 
 				<f:facet name="footer">
 					<p:commandButton value="Guardar" action="#{AdmRolMB.guardar}" />
+					<p:commandButton value="Atras" action="#{AdmRolMB.iradminrol}" immediate="true" />
 				</f:facet>
 
 			</h:panelGrid>

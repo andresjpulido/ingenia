@@ -35,4 +35,8 @@ public interface IGestorUsuariosRemote {
 	public List<OpcionVO> consultarOpcionVOPorIdRol(int idRol);
 
 	public List<RolVO> consultarRolVOPorIdUsuario(int idUsuario);
+	
+	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) throws AdaptadorException ;
+	
+	
 }

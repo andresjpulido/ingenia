@@ -9,47 +9,50 @@
 	</ui:define>
 
 	<ui:define name="content">
-								
+
 		<h:form>
-			 <center><h3>Mis Actividades</h3> </center>	
-			<h:panelGrid columns="3" cellpadding="10">
+			<h1>Mis Actividades</h1>
+			<h:panelGrid columns="2" cellpadding="10">
 				<h:outputLabel for="actividad" value="Actividad:" />
 				<p:inputText id="actividad" value="#{AdmActividadMB.actividad}"
 					required="false" label="Actividad" />
-					<p:commandButton value="Buscar" action="#{AdmActividadMB.buscar}" />
+				<p:commandButton value="Buscar" action="#{AdmActividadMB.buscar}" />
 			</h:panelGrid>
-			
-			<div id="crear" align="right" >
-			<p:commandButton  id="crear" action="#{AdmActividadMB.nuevaActividad}" value="Crear actividad "/>
+
+			<div id="crear" align="right">
+				<p:commandButton id="crear"
+					action="#{AdmActividadMB.nuevaActividad}" value="Crear actividad " />
 			</div>
 		</h:form>
 
-		<h:form>			
-						
-			 <p:dataGrid var="actividad" value="#{AdmActividadMB.listaActividades}" columns="3" layout="grid"
-        rows="12" paginator="true" id="cars"
-        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16">
- 
-        <f:facet name="header">
-          
-        </f:facet>
- 
-        <p:panel header="#{actividad.nombre}" style="text-align:center">
-            <p:panelGrid columns="1" style="width:100%">
-            <p:column >
-       <p:commandButton icon="ui-icon-search" value="Ver Actividad" process="@this" action="#{AdmActividadMB.irActividad}">
-	<f:param name="idactividad" value="#{actividad.idactividad}" />
-	</p:commandButton>
-					  <h:outputText value="  #{actividad.enunciado}" />
-                </p:column>
-            </p:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
+		<h:form>
 
-	
-			
+			<p:dataGrid var="actividad"
+				value="#{AdmActividadMB.listaActividades}" columns="3" layout="grid"
+				rows="12" paginator="true" id="cars"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
+
+				<f:facet name="header">
+
+				</f:facet>
+
+				<p:panel header="#{actividad.nombre}" style="text-align:center">
+					<p:panelGrid columns="1" style="width:100%">
+						<p:column>
+							<p:commandButton icon="ui-icon-search" value="Ver Actividad"
+								process="@this" action="#{AdmActividadMB.irActividad}">
+								<f:param name="idactividad" value="#{actividad.idactividad}" />
+							</p:commandButton>
+							<h:outputText value="  #{actividad.enunciado}" />
+						</p:column>
+					</p:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+
+
 
 		</h:form>
 

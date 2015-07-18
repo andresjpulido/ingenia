@@ -78,6 +78,7 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 						usuarioVO.getClave()));
 			}
 
+
 			if (listaPredicados.size() > 0) {
 				Predicate[] predicados = new Predicate[listaPredicados.size()];
 				listaPredicados.toArray(predicados);
@@ -121,6 +122,25 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		return usuarioVO;
 	}
 
+	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) throws AdaptadorException {
+		AdaptadorUsuario adaptador = null;
+		Usuario usuario = null;
+		
+		try {
+			 
+			usuario = em.find(Usuario.class, usuarioVO.getId());
+			if(usuario!=null){
+				adaptador = new AdaptadorUsuario(usuario);
+				usuarioVO = adaptador.getUsuarioVO();
+			}
+			
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+		return usuarioVO;
+	}
+	
 	@Override
 	public List<RolVO> consultarRoles(RolVO rolVO) {
 		AdaptadorRol adaptador = null;
@@ -208,13 +228,22 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	public void crearUsuario(UsuarioVO usuarioVO) throws AdaptadorException {
 		AdaptadorUsuario adaptador = null;
 		Usuario usuario = null;
-		usuarioVO.setFechaUltimoIngreso(new Date());
-		usuarioVO.setFechaCreacion(new Date());
+ 
 		adaptador = new AdaptadorUsuario(usuarioVO);
 
 		try {
-			usuario = adaptador.getUsuario();
-			em.persist(usuario);
+			usuario = em.find(Usuario.class, usuarioVO.getId());
+			
+			if(usuario == null){
+				usuario = adaptador.getUsuario();
+				usuarioVO.setFechaUltimoIngreso(new Date());
+				usuarioVO.setFechaCreacion(new Date());			
+				em.persist(usuario);
+			}else{
+				usuario = adaptador.getUsuario();
+				em.merge(usuario);
+			}
+	 
 
 		} catch (AdaptadorException e) {
 			throw e;
@@ -231,9 +260,19 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		Rol rol = new Rol();
 		adaptador = new AdaptadorRol(rolVO);
 
-		try {
-			rol = adaptador.getRol();
-			em.persist(rol);
+		try { 
+			
+			rol = em.find(Rol.class, rolVO.getIdRol());
+			
+			if( rol == null){
+				rol = adaptador.getRol();
+				em.persist(rol);
+				
+			}else{
+				rol = adaptador.getRol();
+				em.merge(rol);
+			}
+			
 
 		} catch (AdaptadorException e) {
 			e.printStackTrace();

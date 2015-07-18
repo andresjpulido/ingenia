@@ -1,6 +1,7 @@
 package org.ingenia.presentacion.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Rol;
@@ -29,7 +31,7 @@ public class AdmUsuarios extends BaseMB {
 	private List<RolVO> listaRoles = null;
 
 	private boolean esEdicion;
-	
+
 	public AdmUsuarios() {
 		this.usuarioVO = new UsuarioVO();
 	}
@@ -44,9 +46,24 @@ public class AdmUsuarios extends BaseMB {
 		return ReglasNavegacion.NAV_IRADMUSUARIO;
 	}
 
+	/**
+	 * Metodo utilizado en la administracion de usuarios
+	 */
 	public void guardar() {
 		try {
-			gestorUsuarios.modificarUsuario(this.usuarioVO);
+			List<RolVO> listaNuevosRoles = null;
+
+			if (listaRoles != null && !listaRoles.isEmpty()) {
+				listaNuevosRoles = new ArrayList<RolVO>();
+				for (RolVO rolVO : listaRoles) {
+					if (rolVO.isSeleccionado()) {
+						listaNuevosRoles.add(rolVO);
+					}
+				}
+				usuarioVO.setListaRoles(listaNuevosRoles);
+			}
+			gestorUsuarios.crearUsuario(this.usuarioVO);
+
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -66,6 +83,11 @@ public class AdmUsuarios extends BaseMB {
 						"La operacion fue realizada satisfactoriamente !"));
 	}
 
+	/**
+	 * Metodo utilizado en el registro del usuario
+	 * 
+	 * @return
+	 */
 	public String guardarRegistro() {
 
 		if (this.usuarioVO == null)
@@ -85,6 +107,8 @@ public class AdmUsuarios extends BaseMB {
 			rolVO.setIdRol(3);
 			listaRoles.add(rolVO);
 			this.usuarioVO.setListaRoles(listaRoles);
+			this.usuarioVO.setFechaCreacion(new Date());
+			this.usuarioVO.setFechaUltimoIngreso(new Date());
 			gestorUsuarios.crearUsuario(this.usuarioVO);
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -111,16 +135,10 @@ public class AdmUsuarios extends BaseMB {
 		return null;
 	}
 
-	public String ircrear() {		
-		this.esEdicion = false;
-		this.usuarioVO = new UsuarioVO();
-		return ReglasNavegacion.NAV_IRUSUARIO;
-	}
-	
 	public void crear() {
-		UsuarioVO usuarioVO = new UsuarioVO();
-		usuarioVO.setNombre(this.usuario);
+
 		try {
+
 			gestorUsuarios.crearUsuario(usuarioVO);
 
 		} catch (AdaptadorException e) {
@@ -142,22 +160,43 @@ public class AdmUsuarios extends BaseMB {
 						"La operacion fue realizada satisfactoriamente !"));
 	}
 
+	public String ircrear() {
+		this.esEdicion = true;
+		this.usuarioVO = new UsuarioVO();
+		this.listaRoles = gestorUsuarios.consultarRolVOPorIdUsuario(0);
+		return ReglasNavegacion.NAV_IRUSUARIO;
+	}
+
+	public String iradminusuario() {
+		this.listaUsuarios = null;
+		this.usuarioVO = new UsuarioVO();
+		return ReglasNavegacion.NAV_IRADMUSUARIO;
+	}
+
+	/**
+	 * Metodo invocado desde la tabla de usuarios y sirve para cargar la
+	 * informacion del usuario seleccionado para permitir la gestion de sus
+	 * datos.
+	 * 
+	 * @return
+	 */
 	public String irUsuario() {
-		List<UsuarioVO> listaUsuarios = null;
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext()
 				.getRequestParameterMap();
 
+		this.esEdicion = false;
+		
 		String id = params.get("id");
-		UsuarioVO usuarioVOt = new UsuarioVO();
-		usuarioVOt.setId(Integer.parseInt(id));
-		listaUsuarios = gestorUsuarios.consultarUsuarios(usuarioVOt);
-		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
-			this.usuarioVO = listaUsuarios.get(0);
-
-			listaRoles = gestorUsuarios.consultarRolVOPorIdUsuario(this.usuarioVO.getId());
-		}
-
+		usuarioVO = new UsuarioVO();
+		usuarioVO.setId(Integer.parseInt(id));
+		try {
+			usuarioVO = gestorUsuarios.consultarUsuario(usuarioVO);
+			listaRoles = gestorUsuarios
+					.consultarRolVOPorIdUsuario(this.usuarioVO.getId());
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		} 
 		return ReglasNavegacion.NAV_IRUSUARIO;
 	}
 
@@ -201,5 +240,4 @@ public class AdmUsuarios extends BaseMB {
 		this.esEdicion = esEdicion;
 	}
 
- 
 }

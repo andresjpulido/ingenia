@@ -47,6 +47,8 @@ public class AdaptadorUsuario extends IAdaptadorUsuario {
 		usuario.setClave(usuarioVO.getClave());
 		usuario.setAlias(usuarioVO.getAlias());
 		usuario.setIdentificacion(usuarioVO.getIdentificacion());
+		usuario.setActivo(usuarioVO.isActivo()?1:0);
+		usuario.setIdusuario(usuarioVO.getId());
 
 		if (usuarioVO.getListaRoles() != null && !usuarioVO.getListaRoles().isEmpty()) {
 			listaRoles = new ArrayList<Rol>();
@@ -98,7 +100,9 @@ public class AdaptadorUsuario extends IAdaptadorUsuario {
 		usuarioVO.setClave(usuario.getClave());
 		usuarioVO.setAlias(usuario.getAlias());
 		usuarioVO.setIdentificacion(usuario.getIdentificacion());
-				
+		usuarioVO.setActivo(usuario.getActivo() == 1?true:false);
+		usuarioVO.setId(usuario.getIdusuario());
+		
 		if (usuario.getRols() != null && !usuario.getRols().isEmpty()) {
 			listaRoles = new ArrayList<RolVO>();
 
