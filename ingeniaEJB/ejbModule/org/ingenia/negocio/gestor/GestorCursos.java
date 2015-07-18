@@ -48,13 +48,15 @@ public class GestorCursos implements IGestorCursosRemote,
 	}
 
 	@Override
-	public List<CursoVO> consultarCursosProfesor(int idprofesor) throws AdaptadorException {
+	public List<CursoVO> consultarCursosProfesor(UsuarioVO profesorVO) throws AdaptadorException {
 		
 		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();;
 		CursoVO cursoVO=new CursoVO();
 		AdaptadorCurso adaptador = null;
 		Usuario profesor=new Usuario();
-		 profesor = em.find(Usuario.class,idprofesor);
+		AdaptadorUsuario adapprofe=new AdaptadorUsuario(profesorVO);
+		profesor=adapprofe.getUsuario();
+		 //profesor = em.find(Usuario.class,idprofesor);
 		Query q = em.createQuery("SELECT object(c) FROM Curso AS c where c.usuario=:profesor");
 		 q.setParameter("profesor", profesor);
 		List<Curso> listaCurso= q.getResultList();
@@ -315,6 +317,75 @@ public class GestorCursos implements IGestorCursosRemote,
 			 }
 		 }
 		 return listaActividadesEstudianteVO;
+	}
+	
+	@Override
+	public List<CursoVO> consultarCursosEstudiante(UsuarioVO estudianteVO) throws AdaptadorException {
+		
+		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();;
+		CursoVO cursoVO=new CursoVO();
+		AdaptadorCurso adaptador = null;
+		Usuario estudiante=new Usuario();
+		AdaptadorUsuario adapprofe=new AdaptadorUsuario(estudianteVO);
+		estudiante=adapprofe.getUsuario();
+		 //profesor = em.find(Usuario.class,idprofesor);
+		Query q = em.createQuery("SELECT c.curso FROM Estudiantecurso AS c where c.usuario=:estudiante");
+		 q.setParameter("estudiante", estudiante);
+		List<Curso> listaCurso= q.getResultList();
+ 
+        for (int i=0;listaCurso.size()>i;i++) {
+        
+            adaptador = new AdaptadorCurso(listaCurso.get(i));
+            try {
+				cursoVO =adaptador.getCursoVO();
+
+			} catch (AdaptadorException e) {
+				// T ODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			listaCursoVO.add(cursoVO);
+		}
+        
+        return listaCursoVO;
+	}
+
+	@Override
+	public List<CursoVO> consultarCursosDisponibleEstudiante(List<CursoVO> listaCursosest) throws AdaptadorException {
+		
+		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();
+		List<CursoVO> listaCursoDefinitivaVO = new ArrayList<CursoVO>();
+		CursoVO cursoVO=new CursoVO();
+		Query q = em.createQuery("SELECT Object(c) FROM Curso AS c");
+		List<Curso> listaCurso= q.getResultList();
+ 		AdaptadorCurso adaptador = null;
+
+         for (int i=0;listaCurso.size()>i;i++) {
+             
+             adaptador = new AdaptadorCurso(listaCurso.get(i));
+             try {
+ 				cursoVO =adaptador.getCursoVO();
+
+ 			} catch (AdaptadorException e) {
+ 				// T ODO Auto-generated catch block
+ 				e.printStackTrace();
+ 			}
+ 			listaCursoVO.add(cursoVO);
+ 		}
+         
+         for (int i=0;listaCursosest.size()>i;i++) {
+         
+        	 for (int j=0;listaCursoVO.size()>j;j++) {
+        		 
+        		 if(listaCursosest.get(i).equals(listaCursosest.get(j))){
+        			 listaCursoVO.remove(j);
+        			 j=listaCursoVO.size()+1;
+        		 }
+             }
+         }
+
+         System.out.println("tam "+ listaCursoVO.size());
+
+		return listaCursoVO;
 	}
 
 }

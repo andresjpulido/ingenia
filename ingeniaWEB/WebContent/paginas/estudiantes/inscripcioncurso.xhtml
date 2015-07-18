@@ -9,6 +9,44 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h1>Inscripción de cursos</h1>
+		
+<h:form>
+				<center><h3>Cursos Disponibles</h3> </center>
+			<h:panelGrid columns="3" cellpadding="10">
+
+				<h:outputLabel for="curso" value="Nombre Curso:" />
+				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
+			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscardisp}" />
+		
+			</h:panelGrid>
+	
+		</h:form>
+	<h:form id="form">
+
+    	  <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursosdisponible}" columns="3" layout="grid"
+        rows="12" paginator="true" id="cars"
+        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+ 
+        <f:facet name="header">
+          
+        </f:facet>
+ 
+        <p:panel header="#{curso.nombre}" style="text-align:center">
+            <p:panelGrid columns="1" style="width:100%">
+            <p:column >
+             <p:commandButton icon="ui-icon-search" value="Inscribirse "
+						process="@this" action="#{AdmCursoMB.inscribir}">
+						<f:param name="id" value="#{curso.idcurso}" />
+					</p:commandButton>
+					  <h:outputText value="  #{curso.descripcion}" />
+                </p:column>
+            </p:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
+        
+    </h:form>
+
 	</ui:define>
 </ui:composition>

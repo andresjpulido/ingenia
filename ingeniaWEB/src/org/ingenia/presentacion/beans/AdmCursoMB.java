@@ -31,11 +31,14 @@ public class AdmCursoMB extends BaseMB {
 
 	private CursoVO cursoVO=new CursoVO();
 	private CursoVO cursoVOcrear=new CursoVO();
+    private CursoVO cursoVO1=new CursoVO();
 	ActividadVO actividadVO = new ActividadVO();
 	private List<ActividadVO> listaActividades;
 	private List<ActividadxUsuarioVO> listaActividadesEstudiante;
 	private String curso;
 	private List<CursoVO> listaCursos;
+	private List<CursoVO> listaCursosest;
+	private List<CursoVO> listaCursosdisponible;
     private CursoVO cursoVOtemp=new CursoVO();
 	private boolean buscando=false;
 	private final static String NAV_IRCURSO = "ircurso";
@@ -62,8 +65,17 @@ public class AdmCursoMB extends BaseMB {
 		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
 		        {
 		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
-		            System.out.println("id profe"+UsuarioVO.getId());
-					listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId());
+		           // System.out.println("id profe"+UsuarioVO.getId());
+		        	for(int i=0;this.UsuarioVO.getListaRoles().size()>i;i++){
+					if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==1){
+		        	listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO);
+		        	}
+					else if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==3){
+			  listaCursosest = gestorCursos.consultarCursosEstudiante(this.UsuarioVO);
+			  System.out.println(listaCursosest.size()+" tamko");
+			  setListaCursosdisponible(gestorCursos.consultarCursosDisponibleEstudiante(listaCursosest));
+			        	}
+		          }
 		        }
 
 		} catch (AdaptadorException e) {
@@ -96,10 +108,28 @@ public class AdmCursoMB extends BaseMB {
 		
 		return NAV_IRADMCURSO;
 	}
+	
+	public String buscarest() {//es mas como un filtro
+		CursoVO CursoVO = new CursoVO();
+		CursoVO.setNombre(curso);
+		CursoVO.setProfesor(this.UsuarioVO);
+	
+		/*try {
+			this.buscando=true;
+			setListaCursosest(gestorCursos.consultarCursosPorNombre(CursoVO));
+			
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+			
+		
+		return NAV_IRADMCURSO;
+	}
 
 	
 	public String asociarActividad() {
-		System.out.println(this.actividadVO.getIdactividad());
+		//System.out.println(this.actividadVO.getIdactividad());
 
 		try {
 			CursoActividadVO cursoActividadVO=new CursoActividadVO();
@@ -109,7 +139,7 @@ public class AdmCursoMB extends BaseMB {
 			gestorCursos.asociarActividad(cursoActividadVO);
 			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
 			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);			
-			
+			validarlimiteactividades();
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -131,7 +161,6 @@ public class AdmCursoMB extends BaseMB {
 	}
 	
 	public void actualizar() {
-		
 		try {
 			gestorCursos.modificarCursoVO(this.cursoVO);
 
@@ -155,22 +184,22 @@ public class AdmCursoMB extends BaseMB {
 						"La operacion fue realizada satisfactoriamente !"));
 	}
 
-	public String crear() {
-
-		
+	public String crear() {	
 
 		try {
-
-			if (this.cursoVOcrear.getIdcurso()==0){
+			if (this.cursoVOtemp==null){
 				//profesorVO.setId(7890);
 				CursoVO cursoVO = this.cursoVOcrear;
 				cursoVO.setProfesor(this.UsuarioVO);
+				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en MB");
+
 				gestorCursos.crearCursoVO(cursoVO);
-				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
+				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO));
 			}
 			else 
 			{	
 				CursoVO cursoVO = this.cursoVO;
+				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en Modifics");
 				gestorCursos.modificarCursoVO(cursoVO);
           		this.buscando=false;
 			}
@@ -210,7 +239,7 @@ public class AdmCursoMB extends BaseMB {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
 			//System.out.println("lista est "+this.cursoVO.getEstudiantes().size());
 			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);		
-            
+			validarlimiteactividades();
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
@@ -227,28 +256,46 @@ public class AdmCursoMB extends BaseMB {
 			UsuarioVO usuario= gestorUsuarios.consultarUsuarioPorId(this.estudianteVO.getId());
 			this.estudianteVO.setNombre(usuario.getNombre());
 			this.estudianteVO.setApellido(usuario.getApellido());
-			
+			//System.out.println(this.listaActividadesEstudiante.size()+" tamaño");
 
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("actividades estudiante"+id);
+		//System.out.println("actividades estudiante"+id);
 		return NAV_IRACTCURSOEST;
 	}
 	
-	public CursoVO getCursoVO() {
-		try {
+	private void validarlimiteactividades() {
+		//System.out.println("validando limite "+this.cursoVO.getLimite_actividades() +"y lista "+this.listaActividades.size());
+		if(!(this.cursoVO.getLimite_actividades()>this.cursoVO.getActividades().size())){
+			this.setCursoVO1(null);
+		}
+		else{
+			this.setCursoVO1(new CursoVO());
 
+		}
+	}
+	
+	public CursoVO getCursoVO() {
+		/*try {
+		if(this.cursoVOtemp==null){
+			System.out.println("curso null");
+			return cursoVO;
+
+			}
+		else{
 			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
-			
-			
+			System.out.println("curso datos");
+			}
+				
 		
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return cursoVO;
+
 	}
 
 	public void setCursoVO(CursoVO cursoVO) {
@@ -268,7 +315,7 @@ public class AdmCursoMB extends BaseMB {
 	public List<CursoVO> getListaCursos() {
 		try {
 			if(buscando==false){
-				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO.getId()));
+				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO));
 			}
 
 		} catch (AdaptadorException e) {
@@ -335,6 +382,30 @@ public class AdmCursoMB extends BaseMB {
 	public void setListaActividadesEstudiante(
 			List<ActividadxUsuarioVO> listaActividadesEstudiante) {
 		this.listaActividadesEstudiante = listaActividadesEstudiante;
+	}
+
+	public CursoVO getCursoVO1() {
+		return cursoVO1;
+	}
+
+	public void setCursoVO1(CursoVO cursoVO1) {
+		this.cursoVO1 = cursoVO1;
+	}
+
+	public List<CursoVO> getListaCursosest() {
+		return listaCursosest;
+	}
+
+	public void setListaCursosest(List<CursoVO> listaCursosest) {
+		this.listaCursosest = listaCursosest;
+	}
+
+	public List<CursoVO> getListaCursosdisponible() {
+		return listaCursosdisponible;
+	}
+
+	public void setListaCursosdisponible(List<CursoVO> listaCursosdisponible) {
+		this.listaCursosdisponible = listaCursosdisponible;
 	}
 
 

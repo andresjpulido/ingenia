@@ -15,7 +15,7 @@ import org.ingenia.comunes.vo.UsuarioVO;
 @Remote
 public interface IGestorCursosRemote {
 
-	public List<CursoVO> consultarCursosProfesor(int idprofesor) throws AdaptadorException;
+	public List<CursoVO> consultarCursosProfesor(UsuarioVO profesor) throws AdaptadorException;
 
 	public List<CursoVO> consultarCursosPorNombre(CursoVO cursoVO)
 			throws AdaptadorException;
@@ -33,5 +33,9 @@ public interface IGestorCursosRemote {
 	public void asociarActividad(CursoActividadVO cursoActividadVO) throws AdaptadorException;
 	
 	public List<ActividadxUsuarioVO> consultarActividadesCursoEstudiante(CursoVO cursoVO,EstudianteVO estudianteVO) throws AdaptadorException;
+
+	public List<CursoVO> consultarCursosEstudiante(UsuarioVO usuarioVO) throws AdaptadorException;
+
+	public List<CursoVO> consultarCursosDisponibleEstudiante(List<CursoVO> listaCursosest) throws AdaptadorException;
 
 }

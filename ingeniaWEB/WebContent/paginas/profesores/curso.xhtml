@@ -114,64 +114,46 @@
 
 
 				<h:panelGrid columns="1" cellpadding="10">
-					<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}">
-						<center>
-							<h3>Lista de Actividades</h3>
-						</center>
-					</p:outputLabel>
-					<h:panelGrid columns="4" cellpadding="10">
-						<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp}"
-							action="#{AdmActividadMB.nuevaAsociarActividad}"
-							value="Crear actividad para este curso" />
-						<p:outputLabel
-							rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp)}"
-							for="tipo" value="Actividades disponibles: " />
-						<p:selectOneMenu
-							rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) }"
-							id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}">
-							<f:selectItems value="#{(AdmCursoMB.listaActividades) }"
-								var="tipoA" itemLabel="#{tipoA.enunciado}"
-								itemValue="#{tipoA.idactividad}" />
-						</p:selectOneMenu>
-						<p:commandButton
-							rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) }"
-							action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad" />
-					</h:panelGrid>
-					<h:panelGrid rendered="#{not empty AdmCursoMB.cursoVOtemp}"
-						columns="1" cellpadding="10">
-						<p:dataTable var="actividad"
-							value="#{AdmCursoMB.cursoVO.actividades}"
-							rendered="#{not empty AdmCursoMB.cursoVO.actividades}"
-							paginator="true" rows="4" dynamic="true" id="tb_actividades">
+					<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"><center ><h3>Lista de Actividades</h3></center></p:outputLabel>   
+			<h:panelGrid columns="4" cellpadding="10">
+			<p:outputLabel rendered="#{empty AdmCursoMB.cursoVO1}" value="Ha llegado al limite de Actividades" />
+			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp and not empty AdmCursoMB.cursoVO1}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear actividad para este curso"/>
+			<p:outputLabel rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1)}" for="tipo" value="Actividades disponibles: " />
+	<p:selectOneMenu rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1) }" id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}" >
+ 	<f:selectItems value="#{(AdmCursoMB.listaActividades) }" var="tipoA" itemLabel="#{tipoA.enunciado}" itemValue="#{tipoA.idactividad}" />
+	</p:selectOneMenu>
+	<p:commandButton rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1)}" action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad"/>
+			</h:panelGrid>
+			<h:panelGrid rendered="#{not empty AdmCursoMB.cursoVOtemp}" columns="1" cellpadding="10">
+			<p:dataTable var="actividad" value="#{AdmCursoMB.cursoVO.actividades}"
+				rendered="#{not empty AdmCursoMB.cursoVO.actividades}" paginator="true"
+				rows="4" dynamic="true" id="tb_actividades">
+				
 
+						<p:column headerText="Accion">
+					<p:commandButton icon="ui-icon-search" value="Ver Actividad" 
+						process="@this" action="#{AdmActividadMB.irActividadCurso}" >
+						<f:param name="idactividad" value="#{actividad.idactividad}" />
+						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
+					</p:commandButton>
+				</p:column> 
 
-							<p:column headerText="Accion">
-								<p:commandButton icon="ui-icon-search" value="Ver Actividad"
-									process="@this" action="#{AdmActividadMB.irActividadCurso}">
-									<f:param name="idactividad" value="#{actividad.idactividad}" />
-									<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
-								</p:commandButton>
-							</p:column>
+			<p:column headerText="Nombre">
+					<h:outputText value="#{actividad.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Enunciado">
+					<h:outputText value="#{actividad.enunciado}" />
+				</p:column>
+				
+				<p:column headerText="Juego">
+					<h:outputText value="#{actividad.juegoVO.nombre}" />
+				</p:column>
 
-							<p:column headerText="Nombre">
-								<h:outputText value="#{actividad.nombre}" />
-							</p:column>
-
-							<p:column headerText="Enunciado">
-								<h:outputText value="#{actividad.enunciado}" />
-							</p:column>
-
-							<p:column headerText="Juego">
-								<h:outputText value="#{actividad.juegoVO.nombre}" />
-							</p:column>
-
-						</p:dataTable>
-					</h:panelGrid>
-
-				</h:panelGrid>
+			</p:dataTable>
+			</h:panelGrid>
 			</h:panelGrid>
 
-			<h:panelGrid columns="1" cellpadding="10">
 				<p:outputLabel
 					rendered="#{not empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}">
 					<center>
@@ -205,6 +187,7 @@
 					</p:column>
 
 				</p:dataTable>
+
 			</h:panelGrid>
 
 
