@@ -62,8 +62,7 @@ public class AdmActividadMB extends BaseMB {
 		
 	}
 	
-	@PostConstruct
-	public void init() {
+	public void cargarlistas () {
 		try {
 			
 			 faceContext=FacesContext.getCurrentInstance();

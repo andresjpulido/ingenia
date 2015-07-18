@@ -85,6 +85,7 @@ public class UsuarioMB extends BaseMB {
 						.getExternalContext().getRequest();
 				httpServletRequest.getSession().setAttribute("sessionUsuario",
 						this.usuariovo);
+			      System.out.println(this.usuariovo.getId()+"id profe");
 
 				// FacesContext.getCurrentInstance().addMessage(null, message);
 				// context.addCallbackParam(ReglasNavegacion.INICIO, this);
@@ -132,7 +133,6 @@ public class UsuarioMB extends BaseMB {
 		// TODO validar opciones en el rol o roles del usuario logueado
 		// iterar sobre todos los roles y sus opciones hasta q se encuentre
 		// el idopcion q llega.
-
 		if (this.usuariovo.getListaRoles() != null
 				&& !this.usuariovo.getListaRoles().isEmpty()) {
 			for (RolVO rolVO : this.usuariovo.getListaRoles()) {

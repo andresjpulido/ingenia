@@ -136,6 +136,12 @@
 			<to-view-id>/paginas/profesores/avanceestudiante.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>irmiscursos</from-outcome>
+			<to-view-id>/paginas/estudiantes/miscursos.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 
 	</navigation-rule>
 

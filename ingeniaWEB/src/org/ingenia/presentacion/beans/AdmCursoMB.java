@@ -44,6 +44,7 @@ public class AdmCursoMB extends BaseMB {
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
+	private final static String NAV_IRMISCURSOS = "irmiscursos";
 	private UsuarioVO UsuarioVO=new UsuarioVO();	
 	private EstudianteVO estudianteVO=new EstudianteVO();
     private HttpServletRequest httpServletRequest;
@@ -52,18 +53,18 @@ public class AdmCursoMB extends BaseMB {
 	@EJB
 	private IGestorCursosLocal gestorCursos;
 	@EJB
-	private IGestorUsuariosLocal gestorUsuarios;
-
-	@PostConstruct
-	public void init() {
+	private IGestorUsuariosLocal gestorUsuarios;	
+	
+	public void cargarlistas (){
 		
-		cursoVO=new CursoVO();		
-		
+cursoVO=new CursoVO();		
+		System.out.println("actualizando");
 		try {
 			 faceContext=FacesContext.getCurrentInstance();
 		        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
 		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
 		        {
+		        	System.out.println(this.UsuarioVO.getId()+" "	+ "teacher");
 		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
 		           // System.out.println("id profe"+UsuarioVO.getId());
 		        	for(int i=0;this.UsuarioVO.getListaRoles().size()>i;i++){
@@ -83,6 +84,8 @@ public class AdmCursoMB extends BaseMB {
 			e.printStackTrace();
 		}
 
+		
+		
 	}
 	
 	  public String nuevoCurso() {	   
@@ -275,6 +278,20 @@ public class AdmCursoMB extends BaseMB {
 			this.setCursoVO1(new CursoVO());
 
 		}
+	}
+	
+	public String inscribir(){
+		
+        int idcurso=Integer.parseInt(recuperarParametro("id"));
+	   this.cursoVO.setIdcurso(idcurso);
+		try {
+			this.gestorCursos.inscribirCurso(this.UsuarioVO,this.cursoVO);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return NAV_IRMISCURSOS;
 	}
 	
 	public CursoVO getCursoVO() {

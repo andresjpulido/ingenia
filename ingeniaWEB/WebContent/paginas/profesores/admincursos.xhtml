@@ -1,4 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
@@ -7,7 +7,9 @@
 
 	<ui:define name="metadata">
 	</ui:define>
-
+	<f:metadata>
+<f:event listener="#{AdmCursoMB.cargarlistas}" type="preRenderView" />
+</f:metadata>
 	<ui:define name="content">
 
 		<h:form>

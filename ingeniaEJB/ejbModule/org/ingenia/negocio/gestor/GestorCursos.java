@@ -388,4 +388,16 @@ public class GestorCursos implements IGestorCursosRemote,
 		return listaCursoVO;
 	}
 
+	@Override
+	public void inscribirCurso(UsuarioVO usuarioVO, CursoVO cursoVO)
+			throws AdaptadorException {
+		// TODO Auto-generated method stub
+		Curso curso = em.find(Curso.class, cursoVO.getIdcurso());
+		Usuario usuario = em.find(Usuario.class, usuarioVO.getId());
+        Estudiantecurso Estudiantecurso= new Estudiantecurso();
+        Estudiantecurso.setCurso(curso);
+        Estudiantecurso.setUsuario(usuario);
+		em.persist(Estudiantecurso);
+	}
+
 }
