@@ -1,3 +1,0 @@
-La URL del servicio de prueba
-
-http://localhost:8090/ingeniaSW/rest/service/dummy
