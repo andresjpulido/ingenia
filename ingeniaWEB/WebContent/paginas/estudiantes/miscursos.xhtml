@@ -12,12 +12,12 @@
 </f:metadata>
 	<ui:define name="content">
 		<h:form>
-			<center><h3>Mis Cursos</h3> </center>
+ <h1>Mis Cursos</h1>
 			<h:panelGrid columns="3" cellpadding="10">
 
 				<h:outputLabel for="curso" value="Nombre Curso:" />
 				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false" label="curso" />
-			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscarest}" />
+			<p:commandButton value="Buscar" action="#{AdmCursoMB.buscarcursoest}" />
 
 			</h:panelGrid>
 
@@ -35,12 +35,18 @@
  
         <p:panel header="#{curso.nombre}" style="text-align:center">
             <p:panelGrid columns="1" style="width:100%">
-            <p:column >
-             <p:commandButton icon="ui-icon-search" value="Ingresar "
+           <p:column >
+             <center> <p:commandButton icon="ui-icon-search" value="Ingresar "
 						process="@this" action="#{AdmCursoMB.irCursoestudiante}">
 						<f:param name="id" value="#{curso.idcurso}" />
 					</p:commandButton>
-					  <h:outputText value="  #{curso.descripcion}" />
+					  <h:outputText value="  #{curso.descripcion}" /></center>
+					  
+                </p:column>
+                
+                <p:column>
+               <center>  <h:outputText value="Profesor: " />
+                <h:outputText value="#{curso.profesor.nombre} #{curso.profesor.apellido}" /></center> 
                 </p:column>
             </p:panelGrid>
         </p:panel>

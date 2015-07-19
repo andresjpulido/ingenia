@@ -3,14 +3,12 @@ package org.ingenia.presentacion.beans;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
@@ -45,6 +43,7 @@ public class AdmCursoMB extends BaseMB {
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
 	private final static String NAV_IRMISCURSOS = "irmiscursos";
+	private final static String NAV_IRINSCRIBIRCURSOS = "irinscribircursos";
 	private UsuarioVO UsuarioVO=new UsuarioVO();	
 	private EstudianteVO estudianteVO=new EstudianteVO();
     private HttpServletRequest httpServletRequest;
@@ -56,7 +55,8 @@ public class AdmCursoMB extends BaseMB {
 	private IGestorUsuariosLocal gestorUsuarios;	
 	
 	public void cargarlistas (){
-		
+		if(buscando==false){
+			curso="";
 cursoVO=new CursoVO();		
 		System.out.println("actualizando");
 		try {
@@ -82,6 +82,10 @@ cursoVO=new CursoVO();
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		}
+		else{
+			buscando=false;
 		}
 
 		
@@ -112,22 +116,36 @@ cursoVO=new CursoVO();
 		return NAV_IRADMCURSO;
 	}
 	
-	public String buscarest() {//es mas como un filtro
+	public String buscarcursoest() {//es mas como un filtro
 		CursoVO CursoVO = new CursoVO();
 		CursoVO.setNombre(curso);
-		CursoVO.setProfesor(this.UsuarioVO);
-	
-		/*try {
+			
+		try {
 			this.buscando=true;
-			setListaCursosest(gestorCursos.consultarCursosPorNombre(CursoVO));
+			setListaCursosest(gestorCursos.consultarCursosEstudiantePorNombre(CursoVO,UsuarioVO));
 			
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 			
-		
-		return NAV_IRADMCURSO;
+		return NAV_IRMISCURSOS;
+	}
+
+	public String buscarcursodisponible() {//es mas como un filtro
+		CursoVO CursoVO = new CursoVO();
+		CursoVO.setNombre(curso);
+			
+		try {
+			this.buscando=true;
+			setListaCursosdisponible(gestorCursos.consultarCursosDisponiblesEstudiantePorNombre(CursoVO,UsuarioVO));
+			
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return NAV_IRINSCRIBIRCURSOS;
 	}
 
 	

@@ -41,6 +41,10 @@ public interface IGestorCursosLocal {
 
 	public void inscribirCurso(UsuarioVO usuarioVO,CursoVO cursoVO)throws AdaptadorException;
 
+	public List<CursoVO> consultarCursosEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO)throws AdaptadorException;
+
+	public List<CursoVO> consultarCursosDisponiblesEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO)throws AdaptadorException;
+
 
 
 }

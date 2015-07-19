@@ -353,7 +353,6 @@ public class GestorCursos implements IGestorCursosRemote,
 	public List<CursoVO> consultarCursosDisponibleEstudiante(List<CursoVO> listaCursosest) throws AdaptadorException {
 		
 		List<CursoVO> listaCursoVO = new ArrayList<CursoVO>();
-		List<CursoVO> listaCursoDefinitivaVO = new ArrayList<CursoVO>();
 		CursoVO cursoVO=new CursoVO();
 		Query q = em.createQuery("SELECT Object(c) FROM Curso AS c");
 		List<Curso> listaCurso= q.getResultList();
@@ -398,6 +397,124 @@ public class GestorCursos implements IGestorCursosRemote,
         Estudiantecurso.setCurso(curso);
         Estudiantecurso.setUsuario(usuario);
 		em.persist(Estudiantecurso);
+	}
+
+	@Override
+	public List<CursoVO> consultarCursosEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO) throws AdaptadorException {
+		AdaptadorCurso adaptador = null;
+		List<CursoVO> resultadosVO = null;
+		CriteriaBuilder cb = null;
+		CriteriaQuery<Curso> cq = null;
+		Root<Curso> curso= null;
+		List<Predicate> listaPredicados = null;
+		List<Curso> resultados = null;
+
+		try {
+
+			cb = em.getCriteriaBuilder();
+			cq = cb.createQuery(Curso.class);
+			curso = cq.from(Curso.class);
+			listaPredicados = new ArrayList<Predicate>();
+			cq.select(curso);
+
+			if (cursoVO.getNombre() != null
+					&& cursoVO.getNombre().length() != 0) {
+				listaPredicados.add(cb.like(
+						curso.get("nombre").as(String.class),
+						"%" + cursoVO.getNombre() + "%"));
+			}
+
+			if (listaPredicados.size() > 0) {
+				Predicate[] predicados = new Predicate[listaPredicados.size()];
+				listaPredicados.toArray(predicados);
+				cq.where(predicados);
+			}
+
+	
+			TypedQuery<Curso> tq = em.createQuery(cq);
+			resultados = tq.getResultList();
+		Usuario estudiante=em.find(Usuario.class,usuarioVO.getId());
+		Query q = em.createQuery("SELECT c.curso FROM Estudiantecurso AS c where c.usuario=:estudiante");
+		q.setParameter("estudiante", estudiante);
+		List<Curso> listaCurso= q.getResultList();
+			System.out.println(listaCurso.size()+" estudiacurso");
+			if (resultados != null) {
+				resultadosVO = new ArrayList<CursoVO>();
+				for (Curso cursoResultado : resultados) {
+					for (Curso cursoLista : listaCurso) {
+					if (cursoResultado.getIdcurso()==cursoLista.getIdcurso()){
+					adaptador = new AdaptadorCurso(cursoResultado);
+					resultadosVO.add(adaptador.getCursoVO());}
+					}
+					}
+					
+			}
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+
+		return resultadosVO;
+		
+	}
+	
+	@Override
+	public List<CursoVO> consultarCursosDisponiblesEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO) throws AdaptadorException {
+		AdaptadorCurso adaptador = null;
+		List<CursoVO> resultadosVO = null;
+		CriteriaBuilder cb = null;
+		CriteriaQuery<Curso> cq = null;
+		Root<Curso> curso= null;
+		List<Predicate> listaPredicados = null;
+		List<Curso> resultados = null;
+
+		try {
+
+			cb = em.getCriteriaBuilder();
+			cq = cb.createQuery(Curso.class);
+			curso = cq.from(Curso.class);
+			listaPredicados = new ArrayList<Predicate>();
+			cq.select(curso);
+
+			if (cursoVO.getNombre() != null
+					&& cursoVO.getNombre().length() != 0) {
+				listaPredicados.add(cb.like(
+						curso.get("nombre").as(String.class),
+						"%" + cursoVO.getNombre() + "%"));
+			}
+
+			if (listaPredicados.size() > 0) {
+				Predicate[] predicados = new Predicate[listaPredicados.size()];
+				listaPredicados.toArray(predicados);
+				cq.where(predicados);
+			}
+
+	
+			TypedQuery<Curso> tq = em.createQuery(cq);
+			resultados = tq.getResultList();
+
+		List<CursoVO> listaCursoVO= consultarCursosEstudiante(usuarioVO);
+		List<CursoVO> listaCursoDisponibleVO = consultarCursosDisponibleEstudiante(listaCursoVO);
+			System.out.println(listaCursoDisponibleVO.size()+" estudiacurso");
+			if (resultados != null) {
+				resultadosVO = new ArrayList<CursoVO>();
+				for (Curso cursoResultado : resultados) {
+					for (CursoVO cursoLista : listaCursoDisponibleVO) {
+					if (cursoResultado.getIdcurso()==cursoLista.getIdcurso()){
+					adaptador = new AdaptadorCurso(cursoResultado);
+					resultadosVO.add(adaptador.getCursoVO());}
+					}
+					}
+					
+			}
+
+		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		}
+		System.out.println(resultadosVO.size()+" final");
+
+		return resultadosVO;
+		
 	}
 
 }

@@ -39,5 +39,9 @@ public interface IGestorCursosRemote {
 	public List<CursoVO> consultarCursosDisponibleEstudiante(List<CursoVO> listaCursosest) throws AdaptadorException;
 
 	public void inscribirCurso(UsuarioVO usuarioVO,CursoVO cursoVO)throws AdaptadorException;
+	
+	public List<CursoVO> consultarCursosEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO)throws AdaptadorException;
+
+	public List<CursoVO> consultarCursosDisponiblesEstudiantePorNombre(CursoVO cursoVO,UsuarioVO usuarioVO)throws AdaptadorException;
 
 }
