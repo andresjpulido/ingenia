@@ -74,6 +74,7 @@ public class AdmGatoMB extends BaseMB {
 		}
 	}
 	
+	
 
 	public String actualizar() {
 				GatoVO gatoVO = this.gatoVO1;

@@ -14,8 +14,8 @@
 </f:metadata>
 	<ui:define name="content">
 
-		<h:form>
-		<p:tabView>
+		<h:form id="form">
+		<p:tabView id="tab_curso" >
 		<p:tab title="Curso">
 			<h1>
 				<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"
@@ -123,7 +123,7 @@
 			<p:commandButton rendered="#{not empty AdmCursoMB.cursoVOtemp and not empty AdmCursoMB.cursoVO1}" action="#{AdmActividadMB.nuevaAsociarActividad}" value="Crear actividad para este curso"/>
 			<p:outputLabel rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1)}" for="tipo" value="Actividades disponibles: " />
 	<p:selectOneMenu rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1) }" id="tipo" value="#{AdmCursoMB.actividadVO.idactividad}" >
- 	<f:selectItems value="#{(AdmCursoMB.listaActividades) }" var="tipoA" itemLabel="#{tipoA.enunciado}" itemValue="#{tipoA.idactividad}" />
+ 	<f:selectItems value="#{(AdmCursoMB.listaActividades) }" var="tipoA" itemLabel="#{tipoA.nombre}" itemValue="#{tipoA.idactividad}" />
 	</p:selectOneMenu>
 	<p:commandButton rendered="#{(not empty AdmCursoMB.listaActividades) and (not empty AdmCursoMB.cursoVOtemp) and (not empty AdmCursoMB.cursoVO1)}" action="#{AdmCursoMB.asociarActividad}" value="Agregar Actividad"/>
 			</h:panelGrid>
@@ -134,11 +134,10 @@
 				
 
 						<p:column headerText="Accion">
-					<p:commandButton icon="ui-icon-search" value="Ver Actividad" 
-						process="@this" action="#{AdmActividadMB.irActividadCurso}" >
-						<f:param name="idactividad" value="#{actividad.idactividad}" />
-						<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
-					</p:commandButton>
+				<p:commandLink update=":mainForm:form:tab_curso:detalleActividad" oncomplete="PF('actividadDialogo').show()" title="Ver Detalle">
+                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                    <f:setPropertyActionListener value="#{actividad}" target="#{AdmCursoMB.actividadSeleccionada}" />
+                </p:commandLink>
 				</p:column> 
 
 			<p:column headerText="Nombre">
@@ -154,6 +153,30 @@
 				</p:column>
 
 			</p:dataTable>
+			 <p:dialog header="Info Actividad" widgetVar="actividadDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="detalleActividad" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty AdmCursoMB.actividadSeleccionada}" columnClasses="label,value">
+         
+          		<h:outputText value="Posicion" />
+                <h:outputText value="#{AdmCursoMB.posicion}" />
+                
+                <h:outputText value="Nombre" />
+                <h:outputText value="#{AdmCursoMB.actividadSeleccionada.nombre}" />
+ 
+			    <h:outputText value="Juego:" />
+                <h:outputText value="#{AdmCursoMB.actividadSeleccionada.juegoVO.nombre}" />
+                
+                <h:outputText value="Enunciado:" />
+                <h:outputText value="#{AdmCursoMB.actividadSeleccionada.enunciado}"/>
+ 
+                <h:outputText value="URL Apoyo" />
+                <h:outputText value="#{AdmCursoMB.actividadSeleccionada.url_conocimiento}" />
+                
+                <h:outputText value="Limite Movimientos" />
+                <h:outputText value="#{AdmCursoMB.actividadSeleccionada.limite_movimientos}" />
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
 			</h:panelGrid>
 			</h:panelGrid>
 			</h:panelGrid>
