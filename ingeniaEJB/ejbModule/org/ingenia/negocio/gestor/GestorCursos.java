@@ -159,7 +159,7 @@ public class GestorCursos implements IGestorCursosRemote,
 	        listaactividadesVO.add(actividad);	        
 		 }
 		 
-		Query q2 = em.createQuery("SELECT c FROM Estudiantecurso AS c where c.curso=:curso");
+		Query q2 = em.createQuery("SELECT c FROM Estudiantecurso AS c where c.curso=:curso order by c.puntaje desc");
 		q2.setParameter("curso", curso);
 		listacursousuario= q2.getResultList();	
 			 
@@ -433,15 +433,13 @@ public class GestorCursos implements IGestorCursosRemote,
 	
 			TypedQuery<Curso> tq = em.createQuery(cq);
 			resultados = tq.getResultList();
-		Usuario estudiante=em.find(Usuario.class,usuarioVO.getId());
-		Query q = em.createQuery("SELECT c.curso FROM Estudiantecurso AS c where c.usuario=:estudiante");
-		q.setParameter("estudiante", estudiante);
-		List<Curso> listaCurso= q.getResultList();
-			System.out.println(listaCurso.size()+" estudiacurso");
+			List<CursoVO> listaCursoVO= consultarCursosEstudiante(usuarioVO);
+
+			System.out.println(listaCursoVO.size()+" estudiacurso");
 			if (resultados != null) {
 				resultadosVO = new ArrayList<CursoVO>();
 				for (Curso cursoResultado : resultados) {
-					for (Curso cursoLista : listaCurso) {
+					for (CursoVO cursoLista : listaCursoVO) {
 					if (cursoResultado.getIdcurso()==cursoLista.getIdcurso()){
 					adaptador = new AdaptadorCurso(cursoResultado);
 					resultadosVO.add(adaptador.getCursoVO());}
