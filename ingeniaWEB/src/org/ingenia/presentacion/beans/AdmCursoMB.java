@@ -39,6 +39,7 @@ public class AdmCursoMB extends BaseMB {
 	private List<CursoVO> listaCursosdisponible;
     private CursoVO cursoVOtemp=new CursoVO();
 	private boolean buscando=false;
+	private boolean creando=false;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
@@ -54,10 +55,28 @@ public class AdmCursoMB extends BaseMB {
 	@EJB
 	private IGestorUsuariosLocal gestorUsuarios;	
 	
+	public void cargarlistas2 (){
+		System.out.println("estado "+creando);
+		   	if(creando==false){
+		   	System.out.println("entro a falso");
+		   	try {
+				this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
+			   	this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
+		   	} catch (AdaptadorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			}
+		    else{
+		    System.out.println("entro a verdadero");
+		    creando=false;
+		    }      	
+        }
+	
 	public void cargarlistas (){
 		if(buscando==false){
 			curso="";
-cursoVO=new CursoVO();		
+
 		System.out.println("actualizando");
 		try {
 			 faceContext=FacesContext.getCurrentInstance();
@@ -70,12 +89,17 @@ cursoVO=new CursoVO();
 		        	for(int i=0;this.UsuarioVO.getListaRoles().size()>i;i++){
 					if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==1){
 		        	listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO);
+		        System.out.println("estado "+creando);
+
 		        	}
+					
 					else if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==3){
 			  listaCursosest = gestorCursos.consultarCursosEstudiante(this.UsuarioVO);
 			  System.out.println(listaCursosest.size()+" tamko");
 			  setListaCursosdisponible(gestorCursos.consultarCursosDisponibleEstudiante(listaCursosest));
-			        	}
+				
+
+					}
 		          }
 		        }
 
@@ -85,6 +109,7 @@ cursoVO=new CursoVO();
 		}
 		}
 		else{
+			//cursoVO=new CursoVO();		
 			buscando=false;
 		}
 
@@ -92,7 +117,8 @@ cursoVO=new CursoVO();
 		
 	}
 	
-	  public String nuevoCurso() {	   
+	  public String nuevoCurso() {	
+     		creando=true;
 	        this.cursoVOcrear = new CursoVO();   
 	        setCursoVOtemp(null);
 	        return NAV_IRCURSO;
@@ -222,7 +248,6 @@ cursoVO=new CursoVO();
 				CursoVO cursoVO = this.cursoVO;
 				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en Modifics");
 				gestorCursos.modificarCursoVO(cursoVO);
-          		this.buscando=false;
 			}
 
 			
@@ -348,7 +373,7 @@ cursoVO=new CursoVO();
 	}
 
 	public List<CursoVO> getListaCursos() {
-		try {
+		/*try {
 			if(buscando==false){
 				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO));
 			}
@@ -356,7 +381,7 @@ cursoVO=new CursoVO();
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return listaCursos;
 	}
 
@@ -373,12 +398,12 @@ cursoVO=new CursoVO();
 	}
 
 	public List<ActividadVO> getListaActividades() {
-		try {
+		/*try {
 			listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}	*/
 		return listaActividades;
 	}
 

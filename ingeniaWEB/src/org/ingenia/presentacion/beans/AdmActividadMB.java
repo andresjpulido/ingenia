@@ -63,6 +63,9 @@ public class AdmActividadMB extends BaseMB {
 	}
 	
 	public void cargarlistas () {
+		System.out.println(buscando);
+		if(buscando==false){
+			actividad="";
 		try {
 			
 			 faceContext=FacesContext.getCurrentInstance();
@@ -80,7 +83,13 @@ public class AdmActividadMB extends BaseMB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+		}
+		else 
+		{
+			buscando=false;
+		}
+		}
+	
 	
 	
 	  public String nuevaActividad() {
@@ -103,6 +112,7 @@ public class AdmActividadMB extends BaseMB {
 	        this.actividadVO = new ActividadVO();  
 	        this.actividadVO2 = null; 
 	    	try {
+	    		cargarlistas ();
 				this.listaestructuras=gestorActividades.consultarestructuras();
 		    	this.listaelegida=consultarListaEstructuras(this.listaestructuras);
 			} catch (AdaptadorException e) {
@@ -138,7 +148,6 @@ public class AdmActividadMB extends BaseMB {
 
 	try {	
 			gestorActividades.modificarActividad(actividadVO);	
-      		this.buscando=false;
       		} 
 	
 	catch (AdaptadorException e) {
@@ -170,7 +179,6 @@ public class AdmActividadMB extends BaseMB {
          actividadVO.setEstructuras(estructralistaelegida);
 		try {
           		gestorActividades.crearActividad(actividadVO); 	
-          		this.buscando=false;
           		destino=NAV_IRADMACTIVIDAD;
 
 		} catch (AdaptadorException e) {
@@ -217,13 +225,13 @@ public class AdmActividadMB extends BaseMB {
 			CursoActividadVO cursoActividadVO = new CursoActividadVO();
          	CursoVO cursoVO=new CursoVO();
          	cursoVO.setIdcurso(idcurso);
+         	System.out.println("en adm"+this.UsuarioVO.getId());
 			actividadVO.setProfesor(this.UsuarioVO);
+	        actividadVO.setEstructuras(this.estructralistaelegida);
 			cursoActividadVO.setActividad(actividadVO);
 			cursoActividadVO.setCurso(cursoVO);
-	        actividadVO.setEstructuras(estructralistaelegida);
 		try {
 			gestorActividades.crearActividadCurso(cursoActividadVO); 
-      		this.buscando=false;
       		destino="ircurso";
 
 		} catch (AdaptadorException e) {
@@ -274,7 +282,6 @@ public class AdmActividadMB extends BaseMB {
 			cursoActividadVO.setCurso(cursoVO);
 		try {	
 				gestorActividades.modificarActividadCurso(cursoActividadVO);	
-          		this.buscando=false;
           		} 
 		catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -475,7 +482,7 @@ public class AdmActividadMB extends BaseMB {
 	}
 
 	public List<ActividadVO> getListaActividades() {
-		try {
+	/*	try {
 
 			if(buscando==false){
 			setListaActividades(gestorActividades.consultarActividadesProfesor(UsuarioVO.getId()));
@@ -484,7 +491,7 @@ public class AdmActividadMB extends BaseMB {
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return listaActividades;
 	}
 

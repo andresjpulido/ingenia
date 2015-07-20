@@ -54,14 +54,14 @@ public class GestorActividades implements IGestorActividadesRemote,
 		AdaptadorActividad adaptador = null;
 		Actividad actividad = new Actividad();
 		Query q = em.createQuery("SELECT count(a) FROM Actividad as a");
-		cursoActividadVO.getActividad().setIdactividad(
-				((Number) q.getResultList().get(0)).intValue() + 1);
-		Juego juego = em.find(Juego.class, cursoActividadVO.getActividad().getJuegoVO().getIdjuego());
+		cursoActividadVO.getActividad().setIdactividad(((Number) q.getResultList().get(0)).intValue() + 1);
+		//Juego juego = em.find(Juego.class, cursoActividadVO.getActividad().getJuegoVO().getIdjuego());
 		adaptador = new AdaptadorActividad(cursoActividadVO.getActividad());
-
+		System.out.println(cursoActividadVO.getActividad().getProfesor().getId()+"id usuario vo");
 		try {
 			actividad = adaptador.getActividad();
-			actividad.setJuego(juego);
+			System.out.println(actividad.getUsuario().getIdusuario()+"id usuario arriba");
+			//actividad.setJuego(juego);
 			Curso curso = em.find(Curso.class, cursoActividadVO.getCurso()
 					.getIdcurso());
 			Query q2 = em.createQuery("SELECT ac.actividad FROM Actividadcurso as ac where ac.curso=:curso");
@@ -78,7 +78,8 @@ public class GestorActividades implements IGestorActividadesRemote,
 	    		EstructurasActiva estructurasActiva=new EstructurasActiva();
 	    		estructurasActiva.setActividad(actividad);
 	    		estructurasActiva.setEstructura(estructura);
-	    		em.persist(estructurasActiva);
+	    		//em.persist(estructurasActiva);
+	    		System.out.println(actividad.getUsuario().getIdusuario()+"id usuario");
 	    	}
 
 		} catch (AdaptadorException e) {

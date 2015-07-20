@@ -9,11 +9,14 @@
 
 	<ui:define name="metadata">
 	</ui:define>
-
+<f:metadata>
+<f:event listener="#{AdmCursoMB.cargarlistas2}" type="preRenderView" />
+</f:metadata>
 	<ui:define name="content">
 
 		<h:form>
-
+		<p:tabView>
+		<p:tab title="Curso">
 			<h1>
 				<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"
 					value="#{AdmCursoMB.cursoVO.nombre}" />
@@ -153,7 +156,9 @@
 			</p:dataTable>
 			</h:panelGrid>
 			</h:panelGrid>
-
+			</h:panelGrid>
+		  </p:tab>
+        <p:tab title="Estudiantes">
 				<p:outputLabel
 					rendered="#{not empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}">
 					<center>
@@ -187,9 +192,9 @@
 					</p:column>
 
 				</p:dataTable>
-
-			</h:panelGrid>
-
+</p:tab>
+	</p:tabView>		
+   
 
 
 
