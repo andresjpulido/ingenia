@@ -1,0 +1,41 @@
+/*
+carga el script loading del init del juego
+ */
+var Cargados=0;
+
+window.onload = function() {
+	var hostUrl = "/ingeniaWEB/pluggins/CatCraft/";
+	var Rutas = [
+	"js/framework/jquery-1.11.3.min.js",
+	"js/init/vglobales.js",
+	"js/commons/libs.js",
+	"js/commons/clonador.js",
+	"js/logica/controladores/ControladorAjax.js",
+	"js/logica/controladores/ControladorAnimacion.js",
+	"js/logica/controladores/ControladorJuego.js"
+	             ];
+	
+	var head = document.getElementsByTagName("head")[0];
+	
+	for (var ruta in Rutas) {
+		var loading = document.createElement("SCRIPT");
+		loading.src = hostUrl + Rutas[ruta];
+		loading.setAttribute("language", "javascript");
+		loading.setAttribute("type", "text/javascript");
+		loading.onload = function(){ Carga(Rutas.length);};
+		head.appendChild(loading);
+	}
+}
+
+//Si termino la carga de los scripts pintamos el canvas e iniciamos el juego 
+function Carga(total)
+{
+	Cargados++;
+	if(Cargados==total)
+	{
+		var htmlCanvas = '<canvas id="canvas" width="800" height="500">Your browser does not support the HTML5 canvas tag.</canvas>';
+		$("#ContenidoActividad").html(htmlCanvas);
+		var controlador = new ControladorJuego();
+		controlador.CargaInicial();
+	}
+}

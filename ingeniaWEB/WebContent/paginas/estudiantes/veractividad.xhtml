@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+ 	template="/plantillas/plantilla.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+	<h:form>
+			<center><h3>Actividad</h3> </center>
+			<h:panelGrid columns="3" cellpadding="10">
+				<h:outputLabel for="curso" value="Nombre Actividad: #{AdmVerActividadMB.getActividadVO().nombre}" />
+ 				</h:panelGrid>
+			<f:verbatim>
+			<input type="hidden" id="IdUsuario" value="#{AdmVerActividadMB.getUsuarioVO().getId()}"/>
+			<input type="hidden" id="IdActividad" value="#{AdmVerActividadMB.getActividadVO().getIdactividad()}"/>
+			<div id="ContenidoActividad">Cargar</div>
+			<script type="text/javascript" src="#{AdmVerActividadMB.getUrlJsInicio()}"></script>
+			</f:verbatim>
+		<p:commandButton value="Regresar" action="#{AdmVerActividadMB.regresar}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
