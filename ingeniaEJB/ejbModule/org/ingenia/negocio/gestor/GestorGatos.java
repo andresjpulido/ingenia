@@ -241,7 +241,9 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
         return ListaArmaduraVO;
 	}
 
-	
+	public GestorGatos(EntityManager em) {
+		this.em = em;
+	}
    
 
 }

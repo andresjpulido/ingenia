@@ -20,6 +20,9 @@ public class Arma implements Serializable {
 	@Column(name="nombre_arma")
 	private String nombreArma;
 
+	@Column(name="puntaje")
+	private int puntaje;
+	
 	//bi-directional many-to-one association to Gato
 	@OneToMany(mappedBy="arma")
 	private List<Gato> gatos;

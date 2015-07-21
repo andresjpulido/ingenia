@@ -117,4 +117,7 @@ public class GestorEstructuras implements IGestorEstructurasRemote, IGestorEstru
         return ListaEstructuraVO;
 	}
 		
+	public GestorEstructuras(EntityManager em) {
+		this.em = em;
+	}
 }

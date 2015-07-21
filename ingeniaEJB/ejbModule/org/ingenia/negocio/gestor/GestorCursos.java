@@ -515,4 +515,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		
 	}
 
+	public GestorCursos(EntityManager em) {
+		this.em = em;
+	}
 }

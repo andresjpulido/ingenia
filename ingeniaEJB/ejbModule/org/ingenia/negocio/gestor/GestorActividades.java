@@ -47,7 +47,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 	public GestorActividades() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void crearActividadCurso(CursoActividadVO cursoActividadVO) {
 
@@ -367,5 +367,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		return resultadosVO;
 	}
 
-
+	public GestorActividades(EntityManager em) {
+		this.em = em;
+	}
 }

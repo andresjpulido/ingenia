@@ -5,9 +5,17 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 import org.ingenia.adaptadores.AdaptadorActividadxUsuario;
 import org.ingenia.adaptadores.AdaptadorArma;
@@ -47,14 +55,35 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
 	{
 		AdaptadorActividadxUsuario adaptador = null;
 		Actividadusuario actividadxUsuario = new Actividadusuario();
-		Query q = em.createQuery("SELECT count(e) FROM Actividadusuario as e");   
+		Query q = em.createQuery("SELECT count(e) FROM Actividadusuario as e where e.");   
 		
 		adaptador = new AdaptadorActividadxUsuario(actividadxUsuarioVO);
-				
+			
+		
 		try {
 			actividadxUsuario = adaptador.getActividadxUsuario(); 
+			UserTransaction transaction = (UserTransaction)new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
 			em.persist(actividadxUsuario);
+			em.joinTransaction();
+			transaction.commit();
 		} catch (AdaptadorException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (NotSupportedException e) {
+			e.printStackTrace();
+		} catch (SystemException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (RollbackException e) {
+			e.printStackTrace();
+		} catch (HeuristicMixedException e) {
+			e.printStackTrace();
+		} catch (HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
 		
@@ -119,4 +148,7 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
         return ListaActividadxUsuarioVO;
 	}
 
+	public GestorActividadxUsuario(EntityManager em) {
+		this.em = em;
+	}
 }

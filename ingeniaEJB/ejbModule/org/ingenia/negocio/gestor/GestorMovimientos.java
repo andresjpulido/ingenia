@@ -116,4 +116,8 @@ public class GestorMovimientos implements IGestorMovimientosRemote, IGestorMovim
         
         return ListaMovimientoVO;
 	}
+	
+	public GestorMovimientos(EntityManager em) {
+		this.em = em;
+	}
 }
