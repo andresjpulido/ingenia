@@ -16,9 +16,6 @@ public interface IGestorActividadesLocal {
 	public void crearActividadCurso(CursoActividadVO cursoActividadVO)
 			throws AdaptadorException;
 
-	public void modificarActividadVO(ActividadVO actividadVO)
-			throws AdaptadorException;
-
 	public void eliminarActividadVO(ActividadVO actividadVO)
 			throws AdaptadorException;
 
@@ -36,14 +33,11 @@ public interface IGestorActividadesLocal {
 	public void modificarActividadCurso(CursoActividadVO cursoActividadVO)
 			throws AdaptadorException;
 
-	public void crearActividad(ActividadVO actividadVO)
-			throws AdaptadorException;
+	public void crearActividad(ActividadVO actividadVO)	throws AdaptadorException;
 
-	public void modificarActividad(ActividadVO actividadVO)
-			throws AdaptadorException;
+	public void modificarActividad(ActividadVO actividadVO) throws AdaptadorException;
 
-	public ActividadVO consultarActividad(ActividadVO actividadVO)
-			throws AdaptadorException;
+	public ActividadVO consultarActividad(ActividadVO actividadVO)	throws AdaptadorException;
 
 	public int consultarPosicion(CursoVO cursoVO, ActividadVO actividadVO) throws AdaptadorException;
 

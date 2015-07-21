@@ -16,8 +16,6 @@ public interface IGestorActividadesRemote {
 	public void crearActividadCurso(CursoActividadVO cursoActividadVO)
 			throws AdaptadorException;
 
-	public void modificarActividadVO(ActividadVO actividadVO)
-			throws AdaptadorException;
 
 	public void eliminarActividadVO(ActividadVO actividadVO)
 			throws AdaptadorException;

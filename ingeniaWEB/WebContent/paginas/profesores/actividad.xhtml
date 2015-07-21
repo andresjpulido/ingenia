@@ -15,6 +15,7 @@
 		<center>
 			Datos Actividad	
 			</center>	
+			<h:panelGrid columns="2" cellpadding="10">
 		<h:panelGrid id="camb" columns="2" cellpadding="10">
 			<p:outputLabel for="tipo" value="Juego: " />
 	 <p:selectOneMenu id="tipo" class="category" valueChangeListener="#{AdmActividadMB.selectOneMenuListener}" immediate="true">
@@ -57,7 +58,7 @@
  <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
         </p:selectCheckboxMenu>
         
-        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
+        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar Lista" update="display" inmediate="true" />
   
        
     <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
@@ -66,7 +67,7 @@
         </p:dataList>
     </p:outputPanel>
     </h:panelGrid>
-
+ </h:panelGrid>
 	<p:commandButton  value="Guardar" action="#{AdmActividadMB.crear}">
 	</p:commandButton>					
 
@@ -79,7 +80,7 @@
 			<p:commandButton value="Directamente a Configurar Actividad" process="@this" action="#{AdmGatoMB.configurarActividad}">
 	<f:param name="idact" value="#{AdmActividadMB.actividadVO.idactividad}" />
 	</p:commandButton>	
-
+<h:panelGrid columns="2" cellpadding="5">
 		<h:panelGrid columns="2" cellpadding="5">
 
 	
@@ -115,7 +116,7 @@
             <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
         </p:selectCheckboxMenu>
         
-        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
+        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar Lista" update="display" inmediate="true" />
   
        
     <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
@@ -124,7 +125,7 @@
         </p:dataList>
     </p:outputPanel>
     </h:panelGrid>
-
+</h:panelGrid>
 	<p:commandButton value="Actualizar" action="#{AdmActividadMB.actualizar}">
 
 	</p:commandButton>

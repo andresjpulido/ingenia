@@ -87,23 +87,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		}
 	}
 
-	@Override
-	public void modificarActividadVO(ActividadVO actividadVO) {
-
-		AdaptadorActividad adaptador = null;
-		Actividad actividad = null;
-		adaptador = new AdaptadorActividad(actividadVO);
-		try {
-			actividad = adaptador.getActividad();
-			Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
-			actividad.setJuego(juego);
-			em.merge(actividad);
-		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+	
 
 	@Override
 	public void eliminarActividadVO(ActividadVO actividadVO) {
@@ -122,20 +106,19 @@ public class GestorActividades implements IGestorActividadesRemote,
 			throws AdaptadorException {
 		List<EstructuraVO> lista = new ArrayList<EstructuraVO>();
 		AdaptadorActividad adaptador = null;
-		Actividad actividad = em.find(Actividad.class,
-				actividadVO.getIdactividad());
-
+		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
+		Query q2 = em.createQuery("SELECT ac.estructura FROM EstructurasActiva as ac where ac.actividad=:actividad");
+		q2.setParameter("actividad", actividad);
+		List<Estructura> listaEstructuras = q2.getResultList();
 		adaptador = new AdaptadorActividad(actividad);
 		actividadVO = adaptador.getActividadVO();
-		AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
-    	actividadVO.setJuegoVO(adap.getJuegoVO());
+		//AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
+    	//actividadVO.setJuegoVO(adap.getJuegoVO());
     	AdaptadorEstructura adaptadorest= null;
-    	System.out.println("estruc "+actividad.getEstructuras().size());
-    	 
-    	for(int i=0;actividad.getEstructuras().size()>i;i++){
-    		System.out.println("id estrucura "+actividad.getEstructuras().get(i).getIdestructura());
-    		adaptadorest=new AdaptadorEstructura(actividad.getEstructuras().get(i));
-    		
+    	//System.out.println("ottra forma estruc "+listaEstructuras.size());
+    	for(int i=0;listaEstructuras.size()>i;i++){
+    	//	System.out.println("id estructura "+listaEstructuras.get(i).getIdestructura());
+    		adaptadorest=new AdaptadorEstructura(listaEstructuras.get(i));
     		lista.add(adaptadorest.getEstructuraVO());
     	}
     	actividadVO.setEstructuras(lista);
@@ -250,23 +233,26 @@ public class GestorActividades implements IGestorActividadesRemote,
 
 	}
 
+		
 	@Override
 	public void modificarActividad(ActividadVO actividadVO)
 			throws AdaptadorException {
 
 		AdaptadorActividad adaptador = new AdaptadorActividad(actividadVO);
 		Actividad actividad = adaptador.getActividad();
-		Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
-		actividad.setJuego(juego);  
+		//Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
+		//actividad.setJuego(juego);  
 		em.merge(actividad);
-		//hay que hacer un delete de estructurasActiva con respecto a actividad
-		/*for(int i=0;actividadVO.getEstructuras().size()>i;i++){
-    		Estructura estructura = em.find(Estructura.class, actividadVO.getEstructuras().get(i).getIdEstructura());
-    		EstructurasActiva estructurasActiva=new EstructurasActiva();
-    		estructurasActiva.setActividad(actividad);
-    		estructurasActiva.setEstructura(estructura);
-    		em.persist(estructurasActiva);
-    	}*/
+		Query query = em.createQuery("DELETE FROM EstructurasActiva c WHERE c.actividad = :actividad");
+		 int c= query.setParameter("actividad", actividad).executeUpdate();
+			System.out.println("cantidad "+ c);
+		for(int i=0;actividadVO.getEstructuras().size()>i;i++){
+   		Estructura estructura = em.find(Estructura.class, actividadVO.getEstructuras().get(i).getIdEstructura());
+   		EstructurasActiva estructurasActiva=new EstructurasActiva();
+   		estructurasActiva.setActividad(actividad);
+   		estructurasActiva.setEstructura(estructura);
+   		em.persist(estructurasActiva);
+   	}
 
 	}
 

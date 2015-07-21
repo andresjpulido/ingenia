@@ -141,13 +141,15 @@ public class AdmActividadMB extends BaseMB {
 		return NAV_IRADMACTIVIDAD;
 	}
 
-	public void actualizar() {
-		
-		ActividadVO actividadVO = this.actividadVO;		
+	public String actualizar() {
+		String destino=null;
+		ActividadVO actividadVO = this.actividadVO;	
 		actividadVO.setEstructuras(this.estructralistaelegida);
+		System.out.println("actualizando");
 
 	try {	
 			gestorActividades.modificarActividad(actividadVO);	
+			destino=NAV_IRADMACTIVIDAD;
       		} 
 	
 	catch (AdaptadorException e) {
@@ -167,7 +169,7 @@ public class AdmActividadMB extends BaseMB {
 			null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 					"La operacion fue realizada satisfactoriamente !"));
-
+		return destino;
 	}
 
 	public String crear() {
@@ -307,6 +309,7 @@ public class AdmActividadMB extends BaseMB {
 	public String irActividad() {
 
 		 actividadVO1 =new ActividadVO();
+		 System.out.println("entro a ir actividad");
 		 try {
 		
 			this.listaestructuras=gestorActividades.consultarestructuras();
@@ -327,7 +330,8 @@ public class AdmActividadMB extends BaseMB {
 		
 		try {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
-			this.listaelegida=consultarListaEstructuras(this.actividadVO .getEstructuras());
+			System.out.println("tamaño "+this.actividadVO.getEstructuras().size());
+			this.listaelegida=consultarListaEstructuras(this.actividadVO.getEstructuras());
 			 if(this.actividadVO.getJuegoVO().getIdjuego()==1){
 				 System.out.println("actualizando");
 				 actividadVO2 =new ActividadVO();
