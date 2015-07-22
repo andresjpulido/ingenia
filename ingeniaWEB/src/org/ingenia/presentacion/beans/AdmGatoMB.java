@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
@@ -17,6 +18,7 @@ import org.ingenia.comunes.vo.ArmaVO;
 import org.ingenia.comunes.vo.ArmaduraVO;
 import org.ingenia.comunes.vo.ColorVO;
 import org.ingenia.comunes.vo.GatoVO;
+import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.presentacion.BaseMB;
@@ -41,11 +43,14 @@ public class AdmGatoMB extends BaseMB {
 	private ArmaduraVO armadura= new ArmaduraVO();
 	private ColorVO color = new ColorVO();
 	private TipoGatoVO tipogato= new TipoGatoVO();
-	private int idactividad;
-
+	private int idactividad;	
+	private boolean selArma=false;
+	private boolean selArmadura=false;
+	private boolean selColor=false;
+	private boolean selTipo=false;
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
-
+    
 	@EJB
 	IGestorGatosLocal gestorGatos;
 
@@ -77,6 +82,10 @@ public class AdmGatoMB extends BaseMB {
 	
 
 	public String actualizar() {
+		selArma=false;
+		selArmadura=false;
+		selColor=false;
+		selTipo=false;
 				GatoVO gatoVO = this.gatoVO1;
 				gatoVO.setArma(arma);
 				 gatoVO.setArmadura(armadura);
@@ -114,6 +123,10 @@ public class AdmGatoMB extends BaseMB {
 	
 	
 	  public String configurarActividad() {
+		  selArma=false;
+			selArmadura=false;
+			selColor=false;
+			selTipo=false;
 		  this.gatoVO1=null;
 		  System.out.println("entrrooooo al gato");
 
@@ -149,6 +162,10 @@ public class AdmGatoMB extends BaseMB {
 	    }
 	  
 	  public String cancelar() {
+		  selArma=false;
+			selArmadura=false;
+			selColor=false;
+			selTipo=false;
 		  this.gatoVO1=null;
 
 		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
@@ -168,6 +185,10 @@ public class AdmGatoMB extends BaseMB {
 	  
 
 	public String crear() {
+		selArma=false;
+		selArmadura=false;
+		selColor=false;
+		selTipo=false;
 
 		 idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 		 
@@ -393,6 +414,123 @@ public class AdmGatoMB extends BaseMB {
 		this.tipogato = tipogato;
 	}
 
+	public ColorVO getColorporID(int number) {
+		// TODO Auto-generated method stub
+		ColorVO color = new ColorVO();
+
+	    for(int i=0;this.listaColores.size()>i;i++){
+	    	if(listaColores.get(i).getIdcolor()==number){
+	    		color=listaColores.get(i);
+	    	}
+	    }
+		return color;
+	}
+	
+	public TipoGatoVO getTipoporID(int number) {
+		// TODO Auto-generated method stub
+		TipoGatoVO tipo = new TipoGatoVO();
+
+	    for(int i=0;this.listaTiposGato.size()>i;i++){
+	    	if(listaTiposGato.get(i).getIdTipoGato()==number){
+	    		tipo=listaTiposGato.get(i);
+	    	}
+	    }
+		return tipo;
+	}
+	
+	public ArmaVO getArmaporID(int number) {
+		// TODO Auto-generated method stub
+		ArmaVO arma = new ArmaVO();
+
+	    for(int i=0;this.listaArmas.size()>i;i++){
+	    	if(listaArmas.get(i).getIdarma()==number){
+	    		arma=listaArmas.get(i);
+	    	}
+	    }
+		return arma;
+	}
+
+	public ArmaduraVO getArmaduraporID(int number) {
+		// TODO Auto-generated method stub
+		ArmaduraVO armadura = new ArmaduraVO();
+
+	    for(int i=0;this.listaArmaduras.size()>i;i++){
+	    	if(listaArmaduras.get(i).getIdarmadura()==number){
+	    		armadura=listaArmaduras.get(i);
+	    	}
+	    }
+		return armadura;
+	}
+	
+	public void selectOneMenuColorListener(ValueChangeEvent event) {
+	
+		selColor=true;		
+	    Object newValue = event.getNewValue(); 
+	    ColorVO c= (ColorVO)newValue;
+	   this.color=c;
+	   FacesContext.getCurrentInstance().renderResponse();
+
+	}
+	
+	public void selectOneMenuTipoListener(ValueChangeEvent event) {
+		
+		selTipo=true;
+	    Object newValue = event.getNewValue(); 
+	    TipoGatoVO t= (TipoGatoVO)newValue;
+	   this.tipogato=t;
+	   FacesContext.getCurrentInstance().renderResponse();
+
+	}
+	
+	public void selectOneMenuArmaListener(ValueChangeEvent event) {
+		selArma=true;		
+	    Object newValue = event.getNewValue(); 
+	    ArmaVO a= (ArmaVO)newValue;
+	   this.arma=a;
+	   FacesContext.getCurrentInstance().renderResponse();
+      
+	}
+	
+	public void selectOneMenuArmaduraListener(ValueChangeEvent event) {
+		selArmadura=true;
+	    Object newValue = event.getNewValue(); 
+	    ArmaduraVO d= (ArmaduraVO)newValue;
+	   this.armadura=d;
+	   FacesContext.getCurrentInstance().renderResponse();
+
+	}
+
+	public boolean isSelArma() {
+		return selArma;
+	}
+
+	public void setSelArma(boolean selArma) {
+		this.selArma = selArma;
+	}
+
+	public boolean isSelArmadura() {
+		return selArmadura;
+	}
+
+	public void setSelArmadura(boolean selArmadura) {
+		this.selArmadura = selArmadura;
+	}
+
+	public boolean isSelColor() {
+		return selColor;
+	}
+
+	public void setSelColor(boolean selColor) {
+		this.selColor = selColor;
+	}
+
+	public boolean isSelTipo() {
+		return selTipo;
+	}
+
+	public void setSelTipo(boolean selTipo) {
+		this.selTipo = selTipo;
+	}
 
 
 
