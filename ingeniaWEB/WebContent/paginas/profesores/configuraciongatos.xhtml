@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/plantillas/plantilla.xhtml">
 
 
@@ -10,75 +11,176 @@
 	</ui:define>
 
 	<ui:define name="content">
-									Configuración Actividad
+							
+						<h1><h:outputText  value="Configuracion actividad #{AdmActividadMB.actividadVO.enunciado} Juego #{AdmActividadMB.juegoVO.nombre} " />	 </h1>
+						<h1><h:outputText  value=""/>	 </h1>
+					<br/>
 									
+<h:form id="form" >
+  	  <h3> <h:outputText  rendered="#{empty AdmGatoMB.gatoVO1}" value="Nuevo Gato " />	</h3>
 
-		<h:panelGrid id="camb" columns="1" cellpadding="10">
-<h:form rendered="#{empty AdmGatoMB.gatoVO1}" >
-	<h:outputText id="act" value="#{AdmActividadMB.actividadVO.enunciado}       " label="act"/>	 
+	<h:panelGrid id="camb" columns="1" cellpadding="10" rendered="#{empty AdmGatoMB.gatoVO1}">
 			
-
-	<p:outputLabel for="juego" value="Juego: " />
-	<h:outputText id="juego" value="#{AdmActividadMB.juegoVO.nombre}       " label="juego"/>	
-			<h:panelGrid columns="4" cellpadding="5">
-			
-	<p:outputLabel for="tipogato" value="Tipo Gato: " />
-	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato.idTipoGato}" >
- 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato.idTipoGato}" />
-	</p:selectOneMenu>		
-	
+			<h:panelGrid columns="5" cellpadding="5">
+				
+		<h:panelGrid columns="2" cellpadding="5">	
+		<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
 	<p:outputLabel for="tipocolor" value="Color Gato: " />
-	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.color.idcolor}" >
- 	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor.idcolor}" />
-	</p:selectOneMenu>						
-										
+	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.color}" valueChangeListener="#{AdmGatoMB.selectOneMenuColorListener}" converter="colorConverter" var="color">
+ 	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor}" />
+ 			<p:column>
+			<p:graphicImage value="/recursos/imagenes/gatos/#{color.nombre}.png" width="40" height="50"/>
+				</p:column>
+	 <f:ajax render="camb" />	
+	</p:selectOneMenu>	
+	</h:panelGrid>
+	 <h:panelGrid   columns="1" cellpadding="5">
+	 <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.color.nombre}.png" width="40" height="50"/>
+	   #{AdmGatoMB.color.nombre}
+	   </h:panelGrid>
+	</h:panelGrid>	
+		
+			<h:panelGrid columns="2" cellpadding="5">	
+		<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
+	<p:outputLabel for="tipogato" value="Tipo Gato: " />
+	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato}" valueChangeListener="#{AdmGatoMB.selectOneMenuTipoListener}" converter="tipoConverter" var="tipo">
+ 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato}" />
+	<p:column><p:graphicImage value="/recursos/imagenes/tiposgato/#{tipo.nombre}.png" width="40" height="50"/></p:column>
+	<f:ajax render="camb" />	
+	</p:selectOneMenu>	
+	</h:panelGrid>
+		<h:panelGrid columns="1" cellpadding="5">
+	<p:graphicImage value="/recursos/imagenes/tiposgato/#{AdmGatoMB.tipogato.nombre}.png" width="40" height="50"/>	
+	  #{AdmGatoMB.tipogato.nombre}
+	  </h:panelGrid>
+	</h:panelGrid>
+		
+		<h:panelGrid columns="2" cellpadding="5">	
+		<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />				
 	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
-	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma.idarma}" >
- 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma.idarma}" />
-	</p:selectOneMenu>	
+	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmaListener}" converter="armaConverter" var="arma" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma}" />
+	<p:column>
+	<p:graphicImage value="/recursos/imagenes/armas/#{arma.nombre}.png" width="40" height="50"/>
+	</p:column>
+	<f:ajax render="camb" />	
+		</p:selectOneMenu>	
+		</h:panelGrid>
+		 <h:panelGrid columns="1" cellpadding="5">
+ 	<p:graphicImage value="/recursos/imagenes/armas/#{AdmGatoMB.arma.nombre}.png" width="40" height="50"/>
+ 	   #{AdmGatoMB.arma.nombre}
+ 	   </h:panelGrid>
+	</h:panelGrid>	
 	
+	<h:panelGrid columns="2" cellpadding="5">	
+	<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
 	<p:outputLabel for="defensa" value="Tipo Armadura: " />
-	<p:selectOneMenu  id="defensa" value="#{AdmGatoMB.armadura.idarmadura}" >
- 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura.idarmadura}" />
+	<p:selectOneMenu  id="defensa" value="#{AdmGatoMB.armadura}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmaduraListener}" converter="armaduraConverter" var="armadura" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura}"  />
+	<p:column>
+	<p:graphicImage value="/recursos/imagenes/armaduras/#{armadura.nombre}.png" width="40" height="50"/>
+	</p:column>
+	<f:ajax render="camb" />
 	</p:selectOneMenu>	
+	</h:panelGrid>
+	 <h:panelGrid  columns="1" cellpadding="5">
+		<p:graphicImage value="/recursos/imagenes/armaduras/#{AdmGatoMB.armadura.nombre}.png" width="50" height="50"/>
+		   #{AdmGatoMB.armadura.nombre}
+		   </h:panelGrid>
+	</h:panelGrid>
 
  		
-	<f:facet name="footer">
+
 	<p:commandButton  value="Agregar Gato" action="#{AdmGatoMB.crear}">
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
 	</p:commandButton>
 
-	</f:facet>
 
 			</h:panelGrid>
-	</h:form>									
-									
-		
-			<h:form  rendered="#{not empty AdmGatoMB.gatoVO1}" >
-  Editar
-<h:panelGrid id="camb2" columns="4" cellpadding="5">
-				
-	<p:outputLabel for="tipogato" value="Tipo Gato: " />
-	<p:selectOneMenu  id="tipogato" value="#{AdmGatoMB.tipogato.idTipoGato}" >
- 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato.idTipoGato}" />
-	</p:selectOneMenu>		
+			</h:panelGrid>
+
+  	  <h3> <h:outputText  rendered="#{not empty AdmGatoMB.gatoVO1}" value="Editar Gato en la posición #{AdmGatoMB.gatoVO.orden}" />	</h3>
+<h:panelGrid rendered="#{not empty AdmGatoMB.gatoVO1}" id="camb2" columns="1" cellpadding="5">
+
 	
-	<p:outputLabel for="tipocolor" value="Color Gato: " />
-	<p:selectOneMenu  id="tipocolor" value="#{AdmGatoMB.color.idcolor}" >
- 	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor.idcolor}" />
-	</p:selectOneMenu>						
-										
-	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
-	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma.idarma}" >
- 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma.idarma}" />
+
+     <h:panelGrid columns="6" cellpadding="5">	
+				<h:panelGrid columns="2" cellpadding="5">	
+		<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
+	<p:outputLabel for="tipocolor3" value="Color Gato: " />
+	<p:selectOneMenu  id="tipocolor3" value="#{AdmGatoMB.color}" valueChangeListener="#{AdmGatoMB.selectOneMenuColorListener}" converter="colorConverter" var="color">
+ 	<f:selectItems value="#{AdmGatoMB.listaColores}" var="tipocolor" itemLabel="#{tipocolor.nombre}" itemValue="#{tipocolor}" />
+ 			<p:column>
+			<p:graphicImage value="/recursos/imagenes/gatos/#{color.nombre}.png" width="40" height="50"/>
+				</p:column>
+	 <f:ajax render="camb2" />	
 	</p:selectOneMenu>	
- 			
- 	<p:outputLabel for="defensa" value="Tipo Armadura: " />
-	<p:selectOneMenu  id="defensa" value="#{AdmGatoMB.armadura.idarmadura}" >
- 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura.idarmadura}" />
+	</h:panelGrid>
+	 <h:panelGrid columns="1" cellpadding="5">
+	 <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.color.nombre}.png" width="40" height="50"/>
+	   #{AdmGatoMB.color.nombre}
+	   </h:panelGrid>
+	</h:panelGrid>	
+
+	<h:panelGrid columns="2" cellpadding="5">	
+	<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
+		<p:outputLabel for="tipogato3" value="Tipo Gato: " />
+	<p:selectOneMenu  id="tipogato3" value="#{AdmGatoMB.tipogato}" valueChangeListener="#{AdmGatoMB.selectOneMenuTipoListener}" converter="tipoConverter" var="tipo">
+ 	<f:selectItems value="#{AdmGatoMB.listaTiposGato}" var="tipogato" itemLabel="#{tipogato.nombre}" itemValue="#{tipogato}" />
+	<p:column><p:graphicImage value="/recursos/imagenes/tiposgato/#{tipo.nombre}.png" width="40" height="50"/></p:column>
+	<f:ajax render="camb2" />	
 	</p:selectOneMenu>	
- 		
-	<f:facet name="footer">
+	</h:panelGrid>
+		<h:panelGrid columns="1" cellpadding="5">
+	<p:graphicImage value="/recursos/imagenes/tiposgato/#{AdmGatoMB.tipogato.nombre}.png" width="40" height="50"/>	
+	  #{AdmGatoMB.tipogato.nombre}
+	  </h:panelGrid>
+	</h:panelGrid>
+
+		
+		<h:panelGrid columns="2" cellpadding="5">	
+		<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />					
+	<p:outputLabel for="tipoarma3" value="Tipo Arma: " />
+	<p:selectOneMenu  id="tipoarma3" value="#{AdmGatoMB.arma}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmaListener}" converter="armaConverter" var="arma" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma}" />
+	<p:column>
+	<p:graphicImage value="/recursos/imagenes/armas/#{arma.nombre}.png" width="40" height="50"/>
+	</p:column>
+	<f:ajax render="camb2" />	
+		</p:selectOneMenu>	
+		</h:panelGrid>
+		 <h:panelGrid columns="1" cellpadding="5">
+ 	<p:graphicImage value="/recursos/imagenes/armas/#{AdmGatoMB.arma.nombre}.png" width="40" height="50"/>
+ 	   #{AdmGatoMB.arma.nombre}
+ 	   </h:panelGrid>
+	</h:panelGrid>	
+	
+	<h:panelGrid columns="2" cellpadding="5">	
+	<h:panelGrid columns="1" cellpadding="3">
+			<p:outputLabel value="Seleccione" />
+	<p:outputLabel for="defensa3" value="Tipo Armadura: " />
+	<p:selectOneMenu  id="defensa3" value="#{AdmGatoMB.armadura}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmaduraListener}" converter="armaduraConverter" var="armadura" >
+ 	<f:selectItems value="#{AdmGatoMB.listaArmaduras}" var="tipoarmadura" itemLabel="#{tipoarmadura.nombre}" itemValue="#{tipoarmadura}"  />
+	<p:column>
+	<p:graphicImage value="/recursos/imagenes/armaduras/#{armadura.nombre}.png" width="40" height="50"/>
+	</p:column>
+	<f:ajax render="camb2" />
+	</p:selectOneMenu>	
+	</h:panelGrid>
+	 <h:panelGrid columns="1" cellpadding="5">
+		<p:graphicImage value="/recursos/imagenes/armaduras/#{AdmGatoMB.armadura.nombre}.png" width="50" height="50"/>
+		   #{AdmGatoMB.armadura.nombre}
+		   </h:panelGrid>
+	</h:panelGrid>
+
+
 	<p:commandButton value="Actualizar" action="#{AdmGatoMB.actualizar}" >
 	<f:param name="idactividad" value="#{AdmActividadMB.actividadVO.idactividad}" />
 	</p:commandButton>
@@ -88,43 +190,115 @@
 	
 	</p:commandButton>	
 
-	</f:facet>
+
 	
+	  </h:panelGrid>
+	  </h:panelGrid>
 	
 
-			</h:panelGrid>
-		</h:form>
-			</h:panelGrid>
-			
-			
-		<p:dataTable var="gato" value="#{AdmGatoMB.listaGatos}"
-				rendered="#{not empty AdmGatoMB.listaGatos}" paginator="true"
-				rows="5" dynamic="true">
-				<p:column headerText="Nombre">
-	<p:commandButton icon="ui-icon-search" value="Editar" process="@this" action="#{AdmGatoMB.modificarGato}">
-	<f:param name="idgatomod" value="#{gato.idgato}" />
+	<center><h3>Lista de Gatos</h3></center>  
+ <p:ring id="basic" value="#{AdmGatoMB.listaGatos}" var="car" styleClass="image-ring" easing="easeInOutCubic" >
+
+       	<h:panelGrid columns="2" cellpadding="1">	
+       	    <p:graphicImage value="/recursos/imagenes/gatos/#{car.color.nombre}.png" width="50" height="60"/>     
+       	       	<h:panelGrid columns="1" cellpadding="1">	
+                     Gato #{car.orden}     
+            <p:commandButton update="mainForm:form:carDetail" value="Ver" title="View" oncomplete="PF('carDialog').show();">
+                <f:setPropertyActionListener value="#{car}" target="#{AdmGatoMB.gatoVO}" />
+            </p:commandButton>   
+            </h:panelGrid>  
+             
+     </h:panelGrid>
+    </p:ring>
+
+  <p:dialog header="Info Gato" widgetVar="carDialog" showEffect="fade" hideEffect="fade" resizable="false" >
+        <p:outputPanel id="carDetail" style="text-align:center;" layout="block">
+            <p:panelGrid  columns="2" rendered="#{not empty AdmGatoMB.gatoVO}" columnClasses="value">
+                <f:facet name="header">
+                <h:outputText value="#{AdmGatoMB.gatoVO.orden}" />
+                </f:facet>
+                 
+    <p:panelGrid  columns="1">
+    <f:facet name="header">
+               <h:outputText value="Color" />
+                </f:facet>
+              
+          <h:outputText value="#{AdmGatoMB.gatoVO.color.nombre}" />
+          </p:panelGrid>
+     <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.gatoVO.color.nombre}.png" width="50" height="60"/>
+    
+   
+    <p:panelGrid  columns="1">
+     <f:facet name="header">
+              <h:outputText value="Tipo" />
+                </f:facet>
+           
+     <h:outputText value="#{AdmGatoMB.gatoVO.tipogato.nombre}" />
+     </p:panelGrid>
+      <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.gatoVO.color.nombre}.png" width="50" height="60"/>   
+      
+      
+    <p:panelGrid  columns="1">
+      <f:facet name="header">
+                <h:outputText value="Arma:" />
+                </f:facet>
+ 
+  			 <h:outputText value="#{AdmGatoMB.gatoVO.arma.nombre}" />
+  			 </p:panelGrid>
+      <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.gatoVO.color.nombre}.png" width="50" height="60"/>
+     
+      
+    <p:panelGrid  columns="1">
+       <f:facet name="header">
+                 <h:outputText value="Armadura" />
+                </f:facet>
+       
+          <h:outputText value="#{AdmGatoMB.gatoVO.armadura.nombre}" />
+          </p:panelGrid>
+           <p:graphicImage value="/recursos/imagenes/gatos/#{AdmGatoMB.gatoVO.color.nombre}.png" width="50" height="60"/>
+       
+            </p:panelGrid>
+       
+        <p:commandButton icon="ui-icon-search" value="Editar" process="@this" action="#{AdmGatoMB.modificarGato}">
+	<f:param name="idgatomod" value="#{AdmGatoMB.gatoVO.idgato}" />
 	</p:commandButton>
-				</p:column> 
-				
-				<p:column headerText="Color">
-					<h:outputText name="color" value="#{gato.color.nombre}" />
-				</p:column>
-
-				<p:column headerText="Tipo Gato">
-					<h:outputText value="#{gato.tipogato.nombre}" />
-				</p:column>
-				
-				<p:column headerText="Armadura">
-					<h:outputText value="#{gato.armadura.nombre}" />
-				</p:column>
-				
-					<p:column headerText="Arma">
-					<h:outputText value="#{gato.arma.nombre}" />
-				</p:column>
-
+	 </p:outputPanel>
+    </p:dialog>
+   
+ <center>
+    <p:carousel rendered="#{empty AdmGatoMB.listaGatos}" value="#{AdmGatoMB.listaGatos}" headerText="Responsive" var="car" itemStyle="text-align:center" responsive="true">
+        <p:panelGrid rows="12"  columns="3" style="width:100%;margin:10px 0px" columnClasses="labela,valuea" layout="grid" styleClass="ui-panelgrid-blank">
+            <f:facet name="header">
+            
+            </f:facet>
+ 
+            <h:outputText value="Color:" />
+          <h:outputText value="#{car.color.nombre}" />
+     <p:graphicImage value="/recursos/imagenes/gatos/#{car.color.nombre}.png" width="50" height="60"/>
+            <h:outputText value="Tipo" />
+     <h:outputText value="#{car.color.nombre}" />
+    <p:graphicImage value="/recursos/imagenes/gatos/#{car.color.nombre}.png" width="50" height="60"/>       
+      <h:outputText value="Arma:" />
+  			 <h:outputText value="#{car.color.nombre}" />
+    <p:graphicImage value="/recursos/imagenes/gatos/#{car.color.nombre}.png" width="50" height="60"/>
+             <h:outputText value="Armadura" />
+          <h:outputText value="#{car.color.nombre}" />
+        <p:graphicImage value="/recursos/imagenes/gatos/#{car.color.nombre}.png" width="50" height="60"/>
+         </p:panelGrid>
+ 
+        <f:facet name="footer">
+                In total there are #{fn:length(AdmGatoMB.listaGatos)} cars.
+        </f:facet>
+    </p:carousel>
+</center>
+ 
+ 
 			
-		</p:dataTable>
-
+		</h:form>
+			
+			
+			
+		
 	
 
 
