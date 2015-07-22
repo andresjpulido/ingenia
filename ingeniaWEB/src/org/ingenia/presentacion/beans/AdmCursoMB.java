@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+
 import org.ingenia.comunes.vo.ActividadVO;
 import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
@@ -16,6 +17,7 @@ import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.CursoVO;
+import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
@@ -40,6 +42,9 @@ public class AdmCursoMB extends BaseMB {
     private CursoVO cursoVOtemp=new CursoVO();
 	private boolean buscando=false;
 	private boolean creando=false;
+    private ActividadVO actividadSeleccionada;
+    private CursoVO cursoSeleccionado;
+    private int posicion=0;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
@@ -54,6 +59,8 @@ public class AdmCursoMB extends BaseMB {
 	private IGestorCursosLocal gestorCursos;
 	@EJB
 	private IGestorUsuariosLocal gestorUsuarios;	
+	@EJB
+	private IGestorActividadesLocal gestorActividades;
 	
 	public void cargarlistas2 (){
 		System.out.println("estado "+creando);
@@ -302,6 +309,9 @@ public class AdmCursoMB extends BaseMB {
 			UsuarioVO usuario= gestorUsuarios.consultarUsuarioPorId(this.estudianteVO.getId());
 			this.estudianteVO.setNombre(usuario.getNombre());
 			this.estudianteVO.setApellido(usuario.getApellido());
+			this.estudianteVO.setIdentificacion(usuario.getIdentificacion());
+			this.estudianteVO.setCorreo(usuario.getCorreo());
+			this.estudianteVO.setFechaUltimoIngreso(usuario.getFechaUltimoIngreso());
 			//System.out.println(this.listaActividadesEstudiante.size()+" tamaño");
 
 		} catch (AdaptadorException e) {
@@ -359,6 +369,7 @@ public class AdmCursoMB extends BaseMB {
 	}
 
 	public void setCursoVO(CursoVO cursoVO) {
+		System.out.println("seteando");
 		
 		this.cursoVO = cursoVO;
 	}
@@ -467,6 +478,43 @@ public class AdmCursoMB extends BaseMB {
 	public void setListaCursosdisponible(List<CursoVO> listaCursosdisponible) {
 		this.listaCursosdisponible = listaCursosdisponible;
 	}
+
+	public ActividadVO getActividadSeleccionada() {
+		
+		return actividadSeleccionada;
+	}
+
+	public void setActividadSeleccionada(ActividadVO actividadSeleccionada) {
+		
+		this.actividadSeleccionada = actividadSeleccionada;
+	}
+
+	public int getPosicion() {
+	try {
+		this.setPosicion(gestorActividades.consultarPosicion(cursoVO,actividadSeleccionada));
+	} catch (AdaptadorException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		return posicion;
+	}
+
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
+	}
+
+	public CursoVO getCursoSeleccionado() {
+		return cursoSeleccionado;
+	}
+
+	public void setCursoSeleccionado(CursoVO cursoSeleccionado) {
+		System.out.println("seteando");
+		this.cursoSeleccionado = cursoSeleccionado;
+	}
+
+
+
+
 
 
 

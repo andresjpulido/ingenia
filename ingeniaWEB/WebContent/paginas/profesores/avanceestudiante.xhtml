@@ -14,13 +14,18 @@
 <center ><h2><p:outputLabel value="Avance de Actividades para #{AdmCursoMB.cursoVO.nombre}"/></h2></center> 
 		<h:panelGrid columns="1" cellpadding="5">
 		<h:panelGrid columns="2" cellpadding="5">
-	<p:commandButton icon="ui-icon-search" value="Ver Información de #{AdmCursoMB.estudianteVO.nombre} #{AdmCursoMB.estudianteVO.apellido}" process="@this" action="#{AdmGatoMB.modificarGato}">
-	<f:param name="idestudiante" value="#{AdmCursoMB.estudianteVO.id}" />
-	</p:commandButton>
 	
-	<p:commandButton  value="Enviar Mensaje" process="@this" action="#{AdmGatoMB.modificarGato}">
-	<f:param name="idestudiante" value="#{AdmCursoMB.estudianteVO.id}" />
-	</p:commandButton>
+	<p:commandButton  icon="ui-icon-search" 
+	value="Información de #{AdmCursoMB.estudianteVO.nombre} #{AdmCursoMB.estudianteVO.apellido}"
+	 update=":mainForm:detalleEstudiante" oncomplete="PF('estudianteDialogo').show()"
+    title="Ver Detalle">
+    </p:commandButton>
+	
+	<p:commandButton value="Enviar Mensaje"
+	 update=":mainForm:enviarMensaje" oncomplete="PF('mensajeDialogo').show()"
+    title="Mensaje">
+    </p:commandButton>
+    
 		</h:panelGrid>
 		<p:dataTable var="actividad" value="#{AdmCursoMB.listaActividadesEstudiante}"
 				rendered="#{not empty AdmCursoMB.listaActividadesEstudiante}" paginator="true"
@@ -47,6 +52,53 @@
 
 			
 		</p:dataTable>
+			 <p:dialog header="Info Estudiante" widgetVar="estudianteDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="detalleEstudiante" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty AdmCursoMB.estudianteVO}" columnClasses="label,value">
+                         
+                <h:outputText value="Nombre" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.nombre}" />
+ 
+			    <h:outputText value="Apellido:" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.apellido}" />
+                
+                <h:outputText value="Correo:" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.correo}"/>
+ 
+                <h:outputText value="Identificacion" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.identificacion}" />
+                
+                <h:outputText value="Ultimo Ingreso" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.fechaUltimoIngreso}" />
+                
+                <p:commandButton value="Enviar Mensaje"
+	 update=":mainForm:enviarMensaje" oncomplete="PF('mensajeDialogo').show()"
+    title="Mensaje">
+    </p:commandButton>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog header="Enviar Mensaje" widgetVar="mensajeDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="enviarMensaje" style="text-align:center;">
+            <p:panelGrid columns="1" rendered="#{not empty AdmCursoMB.estudianteVO}" columnClasses="label,value">
+            <h:panelGrid columns="2" style="margin-top: 10px">                 
+                <h:outputText value="Para:" />
+                <h:outputText value="#{AdmCursoMB.estudianteVO.nombre}" />
+        </h:panelGrid>
+    
+    <p:editor id="editor" widgetVar="editorWidget" value="#{editorView.text}" height="200" width="600" />
+    <h:panelGrid columns="2" style="margin-top: 10px">
+        <p:commandButton value="Enviar" update="" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
+ 
+        <p:commandButton value="Limpiar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+    </h:panelGrid>
+        
+            </p:panelGrid>
+            
+        </p:outputPanel>
+    </p:dialog>
+		
 		<center ><h3><p:outputLabel rendered="#{empty AdmCursoMB.listaActividadesEstudiante}"  value="El estudiante no ha realizado ninguna actividad del curso"/></h3></center> 
 		
    </h:panelGrid>
