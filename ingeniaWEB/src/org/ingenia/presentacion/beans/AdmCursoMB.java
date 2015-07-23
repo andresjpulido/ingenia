@@ -215,6 +215,7 @@ public class AdmCursoMB extends BaseMB {
 	}
 	
 	public void actualizar() {
+		
 		try {
 			gestorCursos.modificarCursoVO(this.cursoVO);
 
@@ -227,7 +228,7 @@ public class AdmCursoMB extends BaseMB {
 			e.printStackTrace();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
-					null,
+					null,	
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
 							.getMessage()));
 			e.printStackTrace();
@@ -236,10 +237,12 @@ public class AdmCursoMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		
 	}
 
 	public String crear() {	
-
+		String destino=null;
+		
 		try {
 			if (this.cursoVOtemp==null){
 				//profesorVO.setId(7890);
@@ -249,12 +252,30 @@ public class AdmCursoMB extends BaseMB {
 
 				gestorCursos.crearCursoVO(cursoVO);
 				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO));
+				destino=NAV_IRADMCURSO;
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+								"La operacion fue realizada satisfactoriamente !"));
 			}
 			else 
 			{	
+				System.out.println(this.cursoVO.getActividades().size()+" y "+this.cursoVO.getLimite_actividades());
+				if(this.cursoVO.getActividades().size()<=this.cursoVO.getLimite_actividades()){	
 				CursoVO cursoVO = this.cursoVO;
 				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en Modifics");
 				gestorCursos.modificarCursoVO(cursoVO);
+				destino=NAV_IRADMCURSO;
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+								"La operacion fue realizada satisfactoriamente !"));
+				}
+				else{
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "El limite de actividades no puede ser inferior a la cantidad actual",null));
+				}
 			}
 
 			
@@ -271,12 +292,10 @@ public class AdmCursoMB extends BaseMB {
 							.getMessage()));
 			e.printStackTrace();
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-						"La operacion fue realizada satisfactoriamente !"));
+
 		
-		return NAV_IRADMCURSO;
+		
+		return destino;
 	}
 
 	public String irCurso() {
