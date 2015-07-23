@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.EstudianteVO;
+import org.ingenia.comunes.vo.MensajeVO;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
@@ -39,6 +40,8 @@ public interface IGestorUsuariosLocal {
 	
 	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) throws AdaptadorException ;
 
-	public void enviarMensaje(UsuarioVO destinatario,UsuarioVO emisor);
+	public void enviarMensaje(UsuarioVO destinatariovo, UsuarioVO emisorvo,String mensaje)throws AdaptadorException ;
+
+	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo)throws AdaptadorException ;
 
 }

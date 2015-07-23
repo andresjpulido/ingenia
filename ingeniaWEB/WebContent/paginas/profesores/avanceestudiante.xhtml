@@ -89,9 +89,10 @@
     
     <p:editor id="editor" widgetVar="editorWidget" value="#{AdmCursoMB.text}" height="200" width="600" />
     <h:panelGrid columns="2" style="margin-top: 10px">
-        <p:commandButton value="Enviar" update="" action="#{AdmCursoMB.envioMensajeProfesor}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
+        <p:commandButton value="Enviar" update="g" action="#{AdmCursoMB.envioMensajeProfesor}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
         <p:commandButton value="Limpiar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
     </h:panelGrid>
+        
         
             </p:panelGrid>
             
@@ -102,8 +103,11 @@
 		
    </h:panelGrid>
 	
-
-
-
+<h:panelGrid>
+     <f:facet name="header">
+                 <h:outputText value="De: #{AdmCursoMB.usuarioVO.nombre}" />
+                </f:facet>
+ <p:editor  id="g" disabled="true" controls="" value="#{AdmCursoMB.text}" height="200" width="200" />
+</h:panelGrid>
 	</ui:define>
 </ui:composition>

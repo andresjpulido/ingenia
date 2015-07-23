@@ -12,9 +12,11 @@ public class MensajeVO implements Serializable {
 
 	private int idmensaje;
 
-	private UsuarioVO usuario1;
+	private UsuarioVO remitente;
 
-	private UsuarioVO usuario2;
+	private UsuarioVO destinatario;
+	
+	private String mensaje;
 
 	public MensajeVO() {
 	}
@@ -27,20 +29,28 @@ public class MensajeVO implements Serializable {
 		this.idmensaje = idmensaje;
 	}
 
-	public UsuarioVO getUsuario1() {
-		return this.usuario1;
+	public UsuarioVO getRemitente() {
+		return this.remitente;
 	}
 
-	public void setUsuario1(UsuarioVO usuario1) {
-		this.usuario1 = usuario1;
+	public void setRemitente(UsuarioVO usuario1) {
+		this.remitente = usuario1;
 	}
 
-	public UsuarioVO getUsuario2() {
-		return this.usuario2;
+	public UsuarioVO getDestinatario() {
+		return this.destinatario;
 	}
 
-	public void setUsuario2(UsuarioVO usuario2) {
-		this.usuario2 = usuario2;
+	public void setDestinatario(UsuarioVO usuario2) {
+		this.destinatario = usuario2;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 
 }

@@ -6,7 +6,20 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:define name="metadata">
 	</ui:define>
+	<f:metadata>
+<f:event listener="#{usuarioMB.cargarMensajes}" type="preRenderView" />
+</f:metadata>
 	<ui:define name="content">
 		<h1>Bienvenido</h1>
+
+	<p:dataGrid  var="mensaje"  value="#{usuarioMB.listaMensajesRecibidos}" columns="3">	
+		<h:panelGrid >
+     <f:facet name="header">
+                 <h:outputText value="De: #{mensaje.remitente.nombre}" />
+                </f:facet>
+ <p:editor  id="g" disabled="true" controls="" value="#{mensaje.mensaje}" height="100" width="400" />
+</h:panelGrid>
+</p:dataGrid>
+
 	</ui:define>
 </ui:composition>
