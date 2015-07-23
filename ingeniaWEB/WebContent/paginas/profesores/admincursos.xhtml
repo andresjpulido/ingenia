@@ -14,12 +14,13 @@
 
 		<h:form>
 			<h1>Mis Cursos</h1>
+			
 			<h:panelGrid columns="2" cellpadding="10">
 				<h:outputLabel for="curso" value="Nombre Curso:" />
 				<p:inputText id="curso" value="#{AdmCursoMB.curso}" required="false"
 					label="curso" />
 				<p:commandButton value="Buscar" action="#{AdmCursoMB.buscar}" />
-
+	
 			</h:panelGrid>
 
 			<div id="crear" align="right">
@@ -44,12 +45,19 @@
 				<p:panel header="#{curso.nombre}" style="text-align:center">
 					<p:panelGrid columns="1" style="width:100%">
 						<p:column>
+						<center>
 							<p:commandButton icon="ui-icon-search" value="Ver Curso "
 								process="@this" action="#{AdmCursoMB.irCurso}">
 								<f:param name="id" value="#{curso.idcurso}" />
 							</p:commandButton>
-							<h:outputText value="  #{curso.descripcion}" />
-						</p:column>
+							
+								</center>					  
+                </p:column>
+                <p:column>
+                <center>
+                <h:outputText value="  #{curso.descripcion}" />
+                </center>	
+                </p:column>
 					</p:panelGrid>
 				</p:panel>
 

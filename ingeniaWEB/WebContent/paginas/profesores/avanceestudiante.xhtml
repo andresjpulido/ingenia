@@ -87,10 +87,9 @@
                 <h:outputText value="#{AdmCursoMB.estudianteVO.nombre}" />
         </h:panelGrid>
     
-    <p:editor id="editor" widgetVar="editorWidget" value="#{editorView.text}" height="200" width="600" />
+    <p:editor id="editor" widgetVar="editorWidget" value="#{AdmCursoMB.text}" height="200" width="600" />
     <h:panelGrid columns="2" style="margin-top: 10px">
-        <p:commandButton value="Enviar" update="" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
- 
+        <p:commandButton value="Enviar" update="" action="#{AdmCursoMB.envioMensajeProfesor}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
         <p:commandButton value="Limpiar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
     </h:panelGrid>
         

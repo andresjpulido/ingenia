@@ -34,6 +34,7 @@ public class AdmGatoMB extends BaseMB {
 
 	private GatoVO gatoVO=new GatoVO();
 	private GatoVO gatoVO1=null;
+	private GatoVO gatoVO2=null;
 	private List<TipoGatoVO> listaTiposGato;
 	private List<ColorVO> listaColores;
 	private List<ArmaVO> listaArmas;
@@ -78,7 +79,7 @@ public class AdmGatoMB extends BaseMB {
 	
 
 	public String actualizar() {
-
+		this.setGatoVO2(null);
 		String destino=null;
 		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
 				GatoVO gatoVO = this.gatoVO1;
@@ -94,6 +95,12 @@ public class AdmGatoMB extends BaseMB {
 		gestorGatos.modificarGato(gatoVO,actividadVO);		
 		actualizaGatos();
 		destino=NAV_CONFIGURARACTIVIDAD;
+	    this.gatoVO=new GatoVO();
+		 arma = new ArmaVO();
+			 armadura= new ArmaduraVO();
+			  color = new ColorVO();
+			 tipogato= new TipoGatoVO();
+			 this.gatoVO1=null;
 		
 } catch (AdaptadorException e) {
 		FacesContext.getCurrentInstance().addMessage(
@@ -112,8 +119,8 @@ public class AdmGatoMB extends BaseMB {
 			null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 					"La operacion fue realizada satisfactoriamente !"));
-	 this.gatoVO1=null;
-	 this.gatoVO=new GatoVO();}
+	 
+	 }
 		 else{
 			 FacesContext.getCurrentInstance().addMessage(
 						null,
@@ -125,10 +132,14 @@ public class AdmGatoMB extends BaseMB {
 	
 	
 	  public String configurarActividad() {
-	
+		  this.setGatoVO2(null);
 		  this.gatoVO1=null;
 		  System.out.println("entrrooooo al gato");
-
+		  this.gatoVO=new GatoVO();
+		 arma = new ArmaVO();
+			 armadura= new ArmaduraVO();
+			  color = new ColorVO();
+			 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idact"));
 			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
@@ -163,7 +174,12 @@ public class AdmGatoMB extends BaseMB {
 	  public String cancelar() {
 	
 		  this.gatoVO1=null;
-
+		  this.gatoVO2=null;
+		  this.gatoVO=new GatoVO();
+			 arma = new ArmaVO();
+				 armadura= new ArmaduraVO();
+				  color = new ColorVO();
+				 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
@@ -181,7 +197,8 @@ public class AdmGatoMB extends BaseMB {
 	  
 
 	public String crear() {
-	
+		
+		this.setGatoVO2(null);
    String destino=null;
 		 idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
@@ -201,6 +218,12 @@ public class AdmGatoMB extends BaseMB {
 	         
 		        context.addMessage(null, new FacesMessage("Successful",  "Your message: " ) );
 		        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
+		        this.gatoVO=new GatoVO();
+				 arma = new ArmaVO();
+					 armadura= new ArmaduraVO();
+					  color = new ColorVO();
+					 tipogato= new TipoGatoVO();
+
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -498,6 +521,14 @@ public class AdmGatoMB extends BaseMB {
 	   this.armadura=d;
 	   FacesContext.getCurrentInstance().renderResponse();
 
+	}
+
+	public GatoVO getGatoVO2() {
+		return gatoVO2;
+	}
+
+	public void setGatoVO2(GatoVO gatoVO2) {
+		this.gatoVO2 = gatoVO2;
 	}
 
 

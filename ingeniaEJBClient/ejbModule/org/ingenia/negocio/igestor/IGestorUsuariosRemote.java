@@ -38,5 +38,6 @@ public interface IGestorUsuariosRemote {
 	
 	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) throws AdaptadorException ;
 	
+	public void enviarMensaje(UsuarioVO destinatario,UsuarioVO emisor);
 	
 }

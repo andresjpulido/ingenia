@@ -42,11 +42,17 @@
 				<p:panel header="#{actividad.nombre}" style="text-align:center">
 					<p:panelGrid columns="1" style="width:100%">
 						<p:column>
+						<center>
 							<p:commandButton icon="ui-icon-search" value="Ver Actividad"
 								process="@this" action="#{AdmActividadMB.irActividad}">
 								<f:param name="idactividad" value="#{actividad.idactividad}" />							
-							</p:commandButton>
-							<h:outputText value="  #{actividad.enunciado}" />
+							</p:commandButton>							
+							</center>
+						</p:column>
+						<p:column>
+						<center>
+						<h:outputText value="  #{actividad.enunciado}" />
+						</center>
 						</p:column>
 					</p:panelGrid>
 				</p:panel>

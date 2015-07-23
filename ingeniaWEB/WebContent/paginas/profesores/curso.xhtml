@@ -181,11 +181,17 @@
 			</h:panelGrid>
 			</h:panelGrid>
 		  </p:tab>
-        <p:tab title="Estudiantes">
+        <p:tab rendered="#{not empty AdmCursoMB.cursoVOtemp}" title="Estudiantes">
 				<p:outputLabel
 					rendered="#{not empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}">
 					<center>
 						<h3>Lista de Estudiantes</h3>
+					</center>
+				</p:outputLabel>
+				<p:outputLabel
+					rendered="#{empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}">
+					<center>
+						<h3>No hay estudiantes inscritos</h3>
 					</center>
 				</p:outputLabel>
 				<p:dataTable var="estudiante"
@@ -195,12 +201,14 @@
 
 
 					<p:column headerText="Accion">
+					<center>
 						<p:commandButton icon="ui-icon-search" value="Ver Estudiante"
 							process="@this"
 							action="#{AdmCursoMB.verCursoActividadesEstudiante}">
 							<f:param name="idestudiante" value="#{estudiante.id}" />
 							<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />
 						</p:commandButton>
+						</center>
 					</p:column>
 
 					<p:column headerText="Nombre">

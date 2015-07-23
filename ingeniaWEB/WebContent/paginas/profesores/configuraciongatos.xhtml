@@ -115,7 +115,7 @@
 			</h:panelGrid>
 			</h:panelGrid>
 
-  	  <h3> <h:outputText  rendered="#{not empty AdmGatoMB.gatoVO1}" value="Editar Gato en la posición #{AdmGatoMB.gatoVO.orden}" />	</h3>
+  	  <h3> <h:outputText  rendered="#{not empty AdmGatoMB.gatoVO1}" value="Editar Gato en la posición #{AdmGatoMB.gatoVO2.orden}" />	</h3>
 <h:panelGrid rendered="#{not empty AdmGatoMB.gatoVO1}" id="camb2" columns="1" cellpadding="5">
 
 	
@@ -213,25 +213,28 @@
 	
 
 	<center><h3>Lista de Gatos</h3></center>  
- <p:ring id="basic" value="#{AdmGatoMB.listaGatos}" var="car" styleClass="image-ring" easing="easeInOutCubic" >
+ <p:ring id="basic" value="#{AdmGatoMB.listaGatos}" var="gato" styleClass="image-ring" easing="easeInOutCubic" >
 
        	<h:panelGrid columns="2" cellpadding="1">	
-       	    <p:graphicImage value="/recursos/imagenes/gatos/gato_#{car.color.nombre}.png" width="50" height="60"/>     
+       	    <p:graphicImage value="/recursos/imagenes/gatos/gato_#{gato.color.nombre}.png" width="50" height="60"/>     
        	       	<h:panelGrid columns="1" cellpadding="1">	
-                     Gato #{car.orden}     
-            <p:commandButton update="mainForm:form:carDetail" value="Ver" title="View" oncomplete="PF('carDialog').show();">
-                <f:setPropertyActionListener value="#{car}" target="#{AdmGatoMB.gatoVO}" />
+                     Gato #{gato.orden}     
+            <p:commandButton update="mainForm:form:gatoDetalle" value="Ver" title="View" oncomplete="PF('gatoDialogo').show();">
+                <f:setPropertyActionListener value="#{gato}" target="#{AdmGatoMB.gatoVO2}" />
             </p:commandButton>   
             </h:panelGrid>  
              
      </h:panelGrid>
     </p:ring>
 
-  <p:dialog  header="Info Gato" widgetVar="carDialog" showEffect="fade" hideEffect="fade" resizable="false" >
-        <p:outputPanel id="carDetail" style="text-align:center;" layout="block">
-            <p:panelGrid  columns="2" rendered="#{not empty AdmGatoMB.gatoVO}" columnClasses="value">
+  <p:dialog  header="Info Gato" widgetVar="gatoDialogo" showEffect="fade" hideEffect="fade" resizable="false" >
+        <p:outputPanel id="gatoDetalle" style="text-align:center;" layout="block">
+           <p:panelGrid rendered="#{not empty AdmGatoMB.gatoVO2}"  columns="1">
+           <p:column >  
+           <center>
+            <p:panelGrid  columns="2"  columnClasses="value">
                 <f:facet name="header">
-                <h:outputText value="Posición Salida #{AdmGatoMB.gatoVO.orden}" />
+                <h:outputText value="Posición Salida #{AdmGatoMB.gatoVO2.orden}" />
                 </f:facet>
                 
     <p:panelGrid  columns="1">
@@ -239,9 +242,9 @@
                <h:outputText value="Color:" />
                 </f:facet>
               
-          <h:outputText value="#{AdmGatoMB.gatoVO.color.nombre}" />
+          <h:outputText value="#{AdmGatoMB.gatoVO2.color.nombre}" />
           </p:panelGrid>
-     <p:graphicImage value="/recursos/imagenes/gatos/gato_#{AdmGatoMB.gatoVO.color.nombre}.png" width="50" height="60"/>
+     <p:graphicImage value="/recursos/imagenes/gatos/gato_#{AdmGatoMB.gatoVO2.color.nombre}.png" width="50" height="60"/>
     
    
     <p:panelGrid  columns="1">
@@ -249,9 +252,9 @@
               <h:outputText value="Tipo:" />
                 </f:facet>
            
-     <h:outputText value="#{AdmGatoMB.gatoVO.tipogato.nombre}" />
+     <h:outputText value="#{AdmGatoMB.gatoVO2.tipogato.nombre}" />
      </p:panelGrid>
-      <p:graphicImage value="/recursos/imagenes/tiposgato/gato_#{AdmGatoMB.gatoVO.tipogato.nombre}.png" width="50" height="60"/>   
+      <p:graphicImage value="/recursos/imagenes/tiposgato/gato_#{AdmGatoMB.gatoVO2.tipogato.nombre}.png" width="50" height="60"/>   
       
       
     <p:panelGrid  columns="1">
@@ -259,9 +262,9 @@
                 <h:outputText value="Arma:" />
                 </f:facet>
  
-  			 <h:outputText value="#{AdmGatoMB.gatoVO.arma.nombre}" />
+  			 <h:outputText value="#{AdmGatoMB.gatoVO2.arma.nombre}" />
   			 </p:panelGrid>
-      <p:graphicImage value="/recursos/imagenes/armas/gato_#{AdmGatoMB.gatoVO.arma.nombre}.png" width="50" height="60"/>
+      <p:graphicImage value="/recursos/imagenes/armas/gato_#{AdmGatoMB.gatoVO2.arma.nombre}.png" width="50" height="60"/>
      
       
     <p:panelGrid  columns="1">
@@ -269,15 +272,26 @@
                  <h:outputText value="Armadura:" />
                 </f:facet>
        
-          <h:outputText value="#{AdmGatoMB.gatoVO.armadura.nombre}" />
+          <h:outputText value="#{AdmGatoMB.gatoVO2.armadura.nombre}" />
           </p:panelGrid>
-           <p:graphicImage value="/recursos/imagenes/armaduras/gato_#{AdmGatoMB.gatoVO.armadura.nombre}.png" width="50" height="60"/>
-       
+           <p:graphicImage value="/recursos/imagenes/armaduras/gato_#{AdmGatoMB.gatoVO2.armadura.nombre}.png" width="50" height="60"/>
+          
             </p:panelGrid>
-       
+            </center>
+            </p:column>	
+        <p:column >   
+            <center>     
         <p:commandButton icon="ui-icon-search" value="Editar" process="@this" action="#{AdmGatoMB.modificarGato}">
-	<f:param name="idgatomod" value="#{AdmGatoMB.gatoVO.idgato}" />
-	</p:commandButton>
+	<f:param name="idgatomod" value="#{AdmGatoMB.gatoVO2.idgato}" />
+		</p:commandButton>
+		  <h:outputText value="" />	
+	</center>
+	</p:column>	
+            </p:panelGrid>
+       <p:panelGrid rendered="#{empty AdmGatoMB.gatoVO2}">
+        <h:outputText value="Vuelva a intentarlo" />
+       </p:panelGrid>
+     
 	 </p:outputPanel>
     </p:dialog>
    

@@ -386,4 +386,10 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		return listaRoles;
 	}
 
+	@Override
+	public void enviarMensaje(UsuarioVO destinatario, UsuarioVO emisor) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

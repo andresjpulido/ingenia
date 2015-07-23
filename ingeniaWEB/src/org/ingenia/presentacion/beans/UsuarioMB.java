@@ -85,7 +85,6 @@ public class UsuarioMB extends BaseMB {
 						.getExternalContext().getRequest();
 				httpServletRequest.getSession().setAttribute("sessionUsuario",
 						this.usuariovo);
-			      System.out.println(this.usuariovo.getId()+"id profe");
 
 				// FacesContext.getCurrentInstance().addMessage(null, message);
 				// context.addCallbackParam(ReglasNavegacion.INICIO, this);
@@ -152,8 +151,10 @@ public class UsuarioMB extends BaseMB {
 	}
 
 	public String salir() {
+		
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
+		session.removeAttribute("sessionUsuario");
 		// session.invalidate();
 		this.logeado = false;
 		this.usuariovo = null;

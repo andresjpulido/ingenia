@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.EstudianteVO;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
@@ -37,5 +38,7 @@ public interface IGestorUsuariosLocal {
 	public List<RolVO> consultarRolVOPorIdUsuario(int idUsuario);
 	
 	public UsuarioVO consultarUsuario(UsuarioVO usuarioVO) throws AdaptadorException ;
+
+	public void enviarMensaje(UsuarioVO destinatario,UsuarioVO emisor);
 
 }

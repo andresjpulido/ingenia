@@ -45,6 +45,7 @@ public class AdmCursoMB extends BaseMB {
     private ActividadVO actividadSeleccionada;
     private CursoVO cursoSeleccionado;
     private int posicion=0;
+	private String text;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
@@ -97,15 +98,21 @@ public class AdmCursoMB extends BaseMB {
 					if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==1){
 		        	listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO);
 		        System.out.println("estado "+creando);
-
+		        listaCursosest=null;
+		        listaCursosdisponible=null;
 		        	}
 					
 					else if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==3){
 			  listaCursosest = gestorCursos.consultarCursosEstudiante(this.UsuarioVO);
 			  System.out.println(listaCursosest.size()+" tamko");
 			  setListaCursosdisponible(gestorCursos.consultarCursosDisponibleEstudiante(listaCursosest));
-				
-
+			  listaCursos=null;
+			  
+					}
+					else{
+						   listaCursosest=null;
+					        listaCursosdisponible=null;
+					        listaCursos=null;
 					}
 		          }
 		        }
@@ -352,6 +359,11 @@ public class AdmCursoMB extends BaseMB {
 		}
 	}
 	
+	public void envioMensajeProfesor(){
+		UsuarioVO destinatario=this.estudianteVO;
+		this.gestorUsuarios.enviarMensaje(destinatario,this.UsuarioVO);
+	}
+	
 	public String inscribir(){
 		
         int idcurso=Integer.parseInt(recuperarParametro("id"));
@@ -531,12 +543,17 @@ public class AdmCursoMB extends BaseMB {
 		this.cursoSeleccionado = cursoSeleccionado;
 	}
 
+	  
+	    public String getText() {
+	        return text;
+	    }
+	 
+	    public void setText(String text) {
+	        this.text = text;
+	    }
 
 
-
-
-
-
+      
 
 
 }
