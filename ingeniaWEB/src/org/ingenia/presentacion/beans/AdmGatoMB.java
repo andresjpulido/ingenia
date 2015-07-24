@@ -34,6 +34,7 @@ public class AdmGatoMB extends BaseMB {
 
 	private GatoVO gatoVO=new GatoVO();
 	private GatoVO gatoVO1=null;
+	private GatoVO gatoVO2=null;
 	private List<TipoGatoVO> listaTiposGato;
 	private List<ColorVO> listaColores;
 	private List<ArmaVO> listaArmas;
@@ -44,10 +45,6 @@ public class AdmGatoMB extends BaseMB {
 	private ColorVO color = new ColorVO();
 	private TipoGatoVO tipogato= new TipoGatoVO();
 	private int idactividad;	
-	private boolean selArma=false;
-	private boolean selArmadura=false;
-	private boolean selColor=false;
-	private boolean selTipo=false;
 	private final static String NAV_IRACTIVIDAD = "iractividad";
 	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
     
@@ -82,10 +79,9 @@ public class AdmGatoMB extends BaseMB {
 	
 
 	public String actualizar() {
-		selArma=false;
-		selArmadura=false;
-		selColor=false;
-		selTipo=false;
+		this.setGatoVO2(null);
+		String destino=null;
+		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
 				GatoVO gatoVO = this.gatoVO1;
 				gatoVO.setArma(arma);
 				 gatoVO.setArmadura(armadura);
@@ -98,6 +94,13 @@ public class AdmGatoMB extends BaseMB {
 		
 		gestorGatos.modificarGato(gatoVO,actividadVO);		
 		actualizaGatos();
+		destino=NAV_CONFIGURARACTIVIDAD;
+	    this.gatoVO=new GatoVO();
+		 arma = new ArmaVO();
+			 armadura= new ArmaduraVO();
+			  color = new ColorVO();
+			 tipogato= new TipoGatoVO();
+			 this.gatoVO1=null;
 		
 } catch (AdaptadorException e) {
 		FacesContext.getCurrentInstance().addMessage(
@@ -116,20 +119,27 @@ public class AdmGatoMB extends BaseMB {
 			null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 					"La operacion fue realizada satisfactoriamente !"));
-	 this.gatoVO1=null;
-	 this.gatoVO=new GatoVO();
-	 return NAV_CONFIGURARACTIVIDAD;
+	 
+	 }
+		 else{
+			 FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar todos los datos del gato", null));
+	
+		 }
+		 return destino;
 	}
 	
 	
 	  public String configurarActividad() {
-		  selArma=false;
-			selArmadura=false;
-			selColor=false;
-			selTipo=false;
+		  this.setGatoVO2(null);
 		  this.gatoVO1=null;
 		  System.out.println("entrrooooo al gato");
-
+		  this.gatoVO=new GatoVO();
+		 arma = new ArmaVO();
+			 armadura= new ArmaduraVO();
+			  color = new ColorVO();
+			 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idact"));
 			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
@@ -162,12 +172,14 @@ public class AdmGatoMB extends BaseMB {
 	    }
 	  
 	  public String cancelar() {
-		  selArma=false;
-			selArmadura=false;
-			selColor=false;
-			selTipo=false;
+	
 		  this.gatoVO1=null;
-
+		  this.gatoVO2=null;
+		  this.gatoVO=new GatoVO();
+			 arma = new ArmaVO();
+				 armadura= new ArmaduraVO();
+				  color = new ColorVO();
+				 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
@@ -185,13 +197,11 @@ public class AdmGatoMB extends BaseMB {
 	  
 
 	public String crear() {
-		selArma=false;
-		selArmadura=false;
-		selColor=false;
-		selTipo=false;
-
+		
+		this.setGatoVO2(null);
+   String destino=null;
 		 idactividad=Integer.parseInt(recuperarParametro("idactividad"));
-		 
+		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
 		GatoVO gatoVO = this.gatoVO;			
 		ActividadVO actividadVO = new ActividadVO();
 		 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
@@ -203,6 +213,17 @@ public class AdmGatoMB extends BaseMB {
 		try {
 			gestorGatos.crearGato(gatoVO,actividadVO); 				
 			actualizaGatos();
+			destino= NAV_CONFIGURARACTIVIDAD;
+			 FacesContext context = FacesContext.getCurrentInstance();
+	         
+		        context.addMessage(null, new FacesMessage("Successful",  "Your message: " ) );
+		        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
+		        this.gatoVO=new GatoVO();
+				 arma = new ArmaVO();
+					 armadura= new ArmaduraVO();
+					  color = new ColorVO();
+					 tipogato= new TipoGatoVO();
+
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -216,12 +237,15 @@ public class AdmGatoMB extends BaseMB {
 							.getMessage()));
 			e.printStackTrace();
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-						"La operacion fue realizada satisfactoriamente !"));
-		this.gatoVO=new GatoVO();
-		return NAV_CONFIGURARACTIVIDAD;
+		
+		this.gatoVO=new GatoVO();}
+		 else{
+			 FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar todos los datos del gato", null));
+	
+		 }
+		return destino;
 	}
 
 
@@ -464,7 +488,7 @@ public class AdmGatoMB extends BaseMB {
 	
 	public void selectOneMenuColorListener(ValueChangeEvent event) {
 	
-		selColor=true;		
+				
 	    Object newValue = event.getNewValue(); 
 	    ColorVO c= (ColorVO)newValue;
 	   this.color=c;
@@ -474,7 +498,6 @@ public class AdmGatoMB extends BaseMB {
 	
 	public void selectOneMenuTipoListener(ValueChangeEvent event) {
 		
-		selTipo=true;
 	    Object newValue = event.getNewValue(); 
 	    TipoGatoVO t= (TipoGatoVO)newValue;
 	   this.tipogato=t;
@@ -483,7 +506,7 @@ public class AdmGatoMB extends BaseMB {
 	}
 	
 	public void selectOneMenuArmaListener(ValueChangeEvent event) {
-		selArma=true;		
+		
 	    Object newValue = event.getNewValue(); 
 	    ArmaVO a= (ArmaVO)newValue;
 	   this.arma=a;
@@ -492,7 +515,7 @@ public class AdmGatoMB extends BaseMB {
 	}
 	
 	public void selectOneMenuArmaduraListener(ValueChangeEvent event) {
-		selArmadura=true;
+
 	    Object newValue = event.getNewValue(); 
 	    ArmaduraVO d= (ArmaduraVO)newValue;
 	   this.armadura=d;
@@ -500,38 +523,13 @@ public class AdmGatoMB extends BaseMB {
 
 	}
 
-	public boolean isSelArma() {
-		return selArma;
+	public GatoVO getGatoVO2() {
+		return gatoVO2;
 	}
 
-	public void setSelArma(boolean selArma) {
-		this.selArma = selArma;
+	public void setGatoVO2(GatoVO gatoVO2) {
+		this.gatoVO2 = gatoVO2;
 	}
-
-	public boolean isSelArmadura() {
-		return selArmadura;
-	}
-
-	public void setSelArmadura(boolean selArmadura) {
-		this.selArmadura = selArmadura;
-	}
-
-	public boolean isSelColor() {
-		return selColor;
-	}
-
-	public void setSelColor(boolean selColor) {
-		this.selColor = selColor;
-	}
-
-	public boolean isSelTipo() {
-		return selTipo;
-	}
-
-	public void setSelTipo(boolean selTipo) {
-		this.selTipo = selTipo;
-	}
-
 
 
 

@@ -85,7 +85,6 @@ public class UsuarioMB extends BaseMB {
 						.getExternalContext().getRequest();
 				httpServletRequest.getSession().setAttribute("sessionUsuario",
 						this.usuariovo);
-			      System.out.println(this.usuariovo.getId()+"id profe");
 
 				// FacesContext.getCurrentInstance().addMessage(null, message);
 				// context.addCallbackParam(ReglasNavegacion.INICIO, this);
@@ -152,12 +151,25 @@ public class UsuarioMB extends BaseMB {
 	}
 
 	public String salir() {
+		
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
+		session.removeAttribute("sessionUsuario");
 		// session.invalidate();
 		this.logeado = false;
 		this.usuariovo = null;
 		return ReglasNavegacion.LOGIN;
+	}
+	
+	public void cargarMensajes(){
+		
+		try {
+			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
+			System.out.println("cantidad "+ listaMensajesRecibidos.size());
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getUsuario() {
@@ -192,13 +204,6 @@ public class UsuarioMB extends BaseMB {
 		this.logeado = logeado;
 	}
 
-	public List<MensajeVO> getListaMensajesRecibidos() {
-		return listaMensajesRecibidos;
-	}
-
-	public void setListaMensajesRecibidos(List<MensajeVO> listaMensajesRecibidos) {
-		this.listaMensajesRecibidos = listaMensajesRecibidos;
-	}
 
 	public List<MensajeVO> getListaMensajesEnviados() {
 		return listaMensajesEnviados;
@@ -206,5 +211,13 @@ public class UsuarioMB extends BaseMB {
 
 	public void setListaMensajesEnviados(List<MensajeVO> listaMensajesEnviados) {
 		this.listaMensajesEnviados = listaMensajesEnviados;
+	}
+
+	public List<MensajeVO> getListaMensajesRecibidos() {
+		return listaMensajesRecibidos;
+	}
+
+	public void setListaMensajesRecibidos(List<MensajeVO> listaMensajesRecibidos) {
+		this.listaMensajesRecibidos = listaMensajesRecibidos;
 	}
 }

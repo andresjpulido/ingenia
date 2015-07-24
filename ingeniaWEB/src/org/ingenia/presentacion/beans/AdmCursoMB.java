@@ -47,12 +47,13 @@ public class AdmCursoMB extends BaseMB {
     private ActividadVO actividadSeleccionada;
     private CursoVO cursoSeleccionado;
     private int posicion=0;
+	private String text;
 	private final static String NAV_IRCURSO = "ircurso";
 	private final static String NAV_IRADMCURSO = "iradmincurso";
 	private final static String NAV_IRACTCURSOEST = "iractcursoest";
 	private final static String NAV_IRMISCURSOS = "irmiscursos";
 	private final static String NAV_IRINSCRIBIRCURSOS = "irinscribircursos";
-	private UsuarioVO UsuarioVO=new UsuarioVO();	
+	private UsuarioVO usuarioVO=new UsuarioVO();	
 	private EstudianteVO estudianteVO=new EstudianteVO();
     private HttpServletRequest httpServletRequest;
     private FacesContext faceContext;
@@ -69,7 +70,7 @@ public class AdmCursoMB extends BaseMB {
 		   	if(creando==false){
 		   	System.out.println("entro a falso");
 		   	try {
-				this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);
+				this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.usuarioVO);
 			   	this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
 		   	} catch (AdaptadorException e) {
 				// TODO Auto-generated catch block
@@ -92,22 +93,28 @@ public class AdmCursoMB extends BaseMB {
 		        httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
 		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
 		        {
-		        	System.out.println(this.UsuarioVO.getId()+" "	+ "teacher");
-		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
+		        	System.out.println(this.usuarioVO.getId()+" "	+ "teacher");
+		        	this.usuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
 		           // System.out.println("id profe"+UsuarioVO.getId());
-		        	for(int i=0;this.UsuarioVO.getListaRoles().size()>i;i++){
-					if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==1){
-		        	listaCursos = gestorCursos.consultarCursosProfesor(this.UsuarioVO);
+		        	for(int i=0;this.usuarioVO.getListaRoles().size()>i;i++){
+					if(this.usuarioVO.getListaRoles().get(i).getIdRol()==1){
+		        	listaCursos = gestorCursos.consultarCursosProfesor(this.usuarioVO);
 		        System.out.println("estado "+creando);
-
+		        listaCursosest=null;
+		        listaCursosdisponible=null;
 		        	}
 					
-					else if(this.UsuarioVO.getListaRoles().get(i).getIdRol()==3){
-			  listaCursosest = gestorCursos.consultarCursosEstudiante(this.UsuarioVO);
+					else if(this.usuarioVO.getListaRoles().get(i).getIdRol()==3){
+			  listaCursosest = gestorCursos.consultarCursosEstudiante(this.usuarioVO);
 			  System.out.println(listaCursosest.size()+" tamko");
 			  setListaCursosdisponible(gestorCursos.consultarCursosDisponibleEstudiante(listaCursosest));
-				
-
+			  listaCursos=null;
+			  
+					}
+					else{
+						   listaCursosest=null;
+					        listaCursosdisponible=null;
+					        listaCursos=null;
 					}
 		          }
 		        }
@@ -136,7 +143,7 @@ public class AdmCursoMB extends BaseMB {
 	public String buscar() {//es mas como un filtro
 		CursoVO CursoVO = new CursoVO();
 		CursoVO.setNombre(curso);
-		CursoVO.setProfesor(this.UsuarioVO);
+		CursoVO.setProfesor(this.usuarioVO);
 	
 		try {
 			this.buscando=true;
@@ -157,7 +164,7 @@ public class AdmCursoMB extends BaseMB {
 			
 		try {
 			this.buscando=true;
-			setListaCursosest(gestorCursos.consultarCursosEstudiantePorNombre(CursoVO,UsuarioVO));
+			setListaCursosest(gestorCursos.consultarCursosEstudiantePorNombre(CursoVO,usuarioVO));
 			
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -213,7 +220,7 @@ public class AdmCursoMB extends BaseMB {
 			
 		try {
 			this.buscando=true;
-			setListaCursosdisponible(gestorCursos.consultarCursosDisponiblesEstudiantePorNombre(CursoVO,UsuarioVO));
+			setListaCursosdisponible(gestorCursos.consultarCursosDisponiblesEstudiantePorNombre(CursoVO,usuarioVO));
 			
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
@@ -234,7 +241,7 @@ public class AdmCursoMB extends BaseMB {
 			cursoActividadVO.setPosicion((this.cursoVO.getActividades().size()+1));
 			gestorCursos.asociarActividad(cursoActividadVO);
 			this.cursoVO=gestorCursos.consultarCursoVO(this.cursoVO);
-			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);			
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.usuarioVO);			
 			validarlimiteactividades();
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -257,6 +264,7 @@ public class AdmCursoMB extends BaseMB {
 	}
 	
 	public void actualizar() {
+		
 		try {
 			gestorCursos.modificarCursoVO(this.cursoVO);
 
@@ -269,7 +277,7 @@ public class AdmCursoMB extends BaseMB {
 			e.printStackTrace();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
-					null,
+					null,	
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e
 							.getMessage()));
 			e.printStackTrace();
@@ -278,25 +286,45 @@ public class AdmCursoMB extends BaseMB {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
 						"La operacion fue realizada satisfactoriamente !"));
+		
 	}
 
 	public String crear() {	
-
+		String destino=null;
+		
 		try {
 			if (this.cursoVOtemp==null){
 				//profesorVO.setId(7890);
 				CursoVO cursoVO = this.cursoVOcrear;
-				cursoVO.setProfesor(this.UsuarioVO);
+				cursoVO.setProfesor(this.usuarioVO);
 				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en MB");
 
 				gestorCursos.crearCursoVO(cursoVO);
-				setListaCursos(gestorCursos.consultarCursosProfesor(this.UsuarioVO));
+				setListaCursos(gestorCursos.consultarCursosProfesor(this.usuarioVO));
+				destino=NAV_IRADMCURSO;
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+								"La operacion fue realizada satisfactoriamente !"));
 			}
 			else 
 			{	
+				System.out.println(this.cursoVO.getActividades().size()+" y "+this.cursoVO.getLimite_actividades());
+				if(this.cursoVO.getActividades().size()<=this.cursoVO.getLimite_actividades()){	
 				CursoVO cursoVO = this.cursoVO;
 				System.out.println(this.cursoVOcrear.getNombre()+" el nombre en Modifics");
 				gestorCursos.modificarCursoVO(cursoVO);
+				destino=NAV_IRADMCURSO;
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+								"La operacion fue realizada satisfactoriamente !"));
+				}
+				else{
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "El limite de actividades no puede ser inferior a la cantidad actual",null));
+				}
 			}
 
 			
@@ -313,12 +341,10 @@ public class AdmCursoMB extends BaseMB {
 							.getMessage()));
 			e.printStackTrace();
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-						"La operacion fue realizada satisfactoriamente !"));
+
 		
-		return NAV_IRADMCURSO;
+		
+		return destino;
 	}
 
 	public String irCurso() {
@@ -333,7 +359,7 @@ public class AdmCursoMB extends BaseMB {
 		try {
 			this.cursoVO = gestorCursos.consultarCursoVO(cursoVO);
 			//System.out.println("lista est "+this.cursoVO.getEstudiantes().size());
-			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.UsuarioVO);		
+			this.listaActividades=gestorCursos.consultarActividadesDisponibles(this.cursoVO,this.usuarioVO);		
 			validarlimiteactividades();
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
@@ -375,12 +401,22 @@ public class AdmCursoMB extends BaseMB {
 		}
 	}
 	
+	public void envioMensajeProfesor(){
+		UsuarioVO destinatario=this.estudianteVO;
+		try {
+			this.gestorUsuarios.enviarMensaje(destinatario,this.usuarioVO,this.text);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public String inscribir(){
 		
         int idcurso=Integer.parseInt(recuperarParametro("id"));
 	   this.cursoVO.setIdcurso(idcurso);
 		try {
-			this.gestorCursos.inscribirCurso(this.UsuarioVO,this.cursoVO);
+			this.gestorCursos.inscribirCurso(this.usuarioVO,this.cursoVO);
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -554,12 +590,25 @@ public class AdmCursoMB extends BaseMB {
 		this.cursoSeleccionado = cursoSeleccionado;
 	}
 
+	  
+	    public String getText() {
+	        return text;
+	    }
+	 
+	    public void setText(String text) {
+	        this.text = text;
+	    }
+
+		public UsuarioVO getUsuarioVO() {
+			return usuarioVO;
+		}
+
+		public void setUsuarioVO(UsuarioVO usuarioVO) {
+			this.usuarioVO = usuarioVO;
+		}
 
 
-
-
-
-
+      
 
 
 }

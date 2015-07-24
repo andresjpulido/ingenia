@@ -9,10 +9,11 @@
 	</ui:define>
 
 	<ui:define name="content">
-			Datos Actividad 
+			<center><h3>Datos Nueva Actividad</h3></center> 
 			
 			
 	    <h:form rendered="#{empty AdmActividadMB.actividadVO1}">
+	<h:panelGrid columns="2" cellpadding="10">
 	<h:panelGrid id="camb" columns="2" cellpadding="10">
 
 	<h:outputLabel  for="curso" value="Esta asociando al curso:" />
@@ -57,7 +58,7 @@
  <f:selectItems value="#{AdmActividadMB.listaestructuras}"  var="c" itemLabel="#{c.nombre}" itemValue="#{c.idEstructura}" />
         </p:selectCheckboxMenu>
         
-        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar" update="display" inmediate="true" />
+        <p:commandLink  rendered="#{not empty AdmActividadMB.actividadVO2}"  value="Actualizar lista" update="display" inmediate="true" />
   
        
     <p:outputPanel id="display" style="width:135px;padding-left:5px;margin-top:10px">
@@ -66,7 +67,7 @@
         </p:dataList>
     </p:outputPanel>
     </h:panelGrid>
-    
+    </h:panelGrid>
      		
 	<p:commandButton value="Asociar" action="#{AdmActividadMB.crearAsociando}">
 	<f:param name="idcurso" value="#{AdmCursoMB.cursoVO.idcurso}" />

@@ -16,13 +16,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.ingenia.adaptadores.AdaptadorMensaje;
 import org.ingenia.adaptadores.AdaptadorOpcion;
 import org.ingenia.adaptadores.AdaptadorRol;
 import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
+import org.ingenia.comunes.vo.MensajeVO;
 import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
+import org.ingenia.negocio.entidades.Curso;
+import org.ingenia.negocio.entidades.Mensaje;
 import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.entidades.Usuario;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
@@ -384,6 +388,54 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		}
 
 		return listaRoles;
+	}
+
+	@Override
+	public void enviarMensaje(UsuarioVO destinatariovo, UsuarioVO emisorvo,String texto_mensaje) {
+		// TODO Auto-generated method stub
+		 Query q = em.createQuery("SELECT count(c) FROM Mensaje as c");          
+		AdaptadorUsuario adaptadorD = new AdaptadorUsuario(destinatariovo);
+		AdaptadorUsuario adaptadorE = new AdaptadorUsuario(emisorvo);
+
+		try {
+			Usuario destinatario = adaptadorD.getUsuario();
+			Usuario emisor=adaptadorE.getUsuario();
+			Mensaje mensaje= new Mensaje();
+			mensaje.setIdmensaje(((Number) q.getResultList().get(0)).intValue()+1);
+			mensaje.setUsuario1(emisor);
+			mensaje.setUsuario2(destinatario);
+			mensaje.setMensaje(texto_mensaje);
+			em.persist(mensaje);
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo)
+			throws AdaptadorException {
+		// TODO Auto-generated method stub
+		List<Mensaje> listaMensajesRecibidos;
+		List<MensajeVO> listaMensajesRecibidosVO= new ArrayList<MensajeVO>();
+		AdaptadorUsuario adaptadorU = new AdaptadorUsuario(usuariovo);
+		AdaptadorMensaje adaptadorM;
+		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario2=:usuario");  
+		q.setParameter("usuario", adaptadorU.getUsuario());
+		listaMensajesRecibidos=q.getResultList();
+   
+		for(int i=0;listaMensajesRecibidos.size()>i;i++){
+			System.out.println(listaMensajesRecibidos.get(i).getMensaje());
+			adaptadorM= new AdaptadorMensaje(listaMensajesRecibidos.get(i));
+			listaMensajesRecibidosVO.add(adaptadorM.getMensajeVO());
+			System.out.println(adaptadorM.getMensajeVO().getMensaje());
+		}
+		System.out.println("cantidad en el gestor"+ listaMensajesRecibidosVO.size());
+		
+		return listaMensajesRecibidosVO;
+		
+		
 	}
 
 }
