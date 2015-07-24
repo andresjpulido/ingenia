@@ -97,7 +97,7 @@ public class AdmCursoMB extends BaseMB {
 		        	this.usuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
 		           // System.out.println("id profe"+UsuarioVO.getId());
 		        	for(int i=0;this.usuarioVO.getListaRoles().size()>i;i++){
-					if(this.usuarioVO.getListaRoles().get(i).getIdRol()==1){
+					if(this.usuarioVO.getListaRoles().get(i).getIdRol()==2){
 		        	listaCursos = gestorCursos.consultarCursosProfesor(this.usuarioVO);
 		        System.out.println("estado "+creando);
 		        listaCursosest=null;

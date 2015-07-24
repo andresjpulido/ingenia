@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
@@ -44,5 +45,7 @@ public interface IGestorActividadesLocal {
 	public List<EstructuraVO> consultarestructuras() throws AdaptadorException;
 
 	public List<ActividadVO> consultarActividadesPorNombre(ActividadVO actividadVO)throws AdaptadorException;
+	
+	public List<ActividadxUsuarioVO> consultarActividadesCursoUsuario(ActividadVO actividadVO) throws AdaptadorException;
 
 }

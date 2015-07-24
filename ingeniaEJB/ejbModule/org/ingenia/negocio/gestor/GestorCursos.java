@@ -296,16 +296,25 @@ public class GestorCursos implements IGestorCursosRemote,
 		Actividadusuario actividadUsuario = new Actividadusuario();
 		ActividadxUsuarioVO actividadUsuarioVO = new ActividadxUsuarioVO();
 		AdaptadorActividadxUsuario adaptador ;
-		Curso curso=em.find(Curso.class,cursoVO.getIdcurso());
-		 for (int i=0;curso.getActividadcursos().size()>i;i++) {
-			 listaActividades.add(curso.getActividadcursos().get(i).getActividad());
+		AdaptadorCurso adaptadorC;
+		AdaptadorActividad adaptadorA;
+		adaptadorC = new AdaptadorCurso(cursoVO);
+		Curso curso = adaptadorC.getCurso();
+
+		 for (int i=0;cursoVO.getActividades().size()>i;i++) {
+			 adaptadorA= new AdaptadorActividad(cursoVO.getActividades().get(i));
+			 listaActividades.add(adaptadorA.getActividad());			 
 		 }
-		 for (int i=0;curso.getEstudiantecursos().size()>i;i++) {
-			 if(curso.getEstudiantecursos().get(i).getUsuario().getIdusuario()==estudianteVO.getId()){
+
+		 for (int i=0;cursoVO.getEstudiantes().size()>i;i++) {
+			 if(cursoVO.getEstudiantes().get(i).getId()==estudianteVO.getId()){
 			 for (int j=0;listaActividades.size()>j;j++) {
-				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.usuario=:usuario and ac.actividad=:actividad");
-					q.setParameter("usuario", curso.getEstudiantecursos().get(i).getUsuario());
+				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.usuario=:usuario and ac.actividad=:actividad and ac.curso=:curso");
+					UsuarioVO uservo=cursoVO.getEstudiantes().get(i);
+					AdaptadorUsuario adaptadorU = new AdaptadorUsuario(uservo);
+				 q.setParameter("usuario", adaptadorU.getUsuario());
 					q.setParameter("actividad", listaActividades.get(j));
+					q.setParameter("curso", curso);
 					List<Actividadusuario> resultados = q.getResultList();	
 					for (Actividadusuario resultado : resultados) {
 						actividadUsuario = resultado;
@@ -514,7 +523,7 @@ public class GestorCursos implements IGestorCursosRemote,
 		return resultadosVO;
 		
 	}
-
+	
 	public GestorCursos(EntityManager em) {
 		this.em = em;
 	}

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
@@ -35,6 +36,7 @@ public class AdmActividadMB extends BaseMB {
 	private ActividadVO actividadVO= new ActividadVO();
 	private ActividadVO actividadVO1= new ActividadVO();
 	private ActividadVO actividadVO2= null;
+	private List<ActividadxUsuarioVO> listaAvancesActividad;
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
@@ -45,6 +47,8 @@ public class AdmActividadMB extends BaseMB {
 	private int posicion;
 	private boolean buscando=false;
 	private UsuarioVO UsuarioVO=new UsuarioVO();	
+	private UsuarioVO estudiante=new UsuarioVO();	
+	private CursoVO curso=new CursoVO();
     private HttpServletRequest httpServletRequest;
     private FacesContext faceContext;
 
@@ -313,6 +317,7 @@ public class AdmActividadMB extends BaseMB {
 		 try {
 		
 			this.listaestructuras=gestorActividades.consultarestructuras();
+			
 			//faltaria cargar las estrucutras asociadas a la actividad que se esta cargando y mirar si hay que editarlas
 
 		} catch (AdaptadorException e1) {
@@ -332,6 +337,7 @@ public class AdmActividadMB extends BaseMB {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
 			System.out.println("tamaño "+this.actividadVO.getEstructuras().size());
 			this.listaelegida=consultarListaEstructuras(this.actividadVO.getEstructuras());
+			setListaAvancesActividad(gestorActividades.consultarActividadesCursoUsuario(actividadVO));
 			 if(this.actividadVO.getJuegoVO().getIdjuego()==1){
 				 System.out.println("actualizando");
 				 actividadVO2 =new ActividadVO();
@@ -543,6 +549,30 @@ public class AdmActividadMB extends BaseMB {
 	 */
 	public void setEstructralistaelegida(List<EstructuraVO> estructralistaelegida) {
 		this.estructralistaelegida = estructralistaelegida;
+	}
+
+	public List<ActividadxUsuarioVO> getListaAvancesActividad() {
+		return listaAvancesActividad;
+	}
+
+	public void setListaAvancesActividad(List<ActividadxUsuarioVO> listaAvancesActividad) {
+		this.listaAvancesActividad = listaAvancesActividad;
+	}
+
+	public UsuarioVO getEstudiante() {
+		return estudiante;
+	}
+
+	public void setEstudiante(UsuarioVO estudiante) {
+		this.estudiante = estudiante;
+	}
+
+	public CursoVO getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoVO curso) {
+		this.curso = curso;
 	}
 
 
