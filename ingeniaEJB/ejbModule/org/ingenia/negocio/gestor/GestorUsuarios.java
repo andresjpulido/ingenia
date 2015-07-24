@@ -421,21 +421,37 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 		List<MensajeVO> listaMensajesRecibidosVO= new ArrayList<MensajeVO>();
 		AdaptadorUsuario adaptadorU = new AdaptadorUsuario(usuariovo);
 		AdaptadorMensaje adaptadorM;
-		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario2=:usuario");  
+		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario2=:usuario order by c.mensaje desc");  
 		q.setParameter("usuario", adaptadorU.getUsuario());
 		listaMensajesRecibidos=q.getResultList();
    
 		for(int i=0;listaMensajesRecibidos.size()>i;i++){
-			System.out.println(listaMensajesRecibidos.get(i).getMensaje());
 			adaptadorM= new AdaptadorMensaje(listaMensajesRecibidos.get(i));
 			listaMensajesRecibidosVO.add(adaptadorM.getMensajeVO());
-			System.out.println(adaptadorM.getMensajeVO().getMensaje());
 		}
-		System.out.println("cantidad en el gestor"+ listaMensajesRecibidosVO.size());
-		
+	
 		return listaMensajesRecibidosVO;
 		
 		
+	}
+
+	@Override
+	public List<MensajeVO> consultarMensajesEnviados(UsuarioVO usuariovo)
+			throws AdaptadorException {
+		List<Mensaje> listaMensajesEnviados;
+		List<MensajeVO> listaMensajesEnviadosVO= new ArrayList<MensajeVO>();
+		AdaptadorUsuario adaptadorU = new AdaptadorUsuario(usuariovo);
+		AdaptadorMensaje adaptadorM;
+		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario1=:usuario order by c.mensaje desc");  
+		q.setParameter("usuario", adaptadorU.getUsuario());
+		listaMensajesEnviados=q.getResultList();
+   
+		for(int i=0;listaMensajesEnviados.size()>i;i++){
+			adaptadorM= new AdaptadorMensaje(listaMensajesEnviados.get(i));
+			listaMensajesEnviadosVO.add(adaptadorM.getMensajeVO());
+		}
+	
+		return listaMensajesEnviadosVO;
 	}
 
 }

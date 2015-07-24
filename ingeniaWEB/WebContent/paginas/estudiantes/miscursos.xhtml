@@ -24,8 +24,8 @@
 		</h:form>
 		<h:form id="form">
 
-			 <p:dataGrid var="curso" value="#{AdmCursoMB.listaCursosest}" columns="3" layout="grid"
-        rows="12" paginator="true" id="cars"
+			 <p:dataGrid emptyMessage="No tiene ningun curso activo" var="curso" value="#{AdmCursoMB.listaCursosest}" columns="3" layout="grid"
+        rows="6" paginator="true" id="cars"
         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
         rowsPerPageTemplate="6,12,16">
  

@@ -43,4 +43,6 @@ public interface IGestorUsuariosRemote {
 	
 	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo) throws AdaptadorException ;
 	
+	public List<MensajeVO> consultarMensajesEnviados(UsuarioVO usuariovo) throws AdaptadorException ;
+	
 }

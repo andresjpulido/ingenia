@@ -39,8 +39,14 @@ public class UsuarioMB extends BaseMB {
 	private boolean logeado = false;
 
 	private List<MensajeVO> listaMensajesRecibidos;
+	
+	private MensajeVO mensajeRecibido;
 
 	private List<MensajeVO> listaMensajesEnviados;
+	
+	private MensajeVO mensajeEnviado;
+	
+	private String mensaje;
 
 	private HttpServletRequest httpServletRequest = null;
 
@@ -165,7 +171,22 @@ public class UsuarioMB extends BaseMB {
 		
 		try {
 			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
+			listaMensajesEnviados=this.gestorUsuarios.consultarMensajesEnviados(this.usuariovo);
 			System.out.println("cantidad "+ listaMensajesRecibidos.size());
+		} catch (AdaptadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void responderMensaje(){
+
+		try {
+			this.gestorUsuarios.enviarMensaje(this.mensajeRecibido.getRemitente(),this.mensajeRecibido.getDestinatario(),this.mensaje);
+			listaMensajesEnviados=this.gestorUsuarios.consultarMensajesEnviados(this.usuariovo);
+			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
+			 FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Exito",  "Mensaje Enviado" ) );
 		} catch (AdaptadorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,5 +240,29 @@ public class UsuarioMB extends BaseMB {
 
 	public void setListaMensajesRecibidos(List<MensajeVO> listaMensajesRecibidos) {
 		this.listaMensajesRecibidos = listaMensajesRecibidos;
+	}
+
+	public MensajeVO getMensajeRecibido() {
+		return mensajeRecibido;
+	}
+
+	public void setMensajeRecibido(MensajeVO mensajeRecibido) {
+		this.mensajeRecibido = mensajeRecibido;
+	}
+
+	public MensajeVO getMensajeEnviado() {
+		return mensajeEnviado;
+	}
+
+	public void setMensajeEnviado(MensajeVO mensajeEnviado) {
+		this.mensajeEnviado = mensajeEnviado;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 }

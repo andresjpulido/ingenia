@@ -592,6 +592,7 @@ public class AdmCursoMB extends BaseMB {
 
 	  
 	    public String getText() {
+	    	
 	        return text;
 	    }
 	 

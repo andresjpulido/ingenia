@@ -29,9 +29,9 @@
 
 		<h:form>
 
-			<p:dataGrid var="actividad"
+			<p:dataGrid emptyMessage="No ha creado actividades"  var="actividad"
 				value="#{AdmActividadMB.listaActividades}" columns="3" layout="grid"
-				rows="12" paginator="true" id="cars"
+				rows="6" paginator="true" id="actividades"
 				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,12,16">
 

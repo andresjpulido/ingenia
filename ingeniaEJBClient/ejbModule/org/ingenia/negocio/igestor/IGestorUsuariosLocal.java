@@ -42,6 +42,8 @@ public interface IGestorUsuariosLocal {
 
 	public void enviarMensaje(UsuarioVO destinatariovo, UsuarioVO emisorvo,String mensaje)throws AdaptadorException ;
 
-	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo)throws AdaptadorException ;
+	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo) throws AdaptadorException ;
+
+	public List<MensajeVO> consultarMensajesEnviados(UsuarioVO usuariovo) throws AdaptadorException ;
 
 }
