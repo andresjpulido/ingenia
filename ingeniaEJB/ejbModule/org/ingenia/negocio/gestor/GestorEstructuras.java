@@ -76,7 +76,6 @@ public class GestorEstructuras implements IGestorEstructurasRemote, IGestorEstru
 			estructura.setNombre(EstructuraVO.getNombre());
 			em.merge(estructura);
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -108,7 +107,6 @@ public class GestorEstructuras implements IGestorEstructurasRemote, IGestorEstru
             try {
             	estructura = adaptador.getEstructuraVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaEstructuraVO.add(estructura);

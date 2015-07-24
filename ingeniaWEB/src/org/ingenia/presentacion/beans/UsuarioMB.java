@@ -85,7 +85,6 @@ public class UsuarioMB extends BaseMB {
 					e.printStackTrace();
 				}
 
-				// guarda el usuario para la sesion
 				faceContext = FacesContext.getCurrentInstance();
 				httpServletRequest = (HttpServletRequest) faceContext
 						.getExternalContext().getRequest();
@@ -172,9 +171,7 @@ public class UsuarioMB extends BaseMB {
 		try {
 			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
 			listaMensajesEnviados=this.gestorUsuarios.consultarMensajesEnviados(this.usuariovo);
-			System.out.println("cantidad "+ listaMensajesRecibidos.size());
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -188,7 +185,6 @@ public class UsuarioMB extends BaseMB {
 			 FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Exito",  "Mensaje Enviado" ) );
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

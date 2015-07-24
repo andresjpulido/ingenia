@@ -10,8 +10,11 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<h1>
+				<p:outputLabel value=" #{AdmCursoMB.cursoVO.nombre}" />
+			</h1>
 	<p:growl id="growl" showDetail="true" sticky="true" /> 
-<center ><h2><p:outputLabel value="Avance de Actividades para #{AdmCursoMB.cursoVO.nombre}"/></h2></center> 
+<center ><h2><p:outputLabel value="Avance de Actividades"/></h2></center> 
 		<h:panelGrid columns="1" cellpadding="5">
 		<h:panelGrid columns="2" cellpadding="5">
 	

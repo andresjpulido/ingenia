@@ -22,8 +22,7 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 			return null;
 		curso = new Curso();
 
-        curso.setIdcurso(cursoVO.getIdcurso());
-        
+        curso.setIdcurso(cursoVO.getIdcurso());        
         AdaptadorUsuario adaptador = new AdaptadorUsuario(cursoVO.getProfesor());
         curso.setUsuario(adaptador.getUsuario());
 		curso.setNombre(cursoVO.getNombre());
@@ -40,14 +39,13 @@ public class AdaptadorCurso extends IAdaptadorCurso {
 
 		if (curso == null)
 			return null;
-
+		
 		cursoVO = new CursoVO();
-
 		cursoVO.setIdcurso(curso.getIdcurso());
 		cursoVO.setNombre(curso.getNombre());
 		cursoVO.setEstado(curso.getEstado());
 		cursoVO.setDescripcion(curso.getDescripcion());
-		  AdaptadorUsuario adaptador = new AdaptadorUsuario(curso.getUsuario());
+		AdaptadorUsuario adaptador = new AdaptadorUsuario(curso.getUsuario());
 		cursoVO.setProfesor(adaptador.getUsuarioVO());
 		cursoVO.setActivo(curso.getActivo());
 		cursoVO.setLimite_actividades(curso.getLimiteActividades());

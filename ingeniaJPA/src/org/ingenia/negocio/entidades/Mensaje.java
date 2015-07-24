@@ -1,6 +1,8 @@
 package org.ingenia.negocio.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 
@@ -17,6 +19,10 @@ public class Mensaje implements Serializable {
 	private int idmensaje;
 
 	private String mensaje;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="fecha_creacion")
+	private Date fechaCreacion;
 
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne

@@ -12,10 +12,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
-import org.ingenia.comunes.vo.OpcionVO;
 import org.ingenia.comunes.vo.RolVO;
 import org.ingenia.comunes.vo.UsuarioVO;
-import org.ingenia.negocio.entidades.Rol;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
 import org.ingenia.presentacion.ReglasNavegacion;

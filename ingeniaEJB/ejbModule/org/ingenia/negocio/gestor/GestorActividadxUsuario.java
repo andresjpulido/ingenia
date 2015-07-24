@@ -18,21 +18,9 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.ingenia.adaptadores.AdaptadorActividadxUsuario;
-import org.ingenia.adaptadores.AdaptadorArma;
-import org.ingenia.adaptadores.AdaptadorArmadura;
-import org.ingenia.adaptadores.AdaptadorColor;
-import org.ingenia.adaptadores.AdaptadorGato;
-import org.ingenia.adaptadores.AdaptadorTipoGato;
 import org.ingenia.comunes.excepcion.AdaptadorException;
-import org.ingenia.comunes.vo.*;
-import org.ingenia.negocio.entidades.Actividad;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.negocio.entidades.Actividadusuario;
-import org.ingenia.negocio.entidades.Arma;
-import org.ingenia.negocio.entidades.Armadura;
-import org.ingenia.negocio.entidades.Color;
-import org.ingenia.negocio.entidades.Gato;
-import org.ingenia.negocio.entidades.Juego;
-import org.ingenia.negocio.entidades.Tipogato;
 import org.ingenia.negocio.igestor.IGestorActividadxUsuarioLocal;
 import org.ingenia.negocio.igestor.IGestorActividadxUsuarioRemote;
 
@@ -101,13 +89,9 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
 			actividadxUsuario = adaptador.getActividadxUsuario();
 			actividadxUsuario.setFecha(actividadxUsuarioVO.getFecha());
 			actividadxUsuario.setNumeroIntento(actividadxUsuarioVO.getNumeroIntento());
-			actividadxUsuario.setPuntos(actividadxUsuarioVO.getPuntos());
-			//actividadxUsuario.setActividad(actividadxUsuarioVO.getActividad());
-			//actividadxUsuario.setUsuario(actividadxUsuarioVO.getUsuario());
-			
+			actividadxUsuario.setPuntos(actividadxUsuarioVO.getPuntos());			
 			em.merge(actividadxUsuario);
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -139,7 +123,6 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
             try {
             	actividadxUsuario = adaptador.getActividadxUsuarioVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaActividadxUsuarioVO.add(actividadxUsuario);
