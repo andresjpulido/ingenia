@@ -17,7 +17,10 @@ public class ActividadusuarioPK implements Serializable {
 
 	@Column(name="actividad_idactividad", insertable=false, updatable=false)
 	private int actividadIdactividad;
-
+	
+	@Column(name="idcurso", insertable=false, updatable=false)
+	private int idCurso;
+	
 	public ActividadusuarioPK() {
 	}
 	public int getUsuarioIdusuario() {
@@ -33,6 +36,13 @@ public class ActividadusuarioPK implements Serializable {
 		this.actividadIdactividad = actividadIdactividad;
 	}
 
+	public int getIdCurso() {
+		return this.idCurso;
+	}
+	public void setIdCurso(int idCurso) {
+		this.idCurso = idCurso;
+	}
+	
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
@@ -43,7 +53,8 @@ public class ActividadusuarioPK implements Serializable {
 		ActividadusuarioPK castOther = (ActividadusuarioPK)other;
 		return 
 			(this.usuarioIdusuario == castOther.usuarioIdusuario)
-			&& (this.actividadIdactividad == castOther.actividadIdactividad);
+			&& (this.actividadIdactividad == castOther.actividadIdactividad)
+			&& (this.idCurso == castOther.idCurso);
 	}
 
 	public int hashCode() {
@@ -51,6 +62,7 @@ public class ActividadusuarioPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.usuarioIdusuario;
 		hash = hash * prime + this.actividadIdactividad;
+		hash = hash * prime + this.idCurso;
 		
 		return hash;
 	}

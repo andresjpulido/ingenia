@@ -26,9 +26,11 @@ public class AdaptadorActividadxUsuario extends IAdaptadorActividadxUsuario{
 		
 		AdaptadorUsuario adaptador = new AdaptadorUsuario(actividadxUsuarioVO.getEstudiante());
 		AdaptadorActividad adaptadorActividad = new AdaptadorActividad(actividadxUsuarioVO.getActividadVO());
+		AdaptadorCurso adaptadorCurso = new AdaptadorCurso(actividadxUsuarioVO.getCurso());
 		
 		actividadxUsuario.setUsuario(adaptador.getUsuario());
 		actividadxUsuario.setActividad(adaptadorActividad.getActividad());
+		actividadxUsuario.setCurso(adaptadorCurso.getCurso());
 		actividadxUsuario.setFecha(actividadxUsuarioVO.getFecha());
 		actividadxUsuario.setNumeroMovimientos(actividadxUsuarioVO.getNumeroMovimientos());
 		ActividadusuarioPK id = new ActividadusuarioPK();
@@ -47,10 +49,12 @@ public class AdaptadorActividadxUsuario extends IAdaptadorActividadxUsuario{
 			return null;
 		AdaptadorUsuario adaptador = new AdaptadorUsuario(actividadxUsuario.getUsuario());
 		AdaptadorActividad adaptadorActividad = new AdaptadorActividad(actividadxUsuario.getActividad());
+		AdaptadorCurso adaptadorCurso = new AdaptadorCurso(actividadxUsuario.getCurso());
 		
 		actividadxUsuarioVO=new ActividadxUsuarioVO();
 		actividadxUsuarioVO.setEstudiante(adaptador.getUsuarioVO());
-		actividadxUsuarioVO.setActividadVO(adaptadorActividad.getActividadVO());		
+		actividadxUsuarioVO.setActividadVO(adaptadorActividad.getActividadVO());	
+		actividadxUsuarioVO.setCurso(adaptadorCurso.getCursoVO());
 		actividadxUsuarioVO.setFecha(actividadxUsuario.getFecha());
 		actividadxUsuarioVO.setId(actividadxUsuario.getId().getActividadIdactividad());
 		actividadxUsuarioVO.setNumeroIntento(actividadxUsuario.getNumeroIntento());

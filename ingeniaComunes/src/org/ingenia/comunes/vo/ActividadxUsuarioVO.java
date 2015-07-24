@@ -12,10 +12,14 @@ public class ActividadxUsuarioVO implements Serializable {
 	private int idActividad;
 	
 	private int idUsuario;
+	
+	private int idCurso;
 
 	private ActividadVO actividadVO;
 
 	private UsuarioVO estudiante;
+	
+	private CursoVO curso;
 	
 	private int numeroIntento;
 
@@ -98,6 +102,22 @@ public class ActividadxUsuarioVO implements Serializable {
 
 	public void setNumeroMovimientos(int numeroMovimientos) {
 		this.numeroMovimientos = numeroMovimientos;
+	}
+
+	public int getIdCurso() {
+		return idCurso;
+	}
+
+	public void setIdCurso(int idCurso) {
+		this.idCurso = idCurso;
+	}
+
+	public CursoVO getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoVO curso) {
+		this.curso = curso;
 	}
 
 }

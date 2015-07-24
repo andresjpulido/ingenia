@@ -130,11 +130,17 @@ public class GestorServicioWS {
 		// Guardamos el avance en la tabla de la BD
 		try {
 			FachadaServicios fachada = new FachadaServicios();
-			ActividadVO actividadVO = fachada.consultaActividadVO(String.valueOf(avance.getIdActividad())); 
+			
+			ActividadVO actividadVO = new ActividadVO();// fachada.consultaActividadVO(String.valueOf(avance.getIdActividad())); 
+			actividadVO.setIdactividad(avance.getIdActividad());
 			avance.setActividadVO(actividadVO);
 			UsuarioVO estudiante = new UsuarioVO();
 			estudiante.setId(avance.getIdUsuario());
 			avance.setEstudiante(estudiante);
+			CursoVO curso = new CursoVO();
+			curso.setIdcurso(avance.getIdCurso());
+			avance.setCurso(curso);
+			
 			avance.setFecha(new Date(System.currentTimeMillis()));
 			ActividadxUsuarioVO nuevo = fachada.GuardarActividadxUsuario(avance);
 			Resultado = (nuevo==null||nuevo.getId()<=0)?false:true;

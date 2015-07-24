@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +22,7 @@ import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.negocio.igestor.IGestorCursosLocal;
 import org.ingenia.negocio.igestor.IGestorUsuariosLocal;
 import org.ingenia.presentacion.BaseMB;
+import org.ingenia.presentacion.ReglasNavegacion;
 
 
 @ManagedBean(name = "AdmCursoMB")
@@ -164,7 +166,47 @@ public class AdmCursoMB extends BaseMB {
 			
 		return NAV_IRMISCURSOS;
 	}
+	
+	public String veractividad() {//es mas como un filtro
+		CursoVO CursoVO = new CursoVO();
+		CursoVO.setNombre(curso);
+			
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//		Map<String, String> params = fc.getExternalContext()
+//				.getRequestParameterMap();
 
+	       try {
+	            //this.buscando=true;
+	            //consultarActividadesCursoEstudiante(CursoVO,UsuarioVO)
+	            ActividadVO actividadActual = new ActividadVO();
+	            //List<ActividadxUsuarioVO> avances = gestorCursos.consultarCursosEstudiantePorNombre(CursoVO,UsuarioVO);
+	           
+	            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+	            Map<String, Object> sessionMap = externalContext.getSessionMap();
+	            sessionMap.put("actividadActual", actividadActual);
+	            //ActividadVO actividadActual = (ActividadVO) sessionMap.get("actividadActual");
+	        } catch (Exception e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	           
+	       	
+//		this.esEdicion = false;
+//		
+//		String id = params.get("id");
+//		usuarioVO = new UsuarioVO();
+//		usuarioVO.setId(Integer.parseInt(id));
+//		try {
+//			usuarioVO = gestorUsuarios.consultarUsuario(usuarioVO);
+//			listaRoles = gestorUsuarios
+//					.consultarRolVOPorIdUsuario(this.usuarioVO.getId());
+//		} catch (AdaptadorException e) {
+//			e.printStackTrace();
+//		} 
+		
+		return ReglasNavegacion.NAV_VERACTIVIDAD;
+	}
+	
 	public String buscarcursodisponible() {//es mas como un filtro
 		CursoVO CursoVO = new CursoVO();
 		CursoVO.setNombre(curso);

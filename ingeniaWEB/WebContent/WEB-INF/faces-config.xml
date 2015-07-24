@@ -142,15 +142,15 @@
 			<to-view-id>/paginas/estudiantes/miscursos.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-		
-			
 		<navigation-case>
 			<from-outcome>irinscribircursos</from-outcome>
 			<to-view-id>/paginas/estudiantes/inscripcioncurso.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-
+		<navigation-case>
+			<from-outcome>irveractividad</from-outcome>
+			<to-view-id>/paginas/estudiantes/veractividad.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 	</navigation-rule>
-
-
 </faces-config>

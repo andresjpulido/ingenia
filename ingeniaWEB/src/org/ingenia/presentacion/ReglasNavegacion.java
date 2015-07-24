@@ -12,6 +12,7 @@ public class ReglasNavegacion {
 	public final static String NAV_IRADMROL = "iradminrol";
 	public final static String NAV_IRUSUARIO = "irusuario";
 	public final static String NAV_IRADMUSUARIO = "iradminusuario";
+	public final static String NAV_VERACTIVIDAD = "irveractividad";
 
 	
 }

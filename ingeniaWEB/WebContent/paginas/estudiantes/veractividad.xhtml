@@ -17,7 +17,8 @@
 			<f:verbatim>
 			<input type="hidden" id="IdUsuario" value="#{AdmVerActividadMB.getUsuarioVO().getId()}"/>
 			<input type="hidden" id="IdActividad" value="#{AdmVerActividadMB.getActividadVO().getIdactividad()}"/>
-			<div id="ContenidoActividad">Cargar</div>
+			<input type="hidden" id="IdCurso" value="#{AdmVerActividadMB.getCursoVO().getIdactividad()}"/>
+			<div id="ContenidoActividad"></div>
 			<script type="text/javascript" src="#{AdmVerActividadMB.getUrlJsInicio()}"></script>
 			</f:verbatim>
 		<p:commandButton value="Regresar" action="#{AdmVerActividadMB.regresar}" />

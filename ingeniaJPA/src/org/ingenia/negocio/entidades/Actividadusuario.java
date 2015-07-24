@@ -32,11 +32,14 @@ public class Actividadusuario implements Serializable {
 	@ManyToOne
 	private Actividad actividad;
 
-
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	private Usuario usuario;
 
+	//bi-directional many-to-one association to Curso
+	@ManyToOne
+	private Curso curso;
+	
 	public Actividadusuario() {
 	}
 
@@ -94,6 +97,14 @@ public class Actividadusuario implements Serializable {
 
 	public void setNumeroMovimientos(int numeroMovimientos) {
 		this.numeroMovimientos = numeroMovimientos;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
 }
