@@ -76,7 +76,6 @@ public class GestorMovimientos implements IGestorMovimientosRemote, IGestorMovim
 			movimiento = adaptador.getMovimiento();
 			em.merge(movimiento);
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -108,7 +107,6 @@ public class GestorMovimientos implements IGestorMovimientosRemote, IGestorMovim
             try {
             	movimiento = adaptador.getMovimientoVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaMovimientoVO.add(movimiento);

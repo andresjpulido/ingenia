@@ -15,16 +15,22 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.ingenia.adaptadores.AdaptadorActividad;
+import org.ingenia.adaptadores.AdaptadorActividadxUsuario;
+import org.ingenia.adaptadores.AdaptadorCurso;
 import org.ingenia.adaptadores.AdaptadorEstructura;
 import org.ingenia.adaptadores.AdaptadorJuego;
+import org.ingenia.adaptadores.AdaptadorUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
 import org.ingenia.comunes.vo.JuegoVO;
+import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.entidades.Actividad;
 import org.ingenia.negocio.entidades.Actividadcurso;
+import org.ingenia.negocio.entidades.Actividadusuario;
 import org.ingenia.negocio.entidades.Curso;
 import org.ingenia.negocio.entidades.Estructura;
 import org.ingenia.negocio.entidades.EstructurasActiva;
@@ -55,15 +61,10 @@ public class GestorActividades implements IGestorActividadesRemote,
 		Actividad actividad = new Actividad();
 		Query q = em.createQuery("SELECT count(a) FROM Actividad as a");
 		cursoActividadVO.getActividad().setIdactividad(((Number) q.getResultList().get(0)).intValue() + 1);
-		//Juego juego = em.find(Juego.class, cursoActividadVO.getActividad().getJuegoVO().getIdjuego());
 		adaptador = new AdaptadorActividad(cursoActividadVO.getActividad());
-		System.out.println(cursoActividadVO.getActividad().getProfesor().getId()+"id usuario vo");
 		try {
 			actividad = adaptador.getActividad();
-			System.out.println(actividad.getUsuario().getIdusuario()+"id usuario arriba");
-			//actividad.setJuego(juego);
-			Curso curso = em.find(Curso.class, cursoActividadVO.getCurso()
-					.getIdcurso());
+			Curso curso = em.find(Curso.class, cursoActividadVO.getCurso().getIdcurso());
 			Query q2 = em.createQuery("SELECT ac.actividad FROM Actividadcurso as ac where ac.curso=:curso");
 			q2.setParameter("curso", curso);
 			List<Actividad> listaActividad = q2.getResultList();			
@@ -78,8 +79,6 @@ public class GestorActividades implements IGestorActividadesRemote,
 	    		EstructurasActiva estructurasActiva=new EstructurasActiva();
 	    		estructurasActiva.setActividad(actividad);
 	    		estructurasActiva.setEstructura(estructura);
-	    		//em.persist(estructurasActiva);
-	    		System.out.println(actividad.getUsuario().getIdusuario()+"id usuario");
 	    	}
 
 		} catch (AdaptadorException e) {
@@ -112,12 +111,9 @@ public class GestorActividades implements IGestorActividadesRemote,
 		List<Estructura> listaEstructuras = q2.getResultList();
 		adaptador = new AdaptadorActividad(actividad);
 		actividadVO = adaptador.getActividadVO();
-		//AdaptadorJuego adap =new AdaptadorJuego(actividad.getJuego());
-    	//actividadVO.setJuegoVO(adap.getJuegoVO());
     	AdaptadorEstructura adaptadorest= null;
-    	//System.out.println("ottra forma estruc "+listaEstructuras.size());
+
     	for(int i=0;listaEstructuras.size()>i;i++){
-    	//	System.out.println("id estructura "+listaEstructuras.get(i).getIdestructura());
     		adaptadorest=new AdaptadorEstructura(listaEstructuras.get(i));
     		lista.add(adaptadorest.getEstructuraVO());
     	}
@@ -128,8 +124,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 	@Override
 	public List<JuegoVO> consultarJuegosDisponibles() {
 
-		List<JuegoVO> ListaJuegoVO = new ArrayList<JuegoVO>();
-		
+		List<JuegoVO> ListaJuegoVO = new ArrayList<JuegoVO>();		
 		JuegoVO JuegoVO = new JuegoVO();
 		AdaptadorJuego adaptador = null;
 		Query q = em.createQuery("SELECT object(t) FROM Juego AS t");
@@ -141,7 +136,6 @@ public class GestorActividades implements IGestorActividadesRemote,
 			try {
 				JuegoVO = adaptador.getJuegoVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ListaJuegoVO.add(JuegoVO);
@@ -158,8 +152,7 @@ public class GestorActividades implements IGestorActividadesRemote,
 		ActividadVO actividadVO = new ActividadVO();
 		AdaptadorActividad adaptador;
 		Usuario profesor = em.find(Usuario.class, idprofesor);
-		Query q = em
-				.createQuery("SELECT a FROM Actividad as a where a.usuario=:profesor");
+		Query q = em.createQuery("SELECT a FROM Actividad as a where a.usuario=:profesor");
 		q.setParameter("profesor", profesor);
 		ListaActividades = q.getResultList();
 
@@ -172,7 +165,6 @@ public class GestorActividades implements IGestorActividadesRemote,
 				AdaptadorJuego adap =new AdaptadorJuego(juego);
 		    	actividadVO.setJuegoVO(adap.getJuegoVO());
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ListaActividadesVO.add(actividadVO);
@@ -240,12 +232,9 @@ public class GestorActividades implements IGestorActividadesRemote,
 
 		AdaptadorActividad adaptador = new AdaptadorActividad(actividadVO);
 		Actividad actividad = adaptador.getActividad();
-		//Juego juego = em.find(Juego.class, actividadVO.getJuegoVO().getIdjuego());
-		//actividad.setJuego(juego);  
 		em.merge(actividad);
 		Query query = em.createQuery("DELETE FROM EstructurasActiva c WHERE c.actividad = :actividad");
 		 int c= query.setParameter("actividad", actividad).executeUpdate();
-			System.out.println("cantidad "+ c);
 		for(int i=0;actividadVO.getEstructuras().size()>i;i++){
    		Estructura estructura = em.find(Estructura.class, actividadVO.getEstructuras().get(i).getIdEstructura());
    		EstructurasActiva estructurasActiva=new EstructurasActiva();
@@ -281,23 +270,19 @@ public class GestorActividades implements IGestorActividadesRemote,
 	@Override
 	public List<EstructuraVO> consultarestructuras() throws AdaptadorException {
 	List<EstructuraVO> ListaEstructuraVO = new ArrayList<EstructuraVO>();
-	System.out.println("consulta estruc");
 	EstructuraVO EstructuraVO = new EstructuraVO();
 		AdaptadorEstructura adaptador = null;
 		Query q = em.createQuery("SELECT object(t) FROM Estructura AS t");
 		List<Estructura> listaEstructura = q.getResultList();
-		System.out.println(listaEstructura.size());
 		for (int i = 0; listaEstructura.size() > i; i++) {
 
 			adaptador = new AdaptadorEstructura(listaEstructura.get(i));
 			try {
 				EstructuraVO = adaptador.getEstructuraVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ListaEstructuraVO.add(EstructuraVO);
-			System.out.println("tama�o estrruc "+ListaEstructuraVO.size());
 		}
 		return ListaEstructuraVO;
 	}
@@ -351,6 +336,26 @@ public class GestorActividades implements IGestorActividadesRemote,
 		}
 
 		return resultadosVO;
+	}
+	
+	@Override
+	public List<ActividadxUsuarioVO> consultarActividadesCursoUsuario(ActividadVO actividadVO) throws AdaptadorException {
+		List<ActividadxUsuarioVO> listaActividadesCursoUsuarioVO= new ArrayList<ActividadxUsuarioVO>();
+		Actividadusuario actividadUsuario = new Actividadusuario();
+		ActividadxUsuarioVO actividadUsuarioVO = new ActividadxUsuarioVO();
+		AdaptadorActividadxUsuario adaptador ;
+		AdaptadorActividad adaptadorA= new AdaptadorActividad(actividadVO);
+				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.actividad=:actividad order by ac.puntos desc");
+						q.setParameter("actividad", adaptadorA.getActividad());
+					List<Actividadusuario> resultados = q.getResultList();	
+					for (Actividadusuario resultado : resultados) {
+						actividadUsuario = resultado;
+						adaptador = new AdaptadorActividadxUsuario(actividadUsuario);
+						actividadUsuarioVO=adaptador.getActividadxUsuarioVO();
+						listaActividadesCursoUsuarioVO.add(actividadUsuarioVO);
+					}     
+			 
+		 return listaActividadesCursoUsuarioVO;
 	}
 
 	public GestorActividades(EntityManager em) {

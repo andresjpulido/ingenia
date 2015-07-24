@@ -11,15 +11,62 @@
 </f:metadata>
 	<ui:define name="content">
 		<h1>Bienvenido</h1>
-
-	<p:dataGrid  var="mensaje"  value="#{usuarioMB.listaMensajesRecibidos}" columns="3">	
+		<h:form id="form">
+	<p:tabView id="msj" >
+	<p:tab  title="Mensajes Recibidos">
+	<p:dataGrid  emptyMessage="No hay mensajes" var="mensaje"  value="#{usuarioMB.listaMensajesRecibidos}" columns="3" rows="6" paginator="true" id="mensajes1"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">	
 		<h:panelGrid >
-     <f:facet name="header">
-                 <h:outputText value="De: #{mensaje.remitente.nombre}" />
+		     <f:facet name="header">
+                 <h:outputText value="Mensaje De #{mensaje.remitente.nombre}" />
                 </f:facet>
  <p:editor  id="g" disabled="true" controls="" value="#{mensaje.mensaje}" height="100" width="400" />
+ 	<p:commandButton value="Responder Mensaje"
+	 update=":mainForm:form:msj:enviarMensaje" oncomplete="PF('mensajeDialogo').show()"
+    title="Mensaje">
+      <f:setPropertyActionListener value="#{mensaje}" target="#{usuarioMB.mensajeRecibido}" />
+    </p:commandButton>
 </h:panelGrid>
 </p:dataGrid>
 
+    <p:dialog header="Enviar Mensaje" widgetVar="mensajeDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="enviarMensaje" style="text-align:center;">
+         
+            <h:panelGrid columns="2" style="margin-top: 10px">                 
+                <h:outputText value="Para:" />
+                <h:outputText value="#{usuarioMB.mensajeRecibido.remitente.nombre}" />
+        </h:panelGrid>
+    
+    <p:editor id="editor" widgetVar="editorWidget" value="#{usuarioMB.mensaje}" height="200" width="600" />
+    <h:panelGrid columns="2" style="margin-top: 10px">
+        <p:commandButton value="Enviar" update=":mainForm:form:msj" action="#{usuarioMB.responderMensaje}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
+        <p:commandButton value="Limpiar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+    </h:panelGrid>
+        
+           
+            
+        </p:outputPanel>
+    </p:dialog>
+    	<p:growl id="growl" showDetail="true" sticky="true" /> 
+</p:tab>
+
+	
+
+<p:tab title="Mensajes Enviados">
+<p:dataGrid  emptyMessage="No hay mensajes" var="mensaje"  value="#{usuarioMB.listaMensajesEnviados}" columns="3" rows="6" paginator="true" id="mensajes2"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">	
+		<h:panelGrid >
+		     <f:facet name="header">
+                 <h:outputText value="Mensaje Para #{mensaje.destinatario.nombre}" />
+                </f:facet>
+ <p:editor  id="g" disabled="true" controls="" value="#{mensaje.mensaje}" height="100" width="400" />
+
+</h:panelGrid>
+</p:dataGrid>
+</p:tab>
+</p:tabView>
+</h:form>
 	</ui:define>
 </ui:composition>

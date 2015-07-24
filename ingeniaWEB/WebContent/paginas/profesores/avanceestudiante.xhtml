@@ -10,8 +10,11 @@
 	</ui:define>
 
 	<ui:define name="content">
-
-<center ><h2><p:outputLabel value="Avance de Actividades para #{AdmCursoMB.cursoVO.nombre}"/></h2></center> 
+		<h1>
+				<p:outputLabel value=" #{AdmCursoMB.cursoVO.nombre}" />
+			</h1>
+	<p:growl id="growl" showDetail="true" sticky="true" /> 
+<center ><h2><p:outputLabel value="Avance de Actividades"/></h2></center> 
 		<h:panelGrid columns="1" cellpadding="5">
 		<h:panelGrid columns="2" cellpadding="5">
 	
@@ -71,15 +74,12 @@
                 <h:outputText value="Ultimo Ingreso" />
                 <h:outputText value="#{AdmCursoMB.estudianteVO.fechaUltimoIngreso}" />
                 
-                <p:commandButton value="Enviar Mensaje"
-	 update=":mainForm:enviarMensaje" oncomplete="PF('mensajeDialogo').show()"
-    title="Mensaje">
-    </p:commandButton>
+
             </p:panelGrid>
         </p:outputPanel>
     </p:dialog>
     
-    <p:dialog header="Enviar Mensaje" widgetVar="mensajeDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+    <p:dialog position="600,200" header="Enviar Mensaje" widgetVar="mensajeDialogo" showEffect="fade" hideEffect="fade" resizable="false">
         <p:outputPanel id="enviarMensaje" style="text-align:center;">
             <p:panelGrid columns="1" rendered="#{not empty AdmCursoMB.estudianteVO}" columnClasses="label,value">
             <h:panelGrid columns="2" style="margin-top: 10px">                 
@@ -89,7 +89,7 @@
     
     <p:editor id="editor" widgetVar="editorWidget" value="#{AdmCursoMB.text}" height="200" width="600" />
     <h:panelGrid columns="2" style="margin-top: 10px">
-        <p:commandButton value="Enviar" update="g" action="#{AdmCursoMB.envioMensajeProfesor}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
+        <p:commandButton value="Enviar" update="growl" action="#{AdmCursoMB.envioMensajeProfesor}" oncomplete="PF('mensajeDialogo').hide()" icon="ui-icon-disk" />
         <p:commandButton value="Limpiar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
     </h:panelGrid>
         
@@ -103,11 +103,5 @@
 		
    </h:panelGrid>
 	
-<h:panelGrid>
-     <f:facet name="header">
-                 <h:outputText value="De: #{AdmCursoMB.usuarioVO.nombre}" />
-                </f:facet>
- <p:editor  id="g" disabled="true" controls="" value="#{AdmCursoMB.text}" height="200" width="200" />
-</h:panelGrid>
 	</ui:define>
 </ui:composition>

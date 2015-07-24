@@ -56,7 +56,6 @@ public class GestorCursos implements IGestorCursosRemote,
 		Usuario profesor=new Usuario();
 		AdaptadorUsuario adapprofe=new AdaptadorUsuario(profesorVO);
 		profesor=adapprofe.getUsuario();
-		 //profesor = em.find(Usuario.class,idprofesor);
 		Query q = em.createQuery("SELECT object(c) FROM Curso AS c where c.usuario=:profesor");
 		 q.setParameter("profesor", profesor);
 		List<Curso> listaCurso= q.getResultList();
@@ -68,7 +67,6 @@ public class GestorCursos implements IGestorCursosRemote,
 				cursoVO =adaptador.getCursoVO();
 
 			} catch (AdaptadorException e) {
-				// T ODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			listaCursoVO.add(cursoVO);
@@ -128,8 +126,6 @@ public class GestorCursos implements IGestorCursosRemote,
 		}
 
 		return resultadosVO;
-		
-		
 	}
 
 	@Override
@@ -181,21 +177,11 @@ public class GestorCursos implements IGestorCursosRemote,
 
 	@Override
 	public void modificarCursoVO(CursoVO cursoVO) throws AdaptadorException {
-		// TODO Auto-generated method stub
+
 		AdaptadorCurso adaptador = null;
-		AdaptadorActividad adaptadorA = null;
-		//List<Actividad> listaactividades = null;
-		//Curso curso = em.find(Curso.class,cursoVO.getIdcurso());
 		Curso curso = null;		        
-		adaptador = new AdaptadorCurso(cursoVO);
-		
-		/*listaactividades = new ArrayList<Actividad>();
-		for (ActividadVO actividadVO : cursoVO.getActividades()) {
-			adaptadorA = new AdaptadorActividad(actividadVO);
-			listaactividades.add(adaptadorA.getActividad());
-			}	*/
+		adaptador = new AdaptadorCurso(cursoVO);	
 		curso =adaptador.getCurso();
-		//curso.setActividads(listaactividades);
 		 em.merge(curso);
 	}
 
@@ -243,16 +229,12 @@ public class GestorCursos implements IGestorCursosRemote,
 		List<Actividad> totallistaActividades= q2.getResultList();
 		List<Actividad> listaactualizada = new ArrayList<Actividad>();
 		listaactualizada=totallistaActividades;
-		 for (int i=0;totallistaActividades.size()>i;i++) {
-			 System.out.println("es esta "+totallistaActividades.get(i).getIdactividad());		 
+		 for (int i=0;totallistaActividades.size()>i;i++) { 
 		 }
         for (int i=0;totallistaActividades.size()>i;i++) {
-        	System.out.println("tam�om" +totallistaActividades.size());
         	 for (int j=0;listaActividadactuales.size()>j;j++) {        	   
-      	System.out.println("compara "+totallistaActividades.get(i).getIdactividad()+" con "+listaActividadactuales.get(j).getIdactividad());
               	if((listaActividadactuales.get(j).equals(totallistaActividades.get(i)))){
             		int temp=listaActividadactuales.size()+1;
-            		System.out.println("elimino "+totallistaActividades.get(i).getIdactividad());
             		listaactualizada.remove(i);
             		j=temp;           
             		i=-1;            		
@@ -267,7 +249,6 @@ public class GestorCursos implements IGestorCursosRemote,
 			ActividadVO=adaptador.getActividadVO();
 
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         ListaActividadVO.add(ActividadVO);
@@ -296,16 +277,25 @@ public class GestorCursos implements IGestorCursosRemote,
 		Actividadusuario actividadUsuario = new Actividadusuario();
 		ActividadxUsuarioVO actividadUsuarioVO = new ActividadxUsuarioVO();
 		AdaptadorActividadxUsuario adaptador ;
-		Curso curso=em.find(Curso.class,cursoVO.getIdcurso());
-		 for (int i=0;curso.getActividadcursos().size()>i;i++) {
-			 listaActividades.add(curso.getActividadcursos().get(i).getActividad());
+		AdaptadorCurso adaptadorC;
+		AdaptadorActividad adaptadorA;
+		adaptadorC = new AdaptadorCurso(cursoVO);
+		Curso curso = adaptadorC.getCurso();
+
+		 for (int i=0;cursoVO.getActividades().size()>i;i++) {
+			 adaptadorA= new AdaptadorActividad(cursoVO.getActividades().get(i));
+			 listaActividades.add(adaptadorA.getActividad());			 
 		 }
-		 for (int i=0;curso.getEstudiantecursos().size()>i;i++) {
-			 if(curso.getEstudiantecursos().get(i).getUsuario().getIdusuario()==estudianteVO.getId()){
+
+		 for (int i=0;cursoVO.getEstudiantes().size()>i;i++) {
+			 if(cursoVO.getEstudiantes().get(i).getId()==estudianteVO.getId()){
 			 for (int j=0;listaActividades.size()>j;j++) {
-				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.usuario=:usuario and ac.actividad=:actividad");
-					q.setParameter("usuario", curso.getEstudiantecursos().get(i).getUsuario());
+				 Query q = em.createQuery("SELECT object(ac) FROM Actividadusuario as ac where ac.usuario=:usuario and ac.actividad=:actividad and ac.curso=:curso");
+					UsuarioVO uservo=cursoVO.getEstudiantes().get(i);
+					AdaptadorUsuario adaptadorU = new AdaptadorUsuario(uservo);
+				 q.setParameter("usuario", adaptadorU.getUsuario());
 					q.setParameter("actividad", listaActividades.get(j));
+					q.setParameter("curso", curso);
 					List<Actividadusuario> resultados = q.getResultList();	
 					for (Actividadusuario resultado : resultados) {
 						actividadUsuario = resultado;
@@ -328,7 +318,6 @@ public class GestorCursos implements IGestorCursosRemote,
 		Usuario estudiante=new Usuario();
 		AdaptadorUsuario adapprofe=new AdaptadorUsuario(estudianteVO);
 		estudiante=adapprofe.getUsuario();
-		 //profesor = em.find(Usuario.class,idprofesor);
 		Query q = em.createQuery("SELECT c.curso FROM Estudiantecurso AS c where c.usuario=:estudiante");
 		 q.setParameter("estudiante", estudiante);
 		List<Curso> listaCurso= q.getResultList();
@@ -375,14 +364,14 @@ public class GestorCursos implements IGestorCursosRemote,
          
         	 for (int j=0;listaCursoVO.size()>j;j++) {
         		 
-        		 if(listaCursosest.get(i).equals(listaCursosest.get(j))){
-        			 listaCursoVO.remove(j);
-        			 j=listaCursoVO.size()+1;
+        		 if(listaCursosest.get(i).getIdcurso()==listaCursoVO.get(j).getIdcurso()){
+        			 int temp=listaCursoVO.size()+1;
+        			 listaCursoVO.remove(j); 
+        			 j=temp;
         		 }
              }
          }
 
-         System.out.println("tam "+ listaCursoVO.size());
 
 		return listaCursoVO;
 	}
@@ -390,7 +379,6 @@ public class GestorCursos implements IGestorCursosRemote,
 	@Override
 	public void inscribirCurso(UsuarioVO usuarioVO, CursoVO cursoVO)
 			throws AdaptadorException {
-		// TODO Auto-generated method stub
 		Curso curso = em.find(Curso.class, cursoVO.getIdcurso());
 		Usuario usuario = em.find(Usuario.class, usuarioVO.getId());
         Estudiantecurso Estudiantecurso= new Estudiantecurso();
@@ -435,7 +423,6 @@ public class GestorCursos implements IGestorCursosRemote,
 			resultados = tq.getResultList();
 			List<CursoVO> listaCursoVO= consultarCursosEstudiante(usuarioVO);
 
-			System.out.println(listaCursoVO.size()+" estudiacurso");
 			if (resultados != null) {
 				resultadosVO = new ArrayList<CursoVO>();
 				for (Curso cursoResultado : resultados) {
@@ -493,7 +480,6 @@ public class GestorCursos implements IGestorCursosRemote,
 
 		List<CursoVO> listaCursoVO= consultarCursosEstudiante(usuarioVO);
 		List<CursoVO> listaCursoDisponibleVO = consultarCursosDisponibleEstudiante(listaCursoVO);
-			System.out.println(listaCursoDisponibleVO.size()+" estudiacurso");
 			if (resultados != null) {
 				resultadosVO = new ArrayList<CursoVO>();
 				for (Curso cursoResultado : resultados) {
@@ -509,12 +495,11 @@ public class GestorCursos implements IGestorCursosRemote,
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
-		System.out.println(resultadosVO.size()+" final");
 
 		return resultadosVO;
 		
 	}
-
+	
 	public GestorCursos(EntityManager em) {
 		this.em = em;
 	}

@@ -11,7 +11,7 @@
 	<ui:define name="content">
 			
 		
-		<h:form rendered="#{empty AdmActividadMB.actividadVO1}">
+		<h:form id="form1" rendered="#{empty AdmActividadMB.actividadVO1}">
 		<center>
 			Datos Actividad	
 			</center>	
@@ -73,11 +73,15 @@
 
 </h:form>
 
- <h:form rendered="#{not empty AdmActividadMB.actividadVO1}">
-	    <center>
+ <h:form id="form2" rendered="#{not empty AdmActividadMB.actividadVO1}">
+ <center>
 			<h3>Datos Actividad #{AdmActividadMB.actividadVO.nombre}</h3>	
 			</center>	
-			<p:commandButton value="Directamente a Configurar Actividad" process="@this" action="#{AdmGatoMB.configurarActividad}">
+ <p:tabView id="actividad">
+ 
+ <p:tab title="Actividad">
+	    
+			<p:commandButton value="Ir a Configurar Actividad" process="@this" action="#{AdmGatoMB.configurarActividad}">
 	<f:param name="idact" value="#{AdmActividadMB.actividadVO.idactividad}" />
 	</p:commandButton>	
 <h:panelGrid columns="2" cellpadding="5">
@@ -130,7 +134,119 @@
 
 	</p:commandButton>
 
-	
+	</p:tab>
+	 <p:tab rendered="#{not empty AdmCursoMB.cursoVOtemp}" title="Estudiantes">
+				<p:outputLabel
+					>
+					<center>
+						<h3>Información de Avances Estudiante-Curso</h3>
+					</center>
+				</p:outputLabel>
+			
+				<p:dataTable emptyMessage="Nadie a realizado esta actividad" var="listaavance"
+					value="#{AdmActividadMB.listaAvancesActividad}"					
+					paginator="true" rows="6" dynamic="true" id="tb_avance" colums="2" 
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
+
+
+					<p:column headerText="Estudiante">
+
+					<center>
+		
+						<p:commandButton icon="ui-icon-search" value="#{listaavance.estudiante.nombre} #{listaavance.estudiante.apellido}"
+	 update=":mainForm:form2:actividad:datosEstudiante" oncomplete="PF('estudianteDialogo').show()"
+    title="estudiante">
+      <f:setPropertyActionListener value="#{listaavance.estudiante}" target="#{AdmActividadMB.estudiante}" />
+    </p:commandButton>
+						</center>
+						
+					
+					</p:column>
+
+					<p:column headerText="Curso">
+					<center>
+						<p:commandButton icon="ui-icon-search" value="#{listaavance.curso.nombre} " 
+	 update=":mainForm:form2:actividad:datosCurso" oncomplete="PF('cursoDialogo').show()"
+    title="curso">
+      <f:setPropertyActionListener value="#{listaavance.curso}" target="#{AdmActividadMB.curso}" />
+    </p:commandButton>
+						</center>
+					</p:column>	
+		
+					<p:column headerText="Fecha">
+					<center>
+						<h:outputText value="#{listaavance.fecha}" /></center>
+					</p:column>
+
+			<p:column headerText="Numero Intentos">
+			<center>
+						<h:outputText value="#{listaavance.numeroIntento}" /></center>
+					</p:column>
+
+			<p:column headerText="Movimientos Usados">
+			<center>
+						<h:outputText value="#{listaavance.numeroMovimientos}" /></center>
+					</p:column>
+
+			<p:column headerText="Puntaje">
+			<center>
+						<h:outputText value="#{listaavance.puntos}" /></center>
+					</p:column>
+
+				</p:dataTable>
+				  <p:dialog header="Info Estudiante" widgetVar="estudianteDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="datosEstudiante" style="text-align:center;">
+         
+            <h:panelGrid columns="2" style="margin-top: 10px">                 
+                
+                  <h:outputText value="Nombre: " />
+            <h:outputText value="#{AdmActividadMB.estudiante.nombre}" />
+ 
+			    <h:outputText value="Apellido: " />
+                <h:outputText value="#{AdmActividadMB.estudiante.apellido}" />
+                
+                <h:outputText value="Correo: " />
+                <h:outputText value="#{AdmActividadMB.estudiante.correo}"/>
+ 
+                <h:outputText value="Identificacion: " />
+                <h:outputText value="#{AdmActividadMB.estudiante.identificacion}" />
+                
+                <h:outputText value="Ultimo Ingreso: " />
+                <h:outputText value="#{AdmActividadMB.estudiante.fechaUltimoIngreso}" />
+                
+        </h:panelGrid>  
+                
+        </p:outputPanel>
+        
+    </p:dialog>
+    
+     <p:dialog header="Info Curso" widgetVar="cursoDialogo" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="datosCurso" style="text-align:center;">
+         
+            <h:panelGrid columns="2" style="margin-top: 10px">                 
+                
+                  <h:outputText value="Nombre: " />
+            <h:outputText value="#{AdmActividadMB.curso.nombre}" />
+ 
+			    <h:outputText value="Apellido: " />
+                <h:outputText value="#{AdmActividadMB.curso.descripcion}" />
+                
+                <h:outputText value="Maximo Actividades: " />
+                
+                <h:outputText value="#{AdmActividadMB.curso.limite_actividades}"/>
+ 
+                <h:outputText value="Estado: " />
+                <h:outputText value="#{AdmActividadMB.curso.estado}" />
+                
+        </h:panelGrid>  
+                
+        </p:outputPanel>
+        
+    </p:dialog>
+    
+</p:tab>
+	</p:tabView>
 			</h:form>
 
 	</ui:define>

@@ -1,7 +1,9 @@
 package org.ingenia.negocio.entidades;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -38,6 +40,7 @@ public class Actividadusuario implements Serializable {
 
 	//bi-directional many-to-one association to Curso
 	@ManyToOne
+	@JoinColumn(name="idcurso")
 	private Curso curso;
 	
 	public Actividadusuario() {

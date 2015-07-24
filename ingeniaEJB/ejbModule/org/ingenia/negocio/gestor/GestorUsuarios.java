@@ -392,7 +392,6 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 
 	@Override
 	public void enviarMensaje(UsuarioVO destinatariovo, UsuarioVO emisorvo,String texto_mensaje) {
-		// TODO Auto-generated method stub
 		 Query q = em.createQuery("SELECT count(c) FROM Mensaje as c");          
 		AdaptadorUsuario adaptadorD = new AdaptadorUsuario(destinatariovo);
 		AdaptadorUsuario adaptadorE = new AdaptadorUsuario(emisorvo);
@@ -407,7 +406,6 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 			mensaje.setMensaje(texto_mensaje);
 			em.persist(mensaje);
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -416,26 +414,41 @@ public class GestorUsuarios implements IGestorUsuariosRemote,
 	@Override
 	public List<MensajeVO> consultarMensajesRecibidos(UsuarioVO usuariovo)
 			throws AdaptadorException {
-		// TODO Auto-generated method stub
 		List<Mensaje> listaMensajesRecibidos;
 		List<MensajeVO> listaMensajesRecibidosVO= new ArrayList<MensajeVO>();
 		AdaptadorUsuario adaptadorU = new AdaptadorUsuario(usuariovo);
 		AdaptadorMensaje adaptadorM;
-		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario2=:usuario");  
+		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario2=:usuario order by c.fechaCreacion desc");  
 		q.setParameter("usuario", adaptadorU.getUsuario());
 		listaMensajesRecibidos=q.getResultList();
    
 		for(int i=0;listaMensajesRecibidos.size()>i;i++){
-			System.out.println(listaMensajesRecibidos.get(i).getMensaje());
 			adaptadorM= new AdaptadorMensaje(listaMensajesRecibidos.get(i));
 			listaMensajesRecibidosVO.add(adaptadorM.getMensajeVO());
-			System.out.println(adaptadorM.getMensajeVO().getMensaje());
 		}
-		System.out.println("cantidad en el gestor"+ listaMensajesRecibidosVO.size());
-		
+	
 		return listaMensajesRecibidosVO;
 		
 		
+	}
+
+	@Override
+	public List<MensajeVO> consultarMensajesEnviados(UsuarioVO usuariovo)
+			throws AdaptadorException {
+		List<Mensaje> listaMensajesEnviados;
+		List<MensajeVO> listaMensajesEnviadosVO= new ArrayList<MensajeVO>();
+		AdaptadorUsuario adaptadorU = new AdaptadorUsuario(usuariovo);
+		AdaptadorMensaje adaptadorM;
+		Query q = em.createQuery("SELECT Object(c) FROM Mensaje as c where c.usuario1=:usuario order by c.fechaCreacion desc");  
+		q.setParameter("usuario", adaptadorU.getUsuario());
+		listaMensajesEnviados=q.getResultList();
+   
+		for(int i=0;listaMensajesEnviados.size()>i;i++){
+			adaptadorM= new AdaptadorMensaje(listaMensajesEnviados.get(i));
+			listaMensajesEnviadosVO.add(adaptadorM.getMensajeVO());
+		}
+	
+		return listaMensajesEnviadosVO;
 	}
 
 }

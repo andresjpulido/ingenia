@@ -15,12 +15,13 @@
 	<ui:define name="content">
 
 		<h:form id="form">
-		<p:tabView id="tab_curso" >
-		<p:tab title="Curso">
 			<h1>
 				<p:outputLabel rendered="#{not empty AdmCursoMB.cursoVOtemp}"
 					value="#{AdmCursoMB.cursoVO.nombre}" />
 			</h1>
+		<p:tabView id="tab_curso" >
+		<p:tab title="Curso">
+		
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:panelGrid rendered="#{empty AdmCursoMB.cursoVOtemp}" columns="1"
 					cellpadding="10">
@@ -182,6 +183,7 @@
 			</h:panelGrid>
 		  </p:tab>
         <p:tab rendered="#{not empty AdmCursoMB.cursoVOtemp}" title="Estudiantes">
+					
 				<p:outputLabel
 					rendered="#{not empty AdmCursoMB.cursoVO.estudiantes  and not empty AdmCursoMB.cursoVOtemp}">
 					<center>

@@ -22,6 +22,7 @@ import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.TipoGatoVO;
 import org.ingenia.negocio.igestor.IGestorGatosLocal;
 import org.ingenia.presentacion.BaseMB;
+import org.ingenia.presentacion.ReglasNavegacion;
 
 
 @ManagedBean(name = "AdmGatoMB")
@@ -45,8 +46,7 @@ public class AdmGatoMB extends BaseMB {
 	private ColorVO color = new ColorVO();
 	private TipoGatoVO tipogato= new TipoGatoVO();
 	private int idactividad;	
-	private final static String NAV_IRACTIVIDAD = "iractividad";
-	private final static String NAV_CONFIGURARACTIVIDAD = "configuraractividad";
+
     
 	@EJB
 	IGestorGatosLocal gestorGatos;
@@ -61,7 +61,6 @@ public class AdmGatoMB extends BaseMB {
 	public void init() {
 		try {
 		
-			System.out.println("por acaaaaaa");
 			this.setListaTiposGato(gestorGatos.consultarTiposGato());
 			this.setListaColores(gestorGatos.consultarColores());
 			this.setListaArmas(gestorGatos.consultarArmas());
@@ -71,7 +70,6 @@ public class AdmGatoMB extends BaseMB {
 			 actividadVO.setIdactividad(1);
 		
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -94,7 +92,7 @@ public class AdmGatoMB extends BaseMB {
 		
 		gestorGatos.modificarGato(gatoVO,actividadVO);		
 		actualizaGatos();
-		destino=NAV_CONFIGURARACTIVIDAD;
+		destino=ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 	    this.gatoVO=new GatoVO();
 		 arma = new ArmaVO();
 			 armadura= new ArmaduraVO();
@@ -134,41 +132,35 @@ public class AdmGatoMB extends BaseMB {
 	  public String configurarActividad() {
 		  this.setGatoVO2(null);
 		  this.gatoVO1=null;
-		  System.out.println("entrrooooo al gato");
 		  this.gatoVO=new GatoVO();
 		 arma = new ArmaVO();
 			 armadura= new ArmaduraVO();
 			  color = new ColorVO();
 			 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idact"));
-			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
 			 actividadVO.setIdactividad(idactividad);
 			try {
 				this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("lista"+listaGatos.size());
 			
-	        return NAV_CONFIGURARACTIVIDAD;
+	        return ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 	    }
 	  
 	  public String actualizaGatos() {
 
 		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
-			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
 			 actividadVO.setIdactividad(idactividad);
 			try {
 				this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-	        return NAV_CONFIGURARACTIVIDAD;
+	        return ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 	    }
 	  
 	  public String cancelar() {
@@ -181,18 +173,15 @@ public class AdmGatoMB extends BaseMB {
 				  color = new ColorVO();
 				 tipogato= new TipoGatoVO();
 		  idactividad=Integer.parseInt(recuperarParametro("idactividad"));
-			 System.out.println(idactividad);
 			ActividadVO actividadVO = new ActividadVO();
 			 actividadVO.setIdactividad(idactividad);
 			try {
 				this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("lista"+listaGatos.size());
 			this.gatoVO=new GatoVO();
-	        return NAV_CONFIGURARACTIVIDAD;
+	        return ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 	    }
 	  
 
@@ -213,7 +202,7 @@ public class AdmGatoMB extends BaseMB {
 		try {
 			gestorGatos.crearGato(gatoVO,actividadVO); 				
 			actualizaGatos();
-			destino= NAV_CONFIGURARACTIVIDAD;
+			destino= ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 			 FacesContext context = FacesContext.getCurrentInstance();
 	         
 		        context.addMessage(null, new FacesMessage("Successful",  "Your message: " ) );
@@ -263,17 +252,11 @@ public class AdmGatoMB extends BaseMB {
 		try {
 			this.gatoVO = gestorGatos.consultarGatoVO(gatoVO);
 
-			/*for (JuegoVO juego : listaJuegos) {
-					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
-						this.juegoVO=juego;		
-					}
-				}*/ //propiedades gato
-
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
 
-		return NAV_IRACTIVIDAD;
+		return ReglasNavegacion.NAV_IRACTIVIDAD;
 	}
 	
 	public String modificarGato() {
@@ -286,7 +269,6 @@ public class AdmGatoMB extends BaseMB {
 		GatoVO gatoVO = new GatoVO();
 		gatoVO.setIdgato(Integer.parseInt(id));
 
-		System.out.println(gatoVO.getIdgato());
 		try {
 			
 			this.gatoVO1 = gestorGatos.consultarGatoVO(gatoVO);
@@ -294,13 +276,7 @@ public class AdmGatoMB extends BaseMB {
 			this.setArmadura(this.gatoVO1.getArmadura());
 			this.setColor(this.gatoVO1.getColor());
 			this.setTipogato(this.gatoVO1.getTipogato());
-			destino=NAV_CONFIGURARACTIVIDAD;
-
-			/*for (JuegoVO juego : listaJuegos) {
-					if(juego.getIdjuego()==this.actividadVO.getId_Juego()){
-						this.juegoVO=juego;		
-					}
-				}*/ //propiedades gato
+			destino=ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
@@ -368,78 +344,54 @@ public class AdmGatoMB extends BaseMB {
 		this.gatoVO1 = gatoVO1;
 	}
 
-	/**
-	 * @return the listaArmaduras
-	 */
+
 	public List<ArmaduraVO> getListaArmaduras() {
 		return listaArmaduras;
 	}
 
-	/**
-	 * @param listaArmaduras the listaArmaduras to set
-	 */
+
 	public void setListaArmaduras(List<ArmaduraVO> listaArmaduras) {
 		this.listaArmaduras = listaArmaduras;
 	}
 
-	/**
-	 * @return the arma
-	 */
+	
 	public ArmaVO getArma() {
 		return arma;
 	}
 
-	/**
-	 * @param arma the arma to set
-	 */
+
 	public void setArma(ArmaVO arma) {
 		this.arma = arma;
 	}
 
-	/**
-	 * @return the armadura
-	 */
+
 	public ArmaduraVO getArmadura() {
 		return armadura;
 	}
 
-	/**
-	 * @param armadura the armadura to set
-	 */
+
 	public void setArmadura(ArmaduraVO armadura) {
 		this.armadura = armadura;
 	}
 
-	/**
-	 * @return the color
-	 */
 	public ColorVO getColor() {
 		return color;
 	}
 
-	/**
-	 * @param color the color to set
-	 */
+
 	public void setColor(ColorVO color) {
 		this.color = color;
 	}
 
-	/**
-	 * @return the tipogato
-	 */
 	public TipoGatoVO getTipogato() {
 		return tipogato;
 	}
 
-	/**
-	 * @param tipogato the tipogato to set
-	 */
 	public void setTipogato(TipoGatoVO tipogato) {
 		this.tipogato = tipogato;
 	}
 
 	public ColorVO getColorporID(int number) {
-		// TODO Auto-generated method stub
 		ColorVO color = new ColorVO();
 
 	    for(int i=0;this.listaColores.size()>i;i++){
@@ -451,7 +403,6 @@ public class AdmGatoMB extends BaseMB {
 	}
 	
 	public TipoGatoVO getTipoporID(int number) {
-		// TODO Auto-generated method stub
 		TipoGatoVO tipo = new TipoGatoVO();
 
 	    for(int i=0;this.listaTiposGato.size()>i;i++){
@@ -463,7 +414,6 @@ public class AdmGatoMB extends BaseMB {
 	}
 	
 	public ArmaVO getArmaporID(int number) {
-		// TODO Auto-generated method stub
 		ArmaVO arma = new ArmaVO();
 
 	    for(int i=0;this.listaArmas.size()>i;i++){
@@ -475,7 +425,6 @@ public class AdmGatoMB extends BaseMB {
 	}
 
 	public ArmaduraVO getArmaduraporID(int number) {
-		// TODO Auto-generated method stub
 		ArmaduraVO armadura = new ArmaduraVO();
 
 	    for(int i=0;this.listaArmaduras.size()>i;i++){

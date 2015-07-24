@@ -59,7 +59,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
             try {
             	tipoGatoVO=adaptador.getTipogatoVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaTiposGatoVO.add(tipoGatoVO);
@@ -82,7 +81,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
             try {
             	colorVO=adaptador.getColorVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaColorVO.add(colorVO);
@@ -105,7 +103,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
             try {
             	armaVO=adaptador.getArmaVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaArmaVO.add(armaVO);
@@ -126,7 +123,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 			gato.setActividad(actividad);
 			 em.merge(gato);
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -159,19 +155,10 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 		Query q = em.createQuery("SELECT object(g) FROM Gato AS g where g.actividad = :actividad");
 		q.setParameter("actividad", Actividad);
 		List<Gato> listagatos= q.getResultList();
-		System.out.println("lista gaticos"+listagatos.size());
 		if(listagatos.size()>0){
-			
-			//int[] posiciones= new int[listagatos.size()];
-			//int j=0;
+
 			orden=listagatos.size()+1;
-			/*  for (int i=0;listagatos.size()>i;i++) {
-        	posiciones [i]=listagatos.get(i).getOrden();  
-        	System.out.println("posicion"+posiciones[j]);
-        	j++;
-		}
-		Arrays.sort(posiciones);*/
-		//System.out.println("posicion"+posiciones[j]);
+			
         }
 		else{
 			orden=1;
@@ -209,7 +196,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	            	gatoVO=adaptador.getGatoVO();
 	            	
 				} catch (AdaptadorException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	            listagatosVO.add(gatoVO);
@@ -232,7 +218,6 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
             try {
             	armaduraVO=adaptador.getArmaduraVO();
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             ListaArmaduraVO.add(armaduraVO);

@@ -11,10 +11,10 @@
 	</ui:define>
 
 	<ui:define name="content">
-							
+					    <h1><h:outputText  value="Juego #{AdmActividadMB.juegoVO.nombre} " /></h1>
 						<h1><h:outputText  value="Configuracion actividad #{AdmActividadMB.actividadVO.enunciado} Juego #{AdmActividadMB.juegoVO.nombre} " />	 </h1>
 						<h1><h:outputText  value=""/>	 </h1>
-					<br/>
+					
 								
 	
         	
@@ -227,7 +227,7 @@
      </h:panelGrid>
     </p:ring>
 
-  <p:dialog  header="Info Gato" widgetVar="gatoDialogo" showEffect="fade" hideEffect="fade" resizable="false" >
+  <p:dialog position="700,200" header="Info Gato" widgetVar="gatoDialogo" showEffect="fade" hideEffect="fade" resizable="false" >
         <p:outputPanel id="gatoDetalle" style="text-align:center;" layout="block">
            <p:panelGrid rendered="#{not empty AdmGatoMB.gatoVO2}"  columns="1">
            <p:column >  

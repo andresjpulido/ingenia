@@ -143,7 +143,6 @@ public class AdaptadorUsuario extends IAdaptadorUsuario {
 		estudianteVO.setNombre(usuario.getNombre());
 		estudianteVO.setIdentificacion(usuario.getIdentificacion());
 
-		System.out.println("si lo guardo "+estudianteVO.getIdentificacion());
 		return estudianteVO;
 	}
 }

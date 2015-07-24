@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadVO;
+import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.comunes.vo.CursoActividadVO;
 import org.ingenia.comunes.vo.CursoVO;
 import org.ingenia.comunes.vo.EstructuraVO;
@@ -22,6 +23,7 @@ import org.ingenia.comunes.vo.JuegoVO;
 import org.ingenia.comunes.vo.UsuarioVO;
 import org.ingenia.negocio.igestor.IGestorActividadesLocal;
 import org.ingenia.presentacion.BaseMB;
+import org.ingenia.presentacion.ReglasNavegacion;
 
 
 @ManagedBean(name = "AdmActividadMB")
@@ -35,6 +37,7 @@ public class AdmActividadMB extends BaseMB {
 	private ActividadVO actividadVO= new ActividadVO();
 	private ActividadVO actividadVO1= new ActividadVO();
 	private ActividadVO actividadVO2= null;
+	private List<ActividadxUsuarioVO> listaAvancesActividad;
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
 	private List<JuegoVO> listaJuegos;
@@ -45,13 +48,12 @@ public class AdmActividadMB extends BaseMB {
 	private int posicion;
 	private boolean buscando=false;
 	private UsuarioVO UsuarioVO=new UsuarioVO();	
+	private UsuarioVO estudiante=new UsuarioVO();	
+	private CursoVO curso=new CursoVO();
     private HttpServletRequest httpServletRequest;
     private FacesContext faceContext;
 
-	private final static String NAV_IRACTIVIDADCURSO = "iractividadcurso";
-	private final static String NAV_IRACTIVIDAD = "iractividad";
-	private final static String NAV_IRADMACTIVIDAD = "iradminactividad";
-
+	
 	@EJB
 	IGestorActividadesLocal gestorActividades;
 
@@ -63,7 +65,6 @@ public class AdmActividadMB extends BaseMB {
 	}
 	
 	public void cargarlistas () {
-		System.out.println(buscando);
 		if(buscando==false){
 			actividad="";
 		try {
@@ -73,14 +74,12 @@ public class AdmActividadMB extends BaseMB {
 		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
 		        {
 		        	this.UsuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
-		            System.out.println("id profe"+UsuarioVO.getId());
 		        	this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
 		        	setListaActividades(gestorActividades.consultarActividadesProfesor(UsuarioVO.getId()));
 		        	}
 		
 
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
@@ -100,10 +99,9 @@ public class AdmActividadMB extends BaseMB {
 				this.listaestructuras=gestorActividades.consultarestructuras();
 		    	this.listaelegida=consultarListaEstructuras(this.listaestructuras);
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        return NAV_IRACTIVIDAD;
+	        return ReglasNavegacion.NAV_IRACTIVIDAD;
 	    }
 	  
 
@@ -116,17 +114,15 @@ public class AdmActividadMB extends BaseMB {
 				this.listaestructuras=gestorActividades.consultarestructuras();
 		    	this.listaelegida=consultarListaEstructuras(this.listaestructuras);
 			} catch (AdaptadorException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        return NAV_IRACTIVIDADCURSO;
+	        return ReglasNavegacion.NAV_IRACTIVIDADCURSO;
 	    }
 	
 	public String buscar() {
 		ActividadVO actividadVO = new ActividadVO();
 		actividadVO.setNombre(actividad);
 		actividadVO.setProfesor(this.UsuarioVO);
-        System.out.println(actividadVO.getNombre());
 		try {
 			this.buscando=true;
 			setListaActividades(gestorActividades.consultarActividadesPorNombre(actividadVO));
@@ -138,18 +134,17 @@ public class AdmActividadMB extends BaseMB {
 							.getMessage()));
 			e.printStackTrace();
 		}
-		return NAV_IRADMACTIVIDAD;
+		return ReglasNavegacion.NAV_IRADMACTIVIDAD;
 	}
 
 	public String actualizar() {
 		String destino=null;
 		ActividadVO actividadVO = this.actividadVO;	
 		actividadVO.setEstructuras(this.estructralistaelegida);
-		System.out.println("actualizando");
 
 	try {	
 			gestorActividades.modificarActividad(actividadVO);	
-			destino=NAV_IRADMACTIVIDAD;
+			destino=ReglasNavegacion.NAV_IRADMACTIVIDAD;
       		} 
 	
 	catch (AdaptadorException e) {
@@ -181,7 +176,7 @@ public class AdmActividadMB extends BaseMB {
          actividadVO.setEstructuras(estructralistaelegida);
 		try {
           		gestorActividades.crearActividad(actividadVO); 	
-          		destino=NAV_IRADMACTIVIDAD;
+          		destino=ReglasNavegacion.NAV_IRADMACTIVIDAD;
 
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -227,7 +222,6 @@ public class AdmActividadMB extends BaseMB {
 			CursoActividadVO cursoActividadVO = new CursoActividadVO();
          	CursoVO cursoVO=new CursoVO();
          	cursoVO.setIdcurso(idcurso);
-         	System.out.println("en adm"+this.UsuarioVO.getId());
 			actividadVO.setProfesor(this.UsuarioVO);
 	        actividadVO.setEstructuras(this.estructralistaelegida);
 			cursoActividadVO.setActividad(actividadVO);
@@ -309,14 +303,11 @@ public class AdmActividadMB extends BaseMB {
 	public String irActividad() {
 
 		 actividadVO1 =new ActividadVO();
-		 System.out.println("entro a ir actividad");
 		 try {
 		
 			this.listaestructuras=gestorActividades.consultarestructuras();
-			//faltaria cargar las estrucutras asociadas a la actividad que se esta cargando y mirar si hay que editarlas
-
+			
 		} catch (AdaptadorException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -330,10 +321,9 @@ public class AdmActividadMB extends BaseMB {
 		
 		try {
 			this.actividadVO = gestorActividades.consultarActividadVO(actividadVO);
-			System.out.println("tamaño "+this.actividadVO.getEstructuras().size());
 			this.listaelegida=consultarListaEstructuras(this.actividadVO.getEstructuras());
+			setListaAvancesActividad(gestorActividades.consultarActividadesCursoUsuario(actividadVO));
 			 if(this.actividadVO.getJuegoVO().getIdjuego()==1){
-				 System.out.println("actualizando");
 				 actividadVO2 =new ActividadVO();
 				 }
 			for (JuegoVO juego : listaJuegos) {
@@ -346,12 +336,11 @@ public class AdmActividadMB extends BaseMB {
 			e.printStackTrace();
 		}
 
-		return NAV_IRACTIVIDAD;
+		return ReglasNavegacion.NAV_IRACTIVIDAD;
 	}
 		
 	
 	private List<String> consultarListaEstructuras(List<EstructuraVO> estructuras) {
-		// TODO Auto-generated method stub
 		List<String> lista=new 	ArrayList<String>();
 		if (estructuras!=null){
 		   for(int j=0;estructuras.size()>j;j++){
@@ -361,7 +350,6 @@ public class AdmActividadMB extends BaseMB {
 	}
 
 	private List<EstructuraVO> obtenerEstructuras() {
-		// TODO Auto-generated method stub
 	 List<EstructuraVO> estructura = new ArrayList<EstructuraVO>();
 	 if (listaelegida!=null){
 	   for(int i=0;this.listaelegida.size()>i;i++){
@@ -407,7 +395,7 @@ public class AdmActividadMB extends BaseMB {
 				e.printStackTrace();
 			}
 
-			return NAV_IRACTIVIDADCURSO;
+			return ReglasNavegacion.NAV_IRACTIVIDADCURSO;
 		}
 	
 	public void selectOneMenuListener(ValueChangeEvent event) {
@@ -417,7 +405,6 @@ public class AdmActividadMB extends BaseMB {
 	   String idjuego= (String) newValue;
 	   if (idjuego.equals("1")){
 		   actividadVO2 = new ActividadVO();
-	    System.out.println("new valiue "+idjuego);
 	 actividadVO.setLimite_movimientos(1);
 	 this.juegoVO.setIdjuego(Integer.parseInt(idjuego));
 
@@ -458,7 +445,6 @@ public class AdmActividadMB extends BaseMB {
     	try {
 			this.listaJuegos=gestorActividades.consultarJuegosDisponibles();
 		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listaJuegos;
@@ -486,16 +472,7 @@ public class AdmActividadMB extends BaseMB {
 	}
 
 	public List<ActividadVO> getListaActividades() {
-	/*	try {
-
-			if(buscando==false){
-			setListaActividades(gestorActividades.consultarActividadesProfesor(UsuarioVO.getId()));
-			}
-
-		} catch (AdaptadorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+	
 		return listaActividades;
 	}
 
@@ -512,7 +489,6 @@ public class AdmActividadMB extends BaseMB {
 	}
 
 	public List<EstructuraVO> getListaestructuras() {
-		System.out.println("la vino a buscar");
 		return listaestructuras;
 	}
 
@@ -543,6 +519,30 @@ public class AdmActividadMB extends BaseMB {
 	 */
 	public void setEstructralistaelegida(List<EstructuraVO> estructralistaelegida) {
 		this.estructralistaelegida = estructralistaelegida;
+	}
+
+	public List<ActividadxUsuarioVO> getListaAvancesActividad() {
+		return listaAvancesActividad;
+	}
+
+	public void setListaAvancesActividad(List<ActividadxUsuarioVO> listaAvancesActividad) {
+		this.listaAvancesActividad = listaAvancesActividad;
+	}
+
+	public UsuarioVO getEstudiante() {
+		return estudiante;
+	}
+
+	public void setEstudiante(UsuarioVO estudiante) {
+		this.estudiante = estudiante;
+	}
+
+	public CursoVO getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoVO curso) {
+		this.curso = curso;
 	}
 
 
