@@ -155,7 +155,7 @@
 					<center>
 		
 						<p:commandButton icon="ui-icon-search" value="#{listaavance.estudiante.nombre} #{listaavance.estudiante.apellido}"
-	 update=":mainForm:form2:actividad:datosEstudiante" oncomplete="PF('estudianteDialogo').show()"
+	 update=":mainForm:form2:actividad:datosEstudiante" process="@this" oncomplete="PF('estudianteDialogo').show()"
     title="estudiante">
       <f:setPropertyActionListener value="#{listaavance.estudiante}" target="#{AdmActividadMB.estudiante}" />
     </p:commandButton>
@@ -167,7 +167,7 @@
 					<p:column headerText="Curso">
 					<center>
 						<p:commandButton icon="ui-icon-search" value="#{listaavance.curso.nombre} " 
-	 update=":mainForm:form2:actividad:datosCurso" oncomplete="PF('cursoDialogo').show()"
+	 update=":mainForm:form2:actividad:datosCurso" process="@this" oncomplete="PF('cursoDialogo').show()"
     title="curso">
       <f:setPropertyActionListener value="#{listaavance.curso}" target="#{AdmActividadMB.curso}" />
     </p:commandButton>
