@@ -31,6 +31,20 @@
 			
 			<h:panelGrid columns="5" cellpadding="5">
 				
+				<h:panelGrid columns="2" cellpadding="5">	
+     		<h:panelGrid columns="1" cellpadding="3">
+     
+     <h:outputLabel for="armado" value="Armado:" />
+						<p:selectOneMenu id="armado"
+							value="#{AdmGatoMB.armado}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmadoListener}" 
+							label="armado" >
+							<f:selectItem itemValue="1" itemLabel="Si" />
+							<f:selectItem itemValue="0" itemLabel="No" />
+							<f:ajax render="camb" />
+						</p:selectOneMenu>
+						</h:panelGrid>
+						</h:panelGrid>
+						
 		<h:panelGrid columns="2" cellpadding="5">	
 		<h:panelGrid columns="1" cellpadding="3">
 			<p:outputLabel value="Seleccione" />
@@ -70,7 +84,7 @@
 		<h:panelGrid columns="2" cellpadding="5">	
 		<h:panelGrid columns="1" cellpadding="3">
 			<p:outputLabel value="Seleccione" />				
-	<p:outputLabel for="tipoarma" value="Tipo Arma: " />
+	<p:outputLabel for="tipoarma" value="Arma Efectiva: " />
 	<p:selectOneMenu  id="tipoarma" value="#{AdmGatoMB.arma}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmaListener}" converter="armaConverter" var="arma" >
  	    <f:selectItem itemLabel="seleccione" noSelectionOption="true" />
  	 	<f:selectItems value="#{AdmGatoMB.listaArmas}" var="tipoarma" itemLabel="#{tipoarma.nombre}" itemValue="#{tipoarma}" />
@@ -119,8 +133,21 @@
 <h:panelGrid rendered="#{not empty AdmGatoMB.gatoVO1}" id="camb2" columns="1" cellpadding="5">
 
 	
-
-     <h:panelGrid columns="6" cellpadding="5">	
+	
+     <h:panelGrid columns="5" cellpadding="5">	
+     				<h:panelGrid columns="2" cellpadding="5">	
+     		<h:panelGrid columns="1" cellpadding="3">
+     
+     <h:outputLabel for="armado" value="Armado:" />
+						<p:selectOneMenu id="armado3"
+							value="#{AdmGatoMB.armado}" valueChangeListener="#{AdmGatoMB.selectOneMenuArmadoListener}" 
+							label="armado" >
+							<f:selectItem itemValue="1" itemLabel="Si" />
+							<f:selectItem itemValue="0" itemLabel="No" />
+					<f:ajax render="camb3" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						</h:panelGrid>
 				<h:panelGrid columns="2" cellpadding="5">	
 		<h:panelGrid columns="1" cellpadding="3">
 			<p:outputLabel value="Seleccione" />
@@ -236,7 +263,16 @@
                 <f:facet name="header">
                 <h:outputText value="Posición Salida #{AdmGatoMB.gatoVO2.orden}" />
                 </f:facet>
-                
+
+          
+<p:panelGrid  columns="1">
+     <f:facet name="header">
+              <h:outputText value="Armado:" />
+                </f:facet>
+           
+     
+     </p:panelGrid>
+        <h:outputText value="#{AdmGatoMB.datoarmado}" />  
     <p:panelGrid  columns="1">
     <f:facet name="header">
                <h:outputText value="Color:" />
@@ -259,7 +295,7 @@
       
     <p:panelGrid  columns="1">
       <f:facet name="header">
-                <h:outputText value="Arma:" />
+                <h:outputText value="Arma eficiente:" />
                 </f:facet>
  
   			 <h:outputText value="#{AdmGatoMB.gatoVO2.arma.nombre}" />

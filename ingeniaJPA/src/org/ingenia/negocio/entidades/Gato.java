@@ -17,6 +17,8 @@ public class Gato implements Serializable {
 	private int idgato;
 
 	private int orden;
+	
+	private int armado;
 
 	//bi-directional many-to-one association to Actividad
 	@ManyToOne
@@ -100,6 +102,14 @@ public class Gato implements Serializable {
 
 	public void setArmadura(Armadura armadura) {
 		this.armadura = armadura;
+	}
+
+	public int getArmado() {
+		return armado;
+	}
+
+	public void setArmado(int armado) {
+		this.armado = armado;
 	}
 
 }

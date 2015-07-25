@@ -46,6 +46,8 @@ public class AdmGatoMB extends BaseMB {
 	private ColorVO color = new ColorVO();
 	private TipoGatoVO tipogato= new TipoGatoVO();
 	private int idactividad;	
+	private int armado;
+	private String datoarmado;
 
     
 	@EJB
@@ -85,6 +87,7 @@ public class AdmGatoMB extends BaseMB {
 				 gatoVO.setArmadura(armadura);
 				 gatoVO.setColor(color);
 				 gatoVO.setTipogato(tipogato);
+				 gatoVO.setArmado(armado);
 				ActividadVO actividadVO = new ActividadVO();
 				 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 				 actividadVO.setIdactividad(idactividad);
@@ -191,6 +194,7 @@ public class AdmGatoMB extends BaseMB {
    String destino=null;
 		 idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
+			 System.out.println("armado "+ armado);
 		GatoVO gatoVO = this.gatoVO;			
 		ActividadVO actividadVO = new ActividadVO();
 		 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
@@ -199,6 +203,7 @@ public class AdmGatoMB extends BaseMB {
 		 gatoVO.setArmadura(armadura);
 		 gatoVO.setColor(color);
 		 gatoVO.setTipogato(tipogato);
+		 gatoVO.setArmado(armado);
 		try {
 			gestorGatos.crearGato(gatoVO,actividadVO); 				
 			actualizaGatos();
@@ -276,6 +281,7 @@ public class AdmGatoMB extends BaseMB {
 			this.setArmadura(this.gatoVO1.getArmadura());
 			this.setColor(this.gatoVO1.getColor());
 			this.setTipogato(this.gatoVO1.getTipogato());
+			this.setArmado(this.gatoVO1.getArmado());
 			destino=ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 
 		} catch (AdaptadorException e) {
@@ -471,6 +477,14 @@ public class AdmGatoMB extends BaseMB {
 	   FacesContext.getCurrentInstance().renderResponse();
 
 	}
+	public void selectOneMenuArmadoListener(ValueChangeEvent event) {
+System.out.println("ctuaiza");
+	    Object newValue = event.getNewValue(); 
+	    int armado= (int)newValue;
+	  this.armado=armado;
+	  // FacesContext.getCurrentInstance().renderResponse();
+
+	}
 
 	public GatoVO getGatoVO2() {
 		return gatoVO2;
@@ -478,6 +492,30 @@ public class AdmGatoMB extends BaseMB {
 
 	public void setGatoVO2(GatoVO gatoVO2) {
 		this.gatoVO2 = gatoVO2;
+	}
+
+	public int getArmado() {
+		return armado;
+	}
+
+	public void setArmado(int armado) {
+		this.armado = armado;
+	}
+
+	public String getDatoarmado() {
+		String dato=null;
+		if(gatoVO2.getArmado()==1){
+			dato="Si";
+		}
+		else if(gatoVO2.getArmado()==0){
+			dato="No";
+		}
+		setDatoarmado(dato);
+		return datoarmado;
+	}
+
+	public void setDatoarmado(String datoarmado) {
+		this.datoarmado = datoarmado;
 	}
 
 

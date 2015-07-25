@@ -19,6 +19,8 @@ public class GatoVO implements Serializable {
 	private ArmaduraVO armadura;
 	
 	private ArmaVO arma;
+	
+	private int armado;
 
 	public GatoVO() {
 	}
@@ -87,6 +89,15 @@ public class GatoVO implements Serializable {
 	public void setArmadura(ArmaduraVO armadura) {
 		this.armadura = armadura;
 	}
+
+	public int getArmado() {
+		return armado;
+	}
+
+	public void setArmado(int armado) {
+		this.armado = armado;
+	}
+
 
 
 

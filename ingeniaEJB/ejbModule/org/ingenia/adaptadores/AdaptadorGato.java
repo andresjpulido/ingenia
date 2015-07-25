@@ -31,7 +31,7 @@ public class AdaptadorGato extends IAdaptadorGato{
 		gato.setArmadura(AdaptadorArmadura.getArmadura());
 		gato.setOrden(gatoVO.getOrden());
 		gato.setIdgato(gatoVO.getIdgato());
-		
+		gato.setArmado(gatoVO.getArmado());
 
 		return gato;
 	}
@@ -52,7 +52,7 @@ public class AdaptadorGato extends IAdaptadorGato{
 		gatoVO.setArmadura(AdaptadorArmadura.getArmaduraVO());
 		gatoVO.setIdgato(gato.getIdgato());
 		gatoVO.setOrden(gato.getOrden());
-		
+		gatoVO.setArmado(gato.getArmado());
 		return gatoVO;
 	}
 
