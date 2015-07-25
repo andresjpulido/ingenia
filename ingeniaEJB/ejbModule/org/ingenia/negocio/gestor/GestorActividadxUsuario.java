@@ -21,6 +21,7 @@ import org.ingenia.adaptadores.AdaptadorActividadxUsuario;
 import org.ingenia.comunes.excepcion.AdaptadorException;
 import org.ingenia.comunes.vo.ActividadxUsuarioVO;
 import org.ingenia.negocio.entidades.Actividadusuario;
+import org.ingenia.negocio.entidades.ActividadusuarioPK;
 import org.ingenia.negocio.igestor.IGestorActividadxUsuarioLocal;
 import org.ingenia.negocio.igestor.IGestorActividadxUsuarioRemote;
 
@@ -43,7 +44,12 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
 	{
 		AdaptadorActividadxUsuario adaptador = null;
 		Actividadusuario actividadxUsuario = new Actividadusuario();
-		Query q = em.createQuery("SELECT count(e) FROM Actividadusuario as e where e.");   
+		
+		ActividadusuarioPK actividadxUsuariopk = new ActividadusuarioPK();
+		actividadxUsuariopk.setActividadIdactividad(actividadxUsuarioVO.getIdActividad());
+		actividadxUsuariopk.setIdCurso(actividadxUsuarioVO.getIdCurso());
+		actividadxUsuariopk.setUsuarioIdusuario(actividadxUsuarioVO.getIdUsuario());
+		Actividadusuario actividadxUsuarioQ = em.find(Actividadusuario.class,actividadxUsuariopk);
 		
 		adaptador = new AdaptadorActividadxUsuario(actividadxUsuarioVO);
 			
@@ -52,7 +58,15 @@ public class GestorActividadxUsuario implements IGestorActividadxUsuarioRemote, 
 			actividadxUsuario = adaptador.getActividadxUsuario(); 
 			UserTransaction transaction = (UserTransaction)new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
+			if(actividadxUsuarioQ==null)
 			em.persist(actividadxUsuario);
+			else 
+			{
+				actividadxUsuarioQ.setFecha(actividadxUsuarioVO.getFecha());
+				actividadxUsuarioQ.setPuntos(actividadxUsuarioVO.getPuntos());
+				actividadxUsuarioQ.setNumeroIntento(actividadxUsuarioQ.getNumeroIntento()+actividadxUsuarioVO.getNumeroIntento());
+				actividadxUsuarioQ.setNumeroMovimientos(actividadxUsuarioVO.getNumeroMovimientos());
+			}
 			em.joinTransaction();
 			transaction.commit();
 		} catch (AdaptadorException e) {

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.ingenia.adaptadores.AdaptadorActividad;
 import org.ingenia.adaptadores.AdaptadorArma;
 import org.ingenia.adaptadores.AdaptadorArmadura;
 import org.ingenia.adaptadores.AdaptadorColor;
@@ -27,6 +28,7 @@ import org.ingenia.negocio.entidades.Arma;
 import org.ingenia.negocio.entidades.Armadura;
 import org.ingenia.negocio.entidades.Color;
 import org.ingenia.negocio.entidades.Estructura;
+import org.ingenia.negocio.entidades.EstructurasActiva;
 import org.ingenia.negocio.entidades.Gato;
 import org.ingenia.negocio.entidades.Juego;
 import org.ingenia.negocio.entidades.Tipogato;
@@ -97,13 +99,14 @@ public class GestorEstructuras implements IGestorEstructurasRemote, IGestorEstru
 		List<EstructuraVO> ListaEstructuraVO = new ArrayList<EstructuraVO>();
 		EstructuraVO estructura = new EstructuraVO();
 		AdaptadorEstructura adaptador = null;
-		Query q = em.createQuery("SELECT object(t) FROM Estructura AS t where t.actividad = :actividad");
-		q.setParameter("actividad", actividadVO);
-		List<Estructura> listaEstructura = q.getResultList();
+		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
+		Query q = em.createQuery("SELECT object(t) FROM EstructurasActiva AS t where t.actividad = :actividad");
+		q.setParameter("actividad", actividad);
+		List<EstructurasActiva> listaEstructura = q.getResultList();
  
         for (int i=0;listaEstructura.size()>i;i++) {
     
-            adaptador = new AdaptadorEstructura(listaEstructura.get(i));
+            adaptador = new AdaptadorEstructura(listaEstructura.get(i).getEstructura());
             try {
             	estructura = adaptador.getEstructuraVO();
 			} catch (AdaptadorException e) {

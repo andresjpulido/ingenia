@@ -35,11 +35,11 @@ public class AdaptadorMovimiento extends IAdaptadorMovimiento{
 		MovimientoVO MovimientoVO = null;
 		if (this.movimiento == null)
 			return null;
-		MovimientoVO=new MovimientoVO();
+		movimientoVO=new MovimientoVO();
 		movimientoVO.setIdMovimiento(movimiento.getIdmovimientos());
 		movimientoVO.setNombre(movimiento.getNombreMovimiento());
 		
-		return MovimientoVO;
+		return movimientoVO;
 	}
 
 }

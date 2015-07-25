@@ -60,6 +60,8 @@ public class GestorServicioWS {
 		try {
 			FachadaServicios fachada = new FachadaServicios();
 			actividad = fachada.consultaActividadVO(IdActividad);
+			actividad.setProfesor(null);
+			actividad.setEstructuras(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,7 +145,7 @@ public class GestorServicioWS {
 			
 			avance.setFecha(new Date(System.currentTimeMillis()));
 			ActividadxUsuarioVO nuevo = fachada.GuardarActividadxUsuario(avance);
-			Resultado = (nuevo==null||nuevo.getId()<=0)?false:true;
+			Resultado = (nuevo==null)?false:true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

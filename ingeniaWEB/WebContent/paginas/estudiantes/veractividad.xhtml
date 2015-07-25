@@ -17,11 +17,10 @@
 			<f:verbatim>
 			<input type="hidden" id="IdUsuario" value="#{AdmVerActividadMB.getUsuarioVO().getId()}"/>
 			<input type="hidden" id="IdActividad" value="#{AdmVerActividadMB.getActividadVO().getIdactividad()}"/>
-			<input type="hidden" id="IdCurso" value="#{AdmVerActividadMB.getCursoVO().getIdactividad()}"/>
-			<div id="ContenidoActividad"></div>
+			<input type="hidden" id="IdCurso" value="#{AdmVerActividadMB.getCursoVO().getIdcurso()}"/>
+			<div id="ContenidoActividad"><span>Ya ha finalizado esta actividad</span></div>
 			<script type="text/javascript" src="#{AdmVerActividadMB.getUrlJsInicio()}"></script>
 			</f:verbatim>
-		<p:commandButton value="Regresar" action="#{AdmVerActividadMB.regresar}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

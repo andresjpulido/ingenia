@@ -97,8 +97,8 @@ public class GestorMovimientos implements IGestorMovimientosRemote, IGestorMovim
 		List<MovimientoVO> ListaMovimientoVO = new ArrayList<MovimientoVO>();
 		MovimientoVO movimiento = new MovimientoVO();
 		AdaptadorMovimiento adaptador = null;
-		Query q = em.createQuery("SELECT object(t) FROM Movimiento AS t where t.actividad = :actividad");
-		q.setParameter("actividad", actividadVO);
+		Query q = em.createQuery("SELECT object(t) FROM Movimiento AS t");
+		//q.setParameter("actividad", actividadVO);
 		List<Movimiento> listaMovimiento = q.getResultList();
  
         for (int i=0;listaMovimiento.size()>i;i++) {

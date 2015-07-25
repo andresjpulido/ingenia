@@ -32,6 +32,7 @@ public class AdmVerActividadMB extends BaseMB {
 	private String UrlJsInicio;
 	private UsuarioVO usuarioVO=new UsuarioVO();
 	private ActividadVO actividadVO= new ActividadVO();
+	private CursoVO cursoVO= new CursoVO();
 	
 	private JuegoVO juegoVO=new JuegoVO();
 	private String actividad;
@@ -58,18 +59,17 @@ public class AdmVerActividadMB extends BaseMB {
 	@PostConstruct
 	public void init() {
 		try {
-			//this.setIdActividad(10);
-			this.setUrlJsInicio("/ingeniaWEB/pluggins/CatCraft/js/init/loading.js");
 			 faceContext=FacesContext.getCurrentInstance();
              httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
 		        if(httpServletRequest.getSession().getAttribute("sessionUsuario")!=null)
 		        {
 		        	this.usuarioVO=(UsuarioVO) httpServletRequest.getSession().getAttribute("sessionUsuario");
-		        	//this.actividadVO=(ActividadVO) httpServletRequest.getSession().getAttribute("ActividadActual");
-		        	//Prueba antes de redireccion
-		        	this.actividadVO = new ActividadVO();
-		        	this.actividadVO.setIdactividad(11);
-		        	this.actividadVO.setNombre("CatCraft");
+		        	this.actividadVO=(ActividadVO) httpServletRequest.getSession().getAttribute("ActividadActual");
+		        	this.cursoVO=(CursoVO) httpServletRequest.getSession().getAttribute("CursoActual");
+		        	//validamos antes de cargar el juego
+		        	if(this.cursoVO!=null && this.actividadVO !=null)
+		        		this.setUrlJsInicio("/ingeniaWEB/plugins/CatCraft/js/init/loading.js");
+		        	else this.setUrlJsInicio("/ingeniaWEB/plugins/void.js");
 		        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -387,5 +387,13 @@ public class AdmVerActividadMB extends BaseMB {
 
 	public void setUsuarioVO(UsuarioVO usuarioVO) {
 		this.usuarioVO = usuarioVO;
+	}
+
+	public CursoVO getCursoVO() {
+		return cursoVO;
+	}
+
+	public void setCursoVO(CursoVO cursoVO) {
+		this.cursoVO = cursoVO;
 	}
 }
