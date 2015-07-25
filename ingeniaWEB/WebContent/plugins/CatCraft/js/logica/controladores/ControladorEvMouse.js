@@ -45,8 +45,8 @@ function ControladorEvMouse()
 			}
 			else if( i === 6 && !isOpcion2)
 				i = 9;	
-			if(botonesNext[i]!=null)
-			if( (X >= botonesNext[i].X) && (X <= (botonesNext[i].X+botonesNext[i].l)) && (botonesNext[i].vista === vistaActiva))
+			if(botonesNext[i]!==null)
+			if( X >= botonesNext[i].X && X <= (botonesNext[i].X+botonesNext[i].l) && botonesNext[i].vista === vistaActiva)
 			{
 				if( Y >= botonesNext[i].Y && Y <= (botonesNext[i].Y+botonesNext[i].h) )
 				{

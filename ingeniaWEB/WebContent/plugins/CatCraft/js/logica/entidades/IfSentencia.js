@@ -1,5 +1,9 @@
 //JavaScript Document - Albeiro Gualdrón - SenteciaIf
 
+
+var atribGato = [];
+var atrib = 0;
+var ataqueApropinar = "maullido";
 function sentenciaIf( nombre )
 {
 
@@ -7,11 +11,16 @@ function sentenciaIf( nombre )
 	sentenciaString = this.sentenciaString; 
 	this.nombre = nombre;
 	var ifObjetos = [];
+
 	this.if_elseif_else = function()
 	{ 
 		interpretarInformacionIF();
 		interpretarInformacionELSEIF();
 		interpretarInformacionELSE();
+		/*for(i = 0; i < atribGato.length; i++)
+		{
+			alert("atributo:" + i + " ---"+ atribGato[i] );
+		}*/
 	}
 //---------------------------------------------------------------------------------------------
 
@@ -21,11 +30,52 @@ function sentenciaIf( nombre )
 		interpretarInformacionELSE();
 	}
 	
+	function puente()
+	{
+		this.if_elseif_elseFuncion();
+	}
 //---------------------------------------------------------------------------------------------
 
-	this.if_elseFuncion = function(gato, comparacion)
+	this.if_elseif_elseFuncion = function()
 	{
-		//if(gato.color === comparacion)
+		if( (atribGato[atrib] === atribGato[atrib+1] ) && (atribGato[atrib+2] ===  atribGato[atrib+3]) )
+		{
+			if(atribGato[atrib+4] === "funcion")
+			{
+				atrib+=4;
+				puente();
+			}
+			else
+				ataqueApropinar = atribGato[atrib+4];
+		}
+		else if( (atribGato[atrib+5] ===  atribGato[atrib+6] ) && (atribGato[atrib+7] ===  atribGato[atrib+8]) )
+		{
+			if(atribGato[atrib+9] === "funcion")
+			{
+				atrib+=9;
+				puente();
+			}
+			else
+				ataqueApropinar = atribGato[atrib+9];
+		}
+		else
+		{
+			if(atribGato[atrib+10] === "funcion")
+			{
+				atrib+=10;
+				puente();
+			}
+			else
+				ataqueApropinar = atribGato[atrib+10];
+		}
+		atrib+=10;
+		//alert("golpe a dar es:" + ataqueApropinar);
+		
+		/*for(i = 0; i < atribGato.length; i++)
+		{
+			alert("atributo:" + i + " ---"+ atribGato[i] );
+		}*/
+		
 	}
 //---------------------------------------------------------------------------------------------
 
@@ -55,7 +105,11 @@ function sentenciaIf( nombre )
 		sentenciaString[0] = "if( GATO.";
 		sentenciaString[0] = identificarColorY_O_arma( 1, sentenciaString[0]);
 		if(ifObjetos[2] === -1)
+		{
 			sentenciaString[0] = sentenciaString[0]+")";
+			atribGato.push("vacio");
+			atribGato.push("vacio");
+		}
 		else if(ifObjetos[2] === 62)
 			sentenciaString[0] = sentenciaString[0]+"y GATO.";	
 		if(ifObjetos[3] !== -1 )
@@ -87,7 +141,11 @@ function sentenciaIf( nombre )
 		sentenciaString[3] = "else if( GATO.";
 		sentenciaString[3] = identificarColorY_O_arma( 6, sentenciaString[3]);
 		if(ifObjetos[7] === -1)
+		{
+			atribGato.push("vacio");
+			atribGato.push("vacio");
 			sentenciaString[3] = sentenciaString[3]+")";
+		}
 		else if(ifObjetos[7] === 62)
 			sentenciaString[3] = sentenciaString[3]+"y GATO.";
 		if(ifObjetos[8] !== -1)	
@@ -137,17 +195,41 @@ function sentenciaIf( nombre )
 	function identificarColorY_O_arma(elemento, sentencia)
 	{
 		if(ifObjetos[elemento] === 56)
+		{
 			sentencia = sentencia+"color = VERDE ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].color);
+			atribGato.push("verde");
+		}
 		else if(ifObjetos[elemento] === 57)
+		{
 			sentencia = sentencia+"color = AMARILLO ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].color);
+			atribGato.push("amarillo");
+		}
 		else if(ifObjetos[elemento] === 58)
+		{
 			sentencia= sentencia+"color = AZUL ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].color);
+			atribGato.push("azul");
+		}
 		else if(ifObjetos[elemento] === 59)
+		{
 			sentencia = sentencia+"color = ROJO ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].color);
+			atribGato.push("rojo");
+		}
 		else if(ifObjetos[elemento] === 60)
+		{
 			sentencia = sentencia+"arma = VERDADERO ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].arma);
+			atribGato.push(true);
+		}
 		else if(ifObjetos[elemento] === 61)
+		{
 			sentencia = sentencia+"escudo = VERDADERO ";
+			atribGato.push(gatosDelNivel[gatoEnFrente].armadura);
+			atribGato.push("escudo");
+		}
 		return sentencia;
 	}
 //---------------------------------------------------------------------------------------------	
@@ -156,41 +238,108 @@ function sentenciaIf( nombre )
 	function identificarAtaque(elemento, sentencia)
 	{
 		if(ifObjetos[elemento] === 63)
+		{
+			if(sentencia !== "")
+				atribGato.push("puño");
 			sentencia = sentencia+"puño";
-		if(ifObjetos[elemento] === 64)
+		}
+		else if(ifObjetos[elemento] === 64)
+		{
+			if(sentencia !== "")
+				atribGato.push("patada");
 			sentencia = sentencia+"patada";
-		if(ifObjetos[elemento] === 65)
+		}
+		else if(ifObjetos[elemento] === 65)
+		{
+			if(sentencia !== "")
+				atribGato.push("bate");
 			sentencia = sentencia+"batazo";
-		if(ifObjetos[elemento] === 66)
+		}
+		else if(ifObjetos[elemento] === 66)
+		{
+			if(sentencia !== "")
+				atribGato.push("pistola");
 			sentencia = sentencia+"disparo";
-		if(ifObjetos[elemento] === 67)
+		}
+		else if(ifObjetos[elemento] === 67)
+		{
+			if(sentencia !== "")
+				atribGato.push("hado-ken");
 			sentencia = sentencia+"hado-ken";
-		if(ifObjetos[elemento] === 68)
+		}
+		else if(ifObjetos[elemento] === 68)
+		{
+			if(sentencia !== "")
+				atribGato.push("sierra");
 			sentencia = sentencia+"corteSierra";
-		if(ifObjetos[elemento] === 69)
+		}
+		else if(ifObjetos[elemento] === 69)
+		{
+			if(sentencia !== "")
+				atribGato.push("bomba");
 			sentencia = sentencia+"bombazo";
-		if(ifObjetos[elemento] === 70)
+		}
+		else if(ifObjetos[elemento] === 70)
+		{
+			if(sentencia !== "")
+				atribGato.push("espada");
 			sentencia = sentencia+"corteEspada";
-		if(ifObjetos[elemento] === 71)
+		}
+		else if(ifObjetos[elemento] === 71)
+		{
+			if(sentencia !== "")
+				atribGato.push("hacha");
 			sentencia = sentencia+"hachazo";
-		if(ifObjetos[elemento] === 72)
+		}			
+		else if(ifObjetos[elemento] === 72)
+		{
+			if(sentencia !== "")
+				atribGato.push("mazo");
 			sentencia = sentencia+"mazazo";
-		if(ifObjetos[elemento] === 73)
+		}
+		else if(ifObjetos[elemento] === 73)
+		{
+			if(sentencia !== "")
+				atribGato.push("martillo");
 			sentencia = sentencia+"martillazo";
-		if(ifObjetos[elemento] === 74)
+		}	
+		else if(ifObjetos[elemento] === 74)
+		{
+			if(sentencia !== "")
+				atribGato.push("zarpa");
 			sentencia = sentencia+"zarpazo";
-		if(ifObjetos[elemento] === 75)
+		}	
+		else if(ifObjetos[elemento] === 75)
+		{
+			if(sentencia !== "")
+				atribGato.push("cañon");
 			sentencia = sentencia+"cañonazo";
-		if(ifObjetos[elemento] === 76)
+		}
+		else if(ifObjetos[elemento] === 76)
+		{
+			if(sentencia !== "")
+				atribGato.push("perro");
 			sentencia = sentencia+"soltadaDePitbull";
-		if(ifObjetos[elemento] === 77)
+		}
+		else if(ifObjetos[elemento] === 77)
+		{
+			if(sentencia !== "")
+				atribGato.push("laser");
 			sentencia = sentencia+"disparoLaser";
-		if(ifObjetos[elemento] === 78)
+		}	
+		else if(ifObjetos[elemento] === 78)
+		{
+			if(sentencia !== "")
+				atribGato.push("arco");
 			sentencia = sentencia+"flechazo";
-		if(ifObjetos[elemento] >= 16 && ifObjetos[elemento] <= 31)
+		}
+		else if(ifObjetos[elemento] >= 16 && ifObjetos[elemento] <= 31)
+		{
+			if(sentencia !== "")
+				atribGato.push("funcion");
 			sentencia = "función";
-			
-			return sentencia;
+		}
+		return sentencia;
 	}
 //---------------------------------------------------------------------------------------------	
 	

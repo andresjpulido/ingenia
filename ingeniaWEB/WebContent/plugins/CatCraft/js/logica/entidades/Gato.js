@@ -9,6 +9,7 @@ function Gato(color, tipo, arma, armadura)
 	this.isCAminando = false;
 	this.X = 60;
 	this.Y = 371;
+	
 	if(color === "verde")
 		this.secuenciaCaminar = [0, 1, 2, 1];
 	else if(color === "amarillo")
@@ -16,17 +17,25 @@ function Gato(color, tipo, arma, armadura)
 	else if(color === "azul")
 		this.secuenciaCaminar = [86, 87, 88, 87];
 	else if(color === "rojo")
-	this.secuenciaCaminar = [89, 90, 91, 90];
+		this.secuenciaCaminar = [89, 90, 91, 90];
+		
+	this.atributos = this.color;
+	
+	if(arma && armadura > 0 )
+		this.atributos = this.atributos+"_arma_escudo";
+	else if (arma)
+		this.atributos = this.atributos+"_arma";
+	else if (armadura > 0)
+		this.atributos = this.atributos+"_escudo";
+	
 	puntaje = 10;
 	
-	this.calcularPuntaje = function()
-	{
-		if(this.arma)
-			puntaje+=10;
-		if(this.armadura !== 0)
-			puntaje+=(5*this.armadura);
-		return puntaje;
-	}
+	if(this.arma)
+		puntaje+=10;
+	if(this.armadura > 0)
+		puntaje+=(5*this.armadura);
+		
+	
 //---------------------------------------------------------------
 
 	this.setIsCaminando = function( isCAminando )

@@ -1,4 +1,4 @@
-//JavaScript Document - Albeiro Gualdrón - ControladorAnimacion
+﻿//JavaScript Document - Albeiro Gualdrón - ControladorAnimacion
 
 var mtzAreasClick = new Matriz_Areas_Click();
 var controladorEvMouse = new ControladorEvMouse();
@@ -9,6 +9,8 @@ var botonesNext3 = [];
 var botonesDrag3 = [];
 var pincel;
 var canvas;
+var armaRaton;
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 function iniciar()
@@ -217,11 +219,28 @@ function crearControladorGatos()
 	controlaGatos.crearGatos();
 	//alert(gatosDelNivel[0].color);
 }
-//------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
 
 
 function resolverColicion()
-{
-	
+{	
+	armaRaton = new Arma(ataqueApropinar);
+	alert("GATO " + gatosDelNivel[gatoEnFrente].atributos + " atacó al ratón");
+	alert("RATÓN contra-ataca con: "+ armaRaton.nombre);
+	alert(armaRaton.nombre + " es efectiva contra GATO " + armaRaton.calcularEfectividad());
+	if(gatosDelNivel[gatoEnFrente].atributos === armaRaton.calcularEfectividad())
+	{
+		alert("gato murio");
+		gatosDelNivel[gatoEnFrente].setIsCaminando(false);
+		if(gatoEnFrente < gatosDelNivel.length )
+			gatoEnFrente++;
+		enColision = false;
+		dibujarCaminataGato(1);
+	}
+	else
+		alert("raton Murio");
 }
+
+
+
 //----------------------------------------------------------------------------------------------------------------------------------------

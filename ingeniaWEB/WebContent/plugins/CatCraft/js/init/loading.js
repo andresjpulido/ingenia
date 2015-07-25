@@ -13,6 +13,7 @@ window.onload = function() {
 	"js/logica/entidades/Arma.js",
 	"js/logica/entidades/Boton.js",
 	"js/logica/entidades/IfSentencia.js",
+	"js/logica/entidades/InterpreteCodigo.js",
 	"js/logica/entidades/MatrizAreasClick.js",
 	"js/logica/entidades/Gato.js",
 	"js/logica/entidades/Raton.js",

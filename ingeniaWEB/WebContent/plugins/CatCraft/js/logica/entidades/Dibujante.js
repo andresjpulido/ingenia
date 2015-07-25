@@ -1,10 +1,11 @@
 //JavaScript Document - Albeiro Gualdrón - Dibujante
 
-
-
 var posXpata = [140, 360, 400, 650];
 var posYpata = [320, 250, 40, 0];
 var gatoEnFrente = 0;
+var enColision = false;
+var interpreteCodigo;
+
 
 
 function dibujarInicio()
@@ -13,13 +14,48 @@ function dibujarInicio()
 	pincel.drawImage(imagenes[3], 0, 25);
 	pincel.drawImage(imagenes[6], 120, 50);
 	pincel.drawImage(imagenes[7], 340, 300);	
-}
+} 
 //-----------------------------------------------------------------------------------
 
-
+function dibujarCodigoLento( i, tabulado )
+{
+	pincel.font = "Bold 14px consolas";
+	pincel.fillStyle = "rgb(0, 255, 0)";
+	Xtexto = 500;
+	Ytexto = 65;
+	MAXtexto = 284;
+	if(codigoCompleto[i] !== undefined)
+	{
+		if(i < 14)
+		{
+			if( codigoCompleto[i] === "{")
+			{
+				pincel.fillText(codigoCompleto[i], Xtexto+tabulado, Ytexto +(15*i), MAXtexto-tabulado);
+				tabulado+=10;
+			}
+			else if(codigoCompleto[i] === "}")
+			{
+				tabulado-=10;
+				pincel.fillText(codigoCompleto[i], Xtexto+tabulado, Ytexto +(15*i), MAXtexto-tabulado);
+			}
+			else
+				pincel.fillText(codigoCompleto[i], Xtexto+tabulado, Ytexto +(15*i), MAXtexto-tabulado);
+			setTimeout(function(){dibujarCodigo();dibujarCodigoLento(++i, tabulado);}, 500);
+		}
+		else
+			pincel.fillText(". . .", Xtexto, Ytexto+(15*i), MAXtexto-tabulado);
+	}
+	else
+	{
+		interpreteCodigo = new InterpreteCodigo();
+		interpreteCodigo.separarPalabras();
+		resolverColicion();
+	}
+}
+//-------------------------------------------------------------------------------------------------------------------------
 function dibujarCodigo()
 {
-	raton.ejecucion[0].if_elseif_else();
+	pincel.drawImage(imagenes[9], 480, 30);
 	pincel.font = "14px consolas";
 	pincel.fillStyle = "rgb(255,255,255)";
 	tabulado = 0;
@@ -29,7 +65,7 @@ function dibujarCodigo()
 	
 	for(i = 0; i < codigoCompleto.length;i++ )
 	{
-		if(codigoCompleto !== undefined)
+		if(codigoCompleto[i] !== undefined)
 		{
 			if(i < 14)
 			{
@@ -54,6 +90,22 @@ function dibujarCodigo()
 		}
 	}
 }
+//----------------------------------------------------------------------------------------------------------------------
+
+
+function detenerTiempo(milisegundos)
+{
+	fin = false;
+	fecha0 = new Date();
+	inicio = fecha0.getTime();
+	while(!fin)
+	{
+		fecha0 = new Date();
+		if( ( fecha0.getTime() - inicio) > milisegundos)
+			fin = true;
+	}
+	//alert("OK");
+}
 //-----------------------------------------------------------------------------------
 
 function dibujarCaminataGato(img) 
@@ -62,13 +114,15 @@ function dibujarCaminataGato(img)
 	pincel.drawImage(imagenes[3], 0, 25);
 	dibujarRaton(img);
 	elegirGatosADibujar(i);
-	//pincel.drawImage(imagenes[gatosDelNivel[0].secuenciaCaminar[i]], gatosDelNivel[0].setX(x), y);
 	if( gatosDelNivel[gatoEnFrente].X < 600)
 		setTimeout(function(){dibujarCaminataGato(++img);}, 24);
 	else
 	{
-		pincel.drawImage(imagenes[9], 480, 30);
-		dibujarCodigo();
+		enColision = true;
+		raton.ejecucion[0].if_elseif_else();
+		raton.ejecucion[0].if_elseif_elseFuncion();
+		dibujarCodigo(0);
+		setTimeout("dibujarCodigoLento(0, 0);", 500);
 	}
 }
 //-----------------------------------------------------------------------------------
@@ -76,9 +130,11 @@ function elegirGatosADibujar(i)
 {
 	for(g = 0; g < gatosDelNivel.length; g++)
 	{
-		if(gatosDelNivel[g].X < 600 && gatosDelNivel[g].isCAminando)
+		if(gatosDelNivel[g].isCAminando)
 		{
-			pincel.drawImage(imagenes[gatosDelNivel[g].secuenciaCaminar[i]], gatosDelNivel[g].setX(gatosDelNivel[g].X+3), gatosDelNivel[g].Y);
+			if(!enColision)
+				gatosDelNivel[g].setX(gatosDelNivel[g].X+3);
+			pincel.drawImage(imagenes[gatosDelNivel[g].secuenciaCaminar[i]], gatosDelNivel[g].X, gatosDelNivel[g].Y);
 			if( (g+1) < gatosDelNivel.length && !gatosDelNivel[g+1].isCAminando && gatosDelNivel[g].X > 150 )
 				gatosDelNivel[g+1].setIsCaminando(true);
 		}
@@ -99,7 +155,7 @@ function dibujarPatasOK(pat)
 {	
 	pincel.drawImage(imagenes[8], posXpata[pat], posYpata[pat]);
 	if(pat < 4)
-		setTimeout(function(){dibujarPatasOK(++pat);},20);
+		setTimeout(function(){dibujarPatasOK(++pat);},500);
 	else
 		dibujarSelectorRutina();
 }
@@ -143,6 +199,7 @@ function dibujarSegundaSeleccion(X, Y, n_imagen)
 	}
 }
 //-----------------------------------------------------------------------------------
+
 
 
 function dibujarStorkedePrueba()
