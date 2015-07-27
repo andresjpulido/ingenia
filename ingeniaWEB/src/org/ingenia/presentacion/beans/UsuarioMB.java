@@ -39,13 +39,13 @@ public class UsuarioMB extends BaseMB {
 	private boolean logeado = false;
 
 	private List<MensajeVO> listaMensajesRecibidos;
-	
+
 	private MensajeVO mensajeRecibido;
 
 	private List<MensajeVO> listaMensajesEnviados;
-	
+
 	private MensajeVO mensajeEnviado;
-	
+
 	private String mensaje;
 
 	private HttpServletRequest httpServletRequest = null;
@@ -70,14 +70,14 @@ public class UsuarioMB extends BaseMB {
 
 		if (listaUsuarios != null && !listaUsuarios.isEmpty()) {
 			this.usuariovo = listaUsuarios.get(0);
-			
-			if(this.usuariovo.isActivo()){
+
+			if (this.usuariovo.isActivo()) {
 				logeado = true;
 
 				resultado = ReglasNavegacion.INICIO;
 				logger.debug("El usuario " + usu.getAlias()
 						+ " se ha autenticado !");
-				
+
 				try {
 					this.usuariovo.setFechaUltimoIngreso(new Date());
 					gestorUsuarios.crearUsuario(this.usuariovo);
@@ -97,7 +97,7 @@ public class UsuarioMB extends BaseMB {
 				context.addCallbackParam("view", "paginas/inicio.xhtml");
 				return resultado;
 
-			}else{
+			} else {
 				logeado = false;
 				FacesContext
 						.getCurrentInstance()
@@ -156,7 +156,7 @@ public class UsuarioMB extends BaseMB {
 	}
 
 	public String salir() {
-		
+
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
 		session.removeAttribute("sessionUsuario");
@@ -165,28 +165,57 @@ public class UsuarioMB extends BaseMB {
 		this.usuariovo = null;
 		return ReglasNavegacion.LOGIN;
 	}
-	
-	public void cargarMensajes(){
-		
+
+	public void cargarMensajes() {
+
 		try {
-			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
-			listaMensajesEnviados=this.gestorUsuarios.consultarMensajesEnviados(this.usuariovo);
+			listaMensajesRecibidos = this.gestorUsuarios
+					.consultarMensajesRecibidos(this.usuariovo);
+			listaMensajesEnviados = this.gestorUsuarios
+					.consultarMensajesEnviados(this.usuariovo);
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void responderMensaje(){
+
+	public void responderMensaje() {
 
 		try {
-			this.gestorUsuarios.enviarMensaje(this.mensajeRecibido.getRemitente(),this.mensajeRecibido.getDestinatario(),this.mensaje);
-			listaMensajesEnviados=this.gestorUsuarios.consultarMensajesEnviados(this.usuariovo);
-			listaMensajesRecibidos=this.gestorUsuarios.consultarMensajesRecibidos(this.usuariovo);
-			 FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Exito",  "Mensaje Enviado" ) );
+			this.gestorUsuarios.enviarMensaje(
+					this.mensajeRecibido.getRemitente(),
+					this.mensajeRecibido.getDestinatario(), this.mensaje);
+			listaMensajesEnviados = this.gestorUsuarios
+					.consultarMensajesEnviados(this.usuariovo);
+			listaMensajesRecibidos = this.gestorUsuarios
+					.consultarMensajesRecibidos(this.usuariovo);
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Exito",
+					"Mensaje Enviado"));
 		} catch (AdaptadorException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void guardarClave(ActionEvent actionEvent) {
+		if (this.usuariovo.getClave().equals(this.usuariovo.getClave2())) {
+			try {
+				this.gestorUsuarios.modificarUsuario(this.usuariovo);
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Exito",
+						"Mensaje Enviado"));			
+			} catch (AdaptadorException e) {
+				e.printStackTrace();
+			}
+		} else {
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Error",
+									"Clave no válida, las claves deben ser iguales!"));
+		}
+
 	}
 
 	public String getUsuario() {
@@ -220,7 +249,6 @@ public class UsuarioMB extends BaseMB {
 	public void setLogeado(boolean logeado) {
 		this.logeado = logeado;
 	}
-
 
 	public List<MensajeVO> getListaMensajesEnviados() {
 		return listaMensajesEnviados;

@@ -1,7 +1,16 @@
 use ingenia;
-INSERT INTO `opcion` VALUES (1,'Administracion de usuarios','Seccion que permite crear, modificar o eliminar de usuarios','OP001'),(2,'Administracion de Roles','Seccion que permite crear, modificar o eliminar de roles','OP002'),(3,'Administracion de cursos','Seccion que permite la creacion, modificacion o eliminacion de cursos.','OP003'),(4,'Administracion de Actividades','Seccion que permite la creacion, modificacion o eliminacion de actividades.','OP004'),(5,'Mis cursos','Lista de los cursos en los que se encuentra un estudiante.','OP005'),(6,'Inscripcion a cursos','Pagina para que un estudiante pueda registrarse en un curso','OP006'),(7,'log','log','OP007');
-INSERT INTO `rol` VALUES (1,'Administrador del sistema','Administrador','S'),(2,'Profesor','Gestionar Cursos','S'),(3,'Estudiante','Desarrollar Actividades','S');
-INSERT INTO `opcionrol` VALUES (1,1),(2,1),(7,1),(5,3),(6,3),(3,2),(4,2);
+INSERT INTO `opcion` VALUES (1,'Administracion de usuarios','Seccion que permite crear, modificar o eliminar de usuarios','OP001'),
+(2,'Administracion de Roles','Seccion que permite crear, modificar o eliminar de roles','OP002'),
+(3,'Administracion de cursos','Seccion que permite la creacion, modificacion o eliminacion de cursos.','OP003'),
+(4,'Administracion de Actividades','Seccion que permite la creacion, modificacion o eliminacion de actividades.','OP004'),
+(5,'Mis cursos','Lista de los cursos en los que se encuentra un estudiante.','OP005'),
+(6,'Inscripcion a cursos','Pagina para que un estudiante pueda registrarse en un curso','OP006'),
+(7,'log','log','OP007'),
+(8,'log','Cambio de clave','OP008');
+INSERT INTO `rol` VALUES (1,'Administrador del sistema','Administrador','S'),
+(2,'Profesor','Gestionar Cursos','S'),
+(3,'Estudiante','Desarrollar Actividades','S');
+INSERT INTO `opcionrol` VALUES (1,1),(2,1),(7,1),(5,3),(6,3),(3,2),(4,2),(8,1),(8,2),(8,3);
 INSERT INTO `usuario` 
 VALUES (1,'Albeiro','Guallon','M','test@udistrital.edu.co','2015-06-30 07:50:09','2015-06-30 07:50:09','password','Albeiro',234652,1),
 (2,'franky','Montero','M','test@udistrital.edu.co','2015-06-30 07:50:09','2015-06-30 07:50:09','password','Franky',875678,1),

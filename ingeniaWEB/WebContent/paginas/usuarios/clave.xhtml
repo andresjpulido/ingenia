@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/plantillas/plantilla.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<h1>Cambio de contraseña</h1>
+		<h:form>
+			<p:growl id="growl" life="2000" />
+
+			<h:panelGrid columns="1" cellpadding="5">
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<h:outputLabel for="clave1" value="Contraseña:" />
+					<h:inputSecret value="#{usuarioMB.usuariovo.clave}" label="Clave"
+						maxlength="11" required="true"
+						requiredMessage="El valor de la clave es obligatorio" />
+
+					<h:outputLabel for="clave2" value="nueva contraseña:" />
+					<h:inputSecret value="#{usuarioMB.usuariovo.clave2}" label="Clave"
+						maxlength="11" required="true"
+						requiredMessage="El valor de la clave es obligatorio" />
+
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<p:commandButton value="Guardar" styleClass="ui-priority-primary"
+						id="btn_guardarclave" actionListener="#{usuarioMB.guardarClave}"
+						update="growl" />
+				</f:facet>
+
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
