@@ -5,7 +5,7 @@
 ** DESCRIPCION: 
 */
 var Cargado = true;
-var cantidadImagenes = 91;
+var cantidadImagenes = 149;
 var imagenes = new Array();
 
 var ControladorJuego = function () {

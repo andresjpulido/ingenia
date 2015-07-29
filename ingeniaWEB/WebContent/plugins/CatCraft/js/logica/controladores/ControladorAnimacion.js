@@ -7,6 +7,7 @@ var botonesNext1y2 = [];
 var botonesDrag1y2 = [];
 var botonesNext3 = [];
 var botonesDrag3 = [];
+var botonesNext4 = [];
 var pincel;
 var canvas;
 var armaRaton;
@@ -20,13 +21,13 @@ function iniciar()
 	crearbotonesDrag1y2();
 	crearbotonesNext3();
 	crearbotonesDrag3();
+	crearbotonesNext4();
 	guardarMatrizSentenciasEn3();
 	duplicarDragInParaAtaques();
 	ObtenerCanvas();
 	controladorEvMouse.addMouseEv();
 	dibujarInicio();
 	crearControladorGatos();
-	
 }
 //----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -80,13 +81,16 @@ function crearbotonesDrag1y2()
 			botonesDrag1y2.push( new areaClick( dragIn_2X[i], dragIn_2Y[j], dragOut_2l, dragOut_2l, 1, "Sentencia"+j+i, -1, true ));
 		}
 	}
+	botonesDrag1y2.push(new areaClick( dragOut_2bX, dragOut_2bY, dragOut_2bl, dragOut_2bh, 1, "papelera", -1, true));
 }	
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 
 function crearbotonesNext3()
 {
-	botonesNext3[0] = new areaClick( clickNext_3X, clickNext_3Y, clickNext_3l, clickNext_3h, 2, "OK", -1, true);
+	botonesNext3[0] = new areaClick( clickNext_3X[1], clickNext_3Y, clickNext_3l, clickNext_3h, 2, "OK", -1, true);
+	botonesNext3[1] = new areaClick( clickNext_3X[0], clickNext_3Y, clickNext_3l, clickNext_3h, 2, "CANCELAR", -1, true);
+	botonesNext3[2] = new areaClick( clickNext_3bX, clickNext_3bY, clickNext_3bl, clickNext_3bh, 2, "limpiar", -1, true);
 	for(j = 0; j < dragIn_3dY.length; j++)
 	{
 		for(i = 0; i < dragIn_3dX.length; i++)
@@ -143,7 +147,14 @@ function crearbotonesDrag3()
 		}
 	}
 }	
-//------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+function crearbotonesNext4()
+{
+	botonesNext4[0] = new areaClick( clickNext_4X, clickNext_4Y, clickNext_4l, clickNext_4h, 3, "new_run", -1, false);
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 function duplicarDragInParaAtaques()
@@ -180,7 +191,7 @@ function moverMatrizSentencias()
 		{
 			for(i = 0; i < dragIn_2X.length; i++)
 			{
-				botonesDrag1y2[y].setPosicion( dragIn_2X[i]-241, dragIn_2Y[j]+186);
+				botonesDrag1y2[y].setPosicion( dragIn_2X[i]-238, dragIn_2Y[j]+187);
 				botonesDrag1y2[y].setVista(2);
 				y++;
 			}
@@ -205,6 +216,7 @@ function moverMatrizSentencias()
 function crearControladorGatos()
 {
 	gatosAcrear = [];
+	gatosAcrear.length = 0;
 	
 	for (var int = 0; int < Juego.Gatos.length; int++) {
 		//var array_element = ;
@@ -215,32 +227,54 @@ function crearControladorGatos()
 //	gatosAcrear.push( new Gato("verde", false, false, 0));
 //	gatosAcrear.push( new Gato("azul", false, false, 0));
 //	gatosAcrear.push( new Gato("amarillo", false, false, 0));
-	controlaGatos = new ControladorGatos(gatosAcrear);
+	controlaGatos = controlaGatos || new ControladorGatos(gatosAcrear);
 	controlaGatos.crearGatos();
 	//alert(gatosDelNivel[0].color);
 }
-//--------------------------------------------------------------------------------------------------------------------------------------------
 
 
 function resolverColicion()
 {	
+	
 	armaRaton = new Arma(ataqueApropinar);
-	alert("GATO " + gatosDelNivel[gatoEnFrente].atributos + " atacó al ratón");
-	alert("RATÓN contra-ataca con: "+ armaRaton.nombre);
-	alert(armaRaton.nombre + " es efectiva contra GATO " + armaRaton.calcularEfectividad());
+	//alert("GATO " + gatosDelNivel[gatoEnFrente].atributos + " atacó al ratón");
+	//alert("RATÓN contra-ataca con: "+ armaRaton.nombre);
+	//alert(armaRaton.nombre + " es efectiva contra GATO " + armaRaton.calcularEfectividad());
+	
 	if(gatosDelNivel[gatoEnFrente].atributos === armaRaton.calcularEfectividad())
 	{
-		alert("gato murio");
-		gatosDelNivel[gatoEnFrente].setIsCaminando(false);
-		if(gatoEnFrente < gatosDelNivel.length )
-			gatoEnFrente++;
-		enColision = false;
-		dibujarCaminataGato(1);
+		//alert("gato murio");
+		//gatosDelNivel[gatoEnFrente].setIsCaminando(false);
+		dibujarGatoMuere(0);
+		//siguienteGato();
 	}
 	else
-		alert("raton Murio");
+	{
+		//alert("raton Murio");
+		gatosDelNivel[gatoEnFrente].setIsCaminando(false);
+		dibujarGatoComeRaton(0);
+	}
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------
 
 
+function siguienteGato()
+{
+	raton.setPuntajeAcumulado(gatosDelNivel[gatoEnFrente].puntaje);
+	if(gatoEnFrente < gatosDelNivel.length-1)
+	{
+		gatoEnFrente++;
+		codigoCompleto = [];
+		enColision = false;
+		pincel.fillStyle = "rgb(0,0,0)";
+		pincel.fillRect(0,0, 800, 500);
+		dibujarCaminataGato(0); 
+	}
+	else
+		dibujarYouWin();
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------
+
+	
 
 //----------------------------------------------------------------------------------------------------------------------------------------

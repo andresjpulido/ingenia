@@ -10,6 +10,11 @@ var dragOut_2X = [];
 var dragOut_2Y = [];
 var dragOut_2l;
 
+var dragOut_2bX;
+var dragOut_2bY;
+var dragOut_2bl;
+var dragOut_2bh; 
+
 var dragIn_2X = [];
 var dragIn_2Y = [];
 
@@ -59,6 +64,16 @@ var clickNext_3Y;
 var clickNext_3l;
 var clickNext_3h;
 
+var clickNext_3bX;
+var clickNext_3bY;
+var clickNext_3bl;
+var clickNext_3bh;
+
+var clickNext_4X;
+var clickNext_4Y;
+var clickNext_4l;
+var clickNext_4h;
+
 function Matriz_Areas_Click()
 {
 
@@ -71,6 +86,7 @@ function Matriz_Areas_Click()
 		llenar_dragOut_3();
 		llenar_dragIn_3();
 		llenar_clickNext_3();
+		llenar_clickNext_4();
 	}
 //------------------------------------------------------------------------------------		
 	
@@ -88,13 +104,18 @@ function Matriz_Areas_Click()
 		dragOut_2X = [32, 86, 137, 187];
 		dragOut_2Y = [82, 131, 179, 227, 275, 323, 371, 418];
 		dragOut_2l = 44;
+		
+		dragOut_2bX = 744;
+		dragOut_2bY = 414;
+		dragOut_2bl = 50;
+		dragOut_2bh = 60; 
 	}
 //------------------------------------------------------------------------------------		
 	
 	function llenar_dragIn_2()
 	{
 		dragIn_2X = [561, 615, 666, 716];
-		dragIn_2Y = [86, 136, 182, 231];
+		dragIn_2Y = [85, 134, 182, 231];
 	}
 //------------------------------------------------------------------------------------		
 	
@@ -115,6 +136,7 @@ function Matriz_Areas_Click()
 		clickNext_2cY = [312, 343, 374];
 		clickNext_2cl = 51;
 		clickNext_2ch = 24; 
+		
 	}
 //------------------------------------------------------------------------------------
 
@@ -155,15 +177,28 @@ function Matriz_Areas_Click()
 	}
 //------------------------------------------------------------------------------------	
 
-function llenar_clickNext_3()
-{
-	clickNext_3X = 246;
-	clickNext_3Y = 408;
-	clickNext_3l = 46;
-	clickNext_3h = 48;
-
-}
+	function llenar_clickNext_3()
+	{
+		clickNext_3X = [14, 246];
+		clickNext_3Y = 408;
+		clickNext_3l = 46;
+		clickNext_3h = 48;
+		
+		clickNext_3bX = 130;
+		clickNext_3bY = 430;
+		clickNext_3bl = 58;
+		clickNext_3bh = 28;
+	}
 //------------------------------------------------------------------------------------	
+
+
+	function llenar_clickNext_4()
+	{
+		clickNext_4X = 703;
+		clickNext_4Y = 375;
+		clickNext_4l = 100;
+		clickNext_4h = 100;
+	}
 }
 
 

@@ -11,13 +11,29 @@ function Gato(color, tipo, arma, armadura)
 	this.Y = 371;
 	
 	if(color === "verde")
+	{
 		this.secuenciaCaminar = [0, 1, 2, 1];
+		this.secuenciaMorir = [92, 93, 94, 95, 96];
+		this.secuenciaComer = [116, 117, 118, 119, 120];
+	}
 	else if(color === "amarillo")
+	{
 		this.secuenciaCaminar = [83, 84, 85, 84];
+		this.secuenciaMorir = [97, 98, 99, 100, 101];
+		this.secuenciaComer = [121, 122, 123, 124, 125];
+	}
 	else if(color === "azul")
+	{
 		this.secuenciaCaminar = [86, 87, 88, 87];
+		this.secuenciaMorir = [102, 103, 104, 105, 106];
+		this.secuenciaComer = [126, 127, 128, 129, 130];
+	}
 	else if(color === "rojo")
+	{
 		this.secuenciaCaminar = [89, 90, 91, 90];
+		this.secuenciaMorir = [107, 108, 109, 110, 111];
+		this.secuenciaComer = [131, 132, 133, 134, 135];
+	}
 		
 	this.atributos = this.color;
 	
@@ -28,12 +44,12 @@ function Gato(color, tipo, arma, armadura)
 	else if (armadura > 0)
 		this.atributos = this.atributos+"_escudo";
 	
-	puntaje = 10;
+	this.puntaje = 10;
 	
 	if(this.arma)
-		puntaje+=10;
+		this.puntaje+=10;
 	if(this.armadura > 0)
-		puntaje+=(5*this.armadura);
+		this.puntaje+=(5*this.armadura);
 		
 	
 //---------------------------------------------------------------

@@ -4,23 +4,32 @@
 var atribGato = [];
 var atrib = 0;
 var ataqueApropinar = "maullido";
+//---------------------------------------------------------------------------------------------
+
+
 function sentenciaIf( nombre )
 {
-
+	
 	this.sentenciaString = [];
 	sentenciaString = this.sentenciaString; 
 	this.nombre = nombre;
 	var ifObjetos = [];
+//---------------------------------------------------------------------------------------------
+
+
+	this.inicializar = function ()
+	{
+		ataqueApropinar = "maullido";
+		atrib = 0;
+		atribGato = [];
+		sentenciaString = [];
+	}
 
 	this.if_elseif_else = function()
 	{ 
 		interpretarInformacionIF();
 		interpretarInformacionELSEIF();
 		interpretarInformacionELSE();
-		/*for(i = 0; i < atribGato.length; i++)
-		{
-			alert("atributo:" + i + " ---"+ atribGato[i] );
-		}*/
 	}
 //---------------------------------------------------------------------------------------------
 
@@ -36,47 +45,6 @@ function sentenciaIf( nombre )
 	}
 //---------------------------------------------------------------------------------------------
 
-	this.if_elseif_elseFuncion = function()
-	{
-		if( (atribGato[atrib] === atribGato[atrib+1] ) && (atribGato[atrib+2] ===  atribGato[atrib+3]) )
-		{
-			if(atribGato[atrib+4] === "funcion")
-			{
-				atrib+=4;
-				puente();
-			}
-			else
-				ataqueApropinar = atribGato[atrib+4];
-		}
-		else if( (atribGato[atrib+5] ===  atribGato[atrib+6] ) && (atribGato[atrib+7] ===  atribGato[atrib+8]) )
-		{
-			if(atribGato[atrib+9] === "funcion")
-			{
-				atrib+=9;
-				puente();
-			}
-			else
-				ataqueApropinar = atribGato[atrib+9];
-		}
-		else
-		{
-			if(atribGato[atrib+10] === "funcion")
-			{
-				atrib+=10;
-				puente();
-			}
-			else
-				ataqueApropinar = atribGato[atrib+10];
-		}
-		atrib+=10;
-		//alert("golpe a dar es:" + ataqueApropinar);
-		
-		/*for(i = 0; i < atribGato.length; i++)
-		{
-			alert("atributo:" + i + " ---"+ atribGato[i] );
-		}*/
-		
-	}
 //---------------------------------------------------------------------------------------------
 
 	this.if_ = function()
@@ -227,7 +195,7 @@ function sentenciaIf( nombre )
 		else if(ifObjetos[elemento] === 61)
 		{
 			sentencia = sentencia+"escudo = VERDADERO ";
-			atribGato.push(gatosDelNivel[gatoEnFrente].armadura);
+			atribGato.push(gatosDelNivel[gatoEnFrente].armadura > 0? "escudo":0);
 			atribGato.push("escudo");
 		}
 		return sentencia;

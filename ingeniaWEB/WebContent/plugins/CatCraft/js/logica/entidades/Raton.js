@@ -9,10 +9,11 @@ function Raton()
 	
 	this.cargarFunciones = function()
 	{
+		this.ejecucion.length = 0;
 		for(i = 0; i < 32;i++)
-		{
+		{			
 			if(botonesDrag1y2[i].img !== -1)
-				this.ejecucion.push(funcionesFx[(botonesDrag1y2[i].img-16)]);
+				this.ejecucion.push(funcionesFx[(botonesDrag1y2[i].img-32)]);
 		}
 	}
 //-----------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ function Raton()
 	this.setPuntajeAcumulado = function(puntaje)
 	{
 		this.puntajeAcumulado+=puntaje;
+		return this.puntajeAcumulado;
 	}	
 //-----------------------------------------------------------------------------------
 }

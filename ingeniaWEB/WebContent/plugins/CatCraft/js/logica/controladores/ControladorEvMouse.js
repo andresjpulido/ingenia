@@ -1,8 +1,9 @@
-//JavaScript Document - Albeiro Gualdrón - ControladorEventosMouse
+﻿//JavaScript Document - Albeiro Gualdrón - ControladorEventosMouse
 var vistaActiva = 0;
 var presionaMouse = false;
 var funcionesFx = [];
 var raton;
+var funcionActual = 0;
 
 
 function ControladorEvMouse()
@@ -10,9 +11,9 @@ function ControladorEvMouse()
 	botonesNext = [];
 	botonesDrag = [];
 	isOpcion2 = false;
-	botonDown = -1;
+	imgBotonDown = -1;
 	enviar = true;
-	funciones = 0;
+	//funciones = 0;
 	
 	this.addMouseEv = function()
 	{
@@ -45,10 +46,10 @@ function ControladorEvMouse()
 			}
 			else if( i === 6 && !isOpcion2)
 				i = 9;	
-			if(botonesNext[i]!==null)
+				
 			if( X >= botonesNext[i].X && X <= (botonesNext[i].X+botonesNext[i].l) && botonesNext[i].vista === vistaActiva)
 			{
-				if( Y >= botonesNext[i].Y && Y <= (botonesNext[i].Y+botonesNext[i].h) )
+				if( Y >= botonesNext[i].Y && Y <= (botonesNext[i].Y+botonesNext[i].h) && botonesNext[i].enable)
 				{
 					btnClick = botonesNext[i].nombre;
 					botonClickeado_accion( btnClick );
@@ -75,7 +76,7 @@ function ControladorEvMouse()
 				if(vistaActiva === 1)
 					dibujarSelectorRutina();
 				else if(vistaActiva === 2)
-					dibujarCreadorFunciones(15);
+					dibujarCreadorFunciones(funcionActual);
 				solicitarPintadoBotones();
 			}
 			presionaMouse = false;
@@ -91,9 +92,10 @@ function ControladorEvMouse()
 					if(event.type === "mousedown")
 					{
 						presionaMouse = true;
-						botonDown = botonesDrag[i].img;
+						imgBotonDown = botonesDrag[i].img;
+						btnDown = i;
 					}
-					botonPresSolt_accion( btnClick, botonesDrag[i]);
+					botonPresSolt_accion( btnClick, botonesDrag[i], btnDown);
 					break;
 				}
 			}
@@ -127,18 +129,20 @@ function ControladorEvMouse()
 			chequeoClickVista1();
 		else if(vistaActiva === 2)
 			chequeoClickVista2();
+		else if(vistaActiva === 3)
+			chequeoClickVista3();	
 	}	
 //---------------------------------------------------------------------------------------------------------------------------------	
 
 	
-	function botonPresSolt_accion( btnClick, btnDrg )
+	function botonPresSolt_accion( btnClick, btnDrg, btnDown )
 	{
 		if(vistaActiva === 0)
 			chequeoDragVista0();
 		else if(vistaActiva === 1)
-			chequeoDragVista1(btnDrg);
+			chequeoDragVista1(btnClick, btnDrg, btnDown);
 		else if(vistaActiva === 2)
-			chequeoDragVista2(btnDrg);	
+			chequeoDragVista2(btnDrg);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
@@ -147,12 +151,12 @@ function ControladorEvMouse()
 	{
 		if( btnClick === "Luchar")
 		{
-			
 			raton = new Raton();
 			raton.cargarFunciones();
 			if(raton.ejecucion.length > 0)
 			{
-				vistaActiva = 4;
+				vistaActiva = 3;
+				elegirPaqBotonesXvista();
 				gatosDelNivel[0].setIsCaminando(true);
 				dibujarCaminataGato(1); 
 			}
@@ -164,90 +168,165 @@ function ControladorEvMouse()
 			isOpcion2 = true;
 			dibujarSegundaSeleccion(520, 310, 49);
 		}
-		else if( btnClick === "if_else0" || btnClick === "if_else1" || btnClick === "if_else2" )
+		else if( btnClick === "if_else0" )
 		{
 			vistaActiva = 2;
+			funcionActual = 82;
 			moverMatrizSentencias();
 			elegirPaqBotonesXvista();
-			dibujarCreadorFunciones(15);
+			dibujarCreadorFunciones(funcionActual);
+			elegirBotonesDeFuncion();
 			solicitarPintadoBotones();
 		}
-		else if( btnClick === "Switch")
+		else if( btnClick === "if_else1" )
 		{
 			vistaActiva = 2;
+			funcionActual = 149;
 			moverMatrizSentencias();
 			elegirPaqBotonesXvista();
-			dibujarCreadorFunciones(15);
+			dibujarCreadorFunciones(funcionActual);
+			elegirBotonesDeFuncion();
 			solicitarPintadoBotones();
-		}	
+		}
+		else if( btnClick === "if_else2" )
+		{
+			vistaActiva = 2;
+			funcionActual = 15;
+			moverMatrizSentencias();
+			elegirPaqBotonesXvista();
+			dibujarCreadorFunciones(funcionActual);
+			elegirBotonesDeFuncion();
+			solicitarPintadoBotones();
+		}
+		//else if( btnClick === "Switch")
+		//{
+		//	vistaActiva = 2;
+		//	moverMatrizSentencias();
+		//	elegirPaqBotonesXvista();
+		//	dibujarCreadorFunciones(funcionActual);
+		//	solicitarPintadoBotones();
+		//}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
-	
+
+	function chequeoClickVista3()
+	{
+		if( btnClick === "new_run")
+		{
+			crearControladorGatos();
+			vistaActiva = 0;
+			gatoEnFrente = 0;
+			enColision = false;
+			presionaMouse = false;
+			funcionesFx.length = 0;
+			codigoCompleto.length = 0;
+			limpiarSentencia();
+			for(i = 0; i < botonesDrag1y2.length; i++)
+			{
+				botonesDrag1y2[i].setImagen(-1);
+			}
+			
+			iniciar();
+		}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------	
+
+
 	function chequeoClickVista2()
 	{
 		if( btnClick === "OK")
 		{
 			enviar = true;
 			validarIf_elseIf_else();
+			
+		}
+		else if( btnClick === "CANCELAR" )
+		{
 			vistaActiva = 1;
 			moverMatrizSentencias();
-			dibujarSelectorRutina();
 			elegirPaqBotonesXvista();
+			dibujarSelectorRutina();
+			solicitarPintadoBotones();
+		}
+		else if( btnClick === "limpiar" )
+		{
+			limpiarSentencia();
+			elegirBotonesDeFuncion();
+			dibujarCreadorFunciones(funcionActual);
 			solicitarPintadoBotones();
 		}
 		else if( btnClick === "add0")
 		{
 			botonesDrag3[9].setEnable(true);
 			botonesDrag3[10].setEnable(true);
-			botonesNext3[1].setImagen(13);
-			botonesNext3[1].setEnable(false);
-			dibujarCreadorFunciones(15);
+			botonesNext3[3].setImagen(13);
+			botonesNext3[3].setEnable(false);
+			dibujarCreadorFunciones(funcionActual);
 			solicitarPintadoBotones();
 		}
 		else if( btnClick === "add1")
 		{
 			botonesDrag3[13].setEnable(true);
 			botonesDrag3[14].setEnable(true);
-			botonesNext3[2].setImagen(14);
-			botonesNext3[2].setEnable(false);
-			dibujarCreadorFunciones(15);
+			botonesNext3[4].setImagen(14);
+			botonesNext3[4].setEnable(false);
+			dibujarCreadorFunciones(funcionActual);
 			solicitarPintadoBotones();
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
 
+	function limpiarSentencia()
+	{
+		for(i = 7; i <= 17; i++)
+			{
+				botonesDrag3[i].setImagen(-1);
+			}
+			botonesDrag3[9].setEnable(false);
+			botonesNext3[3].setImagen(-1);
+			botonesNext3[4].setImagen(-1);
+			botonesDrag3[10].setEnable(false);
+			botonesNext3[3].setEnable(true);
+			
+			botonesDrag3[13].setEnable(false);
+			botonesDrag3[14].setEnable(false);
+			botonesNext3[4].setEnable(true);
+	}	
+//---------------------------------------------------------------------------------------------------------------------------------	
+
+	
 	function validarIf_elseIf_else()
 	{
-		if( botonesDrag3[7].img !== 62)
+		if( botonesDrag3[7].img !== 62 && botonesDrag3[7].enable)
 			 enviar = false;
-		else if( botonesDrag3[8].img < 56 || botonesDrag3[8].img > 61 )
+		else if( (botonesDrag3[8].img < 56 || botonesDrag3[8].img > 61 ) && botonesDrag3[8].enable)
 			 enviar = false;
 		else if( botonesDrag3[9].img !== 62 && botonesDrag3[9].enable )
 			 enviar = false;	
 		else if( (botonesDrag3[10].img < 56 || botonesDrag3[10].img > 61) && botonesDrag3[10].enable)
 			 enviar = false; 
-		else if( (botonesDrag3[15].img < 63 || botonesDrag3[15].img > 78) && (botonesDrag3[15].img < 16 || botonesDrag3[15].img > 31) )
+		else if( (botonesDrag3[15].img < 63 || botonesDrag3[15].img > 78) && (botonesDrag3[15].img < 16 || botonesDrag3[15].img > 31) && botonesDrag3[15].enable )
 			 enviar = false; 
-		else if( botonesDrag3[11].img !== 62 )
+		else if( botonesDrag3[11].img !== 62 && botonesDrag3[11].enable)
 			 enviar = false; 
-		else if( botonesDrag3[12].img < 56 || botonesDrag3[12].img > 61 )
+		else if( (botonesDrag3[12].img < 56 || botonesDrag3[12].img > 61) && botonesDrag3[12].enable )
 			 enviar = false;
 		else if( botonesDrag3[13].img !== 62 && botonesDrag3[13].enable )
 			 enviar = false;	 
 		else if( (botonesDrag3[14].img < 56 || botonesDrag3[14].img > 61) && botonesDrag3[14].enable)
 			 enviar = false; 
-		else if( (botonesDrag3[16].img < 63 || botonesDrag3[16].img > 78)  && (botonesDrag3[16].img < 16 || botonesDrag3[16].img > 31))
+		else if( (botonesDrag3[16].img < 63 || botonesDrag3[16].img > 78) && (botonesDrag3[16].img < 16 || botonesDrag3[16].img > 31) && botonesDrag3[16].enable)
 			 enviar = false; 
-		else if( (botonesDrag3[17].img < 63 || botonesDrag3[17].img > 78) && (botonesDrag3[17].img < 16 || botonesDrag3[17].img > 31))
+		else if( (botonesDrag3[17].img < 63 || botonesDrag3[17].img > 78) && (botonesDrag3[17].img < 16 || botonesDrag3[17].img > 31) && botonesDrag3[17].enable)
 			 enviar = false;
 		
-		if(enviar && funciones < 16)
+		if(enviar && (funcionesFx.length < 17))
 		{
 			crearSentenciaIf();
-			botonesDrag1y2[funciones+32].setImagen(funciones+16);
-			funciones++;
+			//botonesDrag1y2[funcionesFx.length+31].setImagen(funcionesFx.length+15);
+			//funciones++;
 		}
 		else if(!enviar)
 			alert("...sentencia incompleta o incorrecta...");
@@ -255,14 +334,44 @@ function ControladorEvMouse()
 			alert("Máximo número de sentencias creadas");
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
+
 	function crearSentenciaIf()
 	{
 		
+		creada = false;
 		ifObjeto = [botonesDrag3[7].img,  botonesDrag3[8].img,  botonesDrag3[9].img,  botonesDrag3[10].img,	
 					botonesDrag3[15].img, botonesDrag3[11].img, botonesDrag3[12].img, botonesDrag3[13].img, 
-					botonesDrag3[14].img, botonesDrag3[16].img, botonesDrag3[17].img];			
-		funcionesFx.push (new sentenciaIf( "funcion"+funciones ) );
-		funcionesFx[funcionesFx.length-1].setIfObjetos(ifObjeto);
+					botonesDrag3[14].img, botonesDrag3[16].img, botonesDrag3[17].img];
+					
+		for( i = 0; i < funcionesFx.length; i++)
+		{
+			if( funcionesFx[i] === undefined )
+			{
+				funcionesFx[i] = new sentenciaIf( "funcion"+i );
+				funcionesFx[i].setIfObjetos(ifObjeto);
+				botonesDrag1y2[i+32].setImagen(i+16);
+				creada = true;
+				break;
+			}	
+		}
+		if(!creada && (funcionesFx.length < 16))
+		{
+			funcionesFx.push (new sentenciaIf( "funcion"+funcionesFx.length ) );
+			funcionesFx[funcionesFx.length-1].setIfObjetos(ifObjeto);
+			botonesDrag1y2[funcionesFx.length+31].setImagen(funcionesFx.length+15);
+			creada = true;
+		}
+		else if (!creada && funcionesFx.length === 16)
+			alert("Máximo número de sentencias creadas");
+		
+		if(creada)
+		{
+			vistaActiva = 1;
+			moverMatrizSentencias();
+			dibujarSelectorRutina();
+			elegirPaqBotonesXvista();
+			solicitarPintadoBotones();
+		}
 		//funcionesFx[funcionesFx.length-1].if_elseif_else();
 	}
 
@@ -287,9 +396,8 @@ function ControladorEvMouse()
 //---------------------------------------------------------------------------------------------------------------------------------	
 
 
-	function chequeoDragVista1(btnDrg)
+	function chequeoDragVista1(btnClick, btnDrg, btnDown)
 	{
-		//alert(btnClick);
 		if(!presionaMouse)
 		{
 			for(i = 0; i < 4; i++)
@@ -298,12 +406,35 @@ function ControladorEvMouse()
 				{
 					if( btnClick === "Rutina"+j+i)
 					{
-						btnDrg.setImagen(botonDown);
+						if(imgBotonDown <= 31 && imgBotonDown >= 16)
+							btnDrg.setImagen(imgBotonDown+16);
+						else if(imgBotonDown <= 47 && imgBotonDown >= 32)
+							btnDrg.setImagen(imgBotonDown);
 						solicitarPintadoBotones();
 					}
 				}
 			}
-			botonDown = -1;
+			
+			if( btnClick === "papelera")
+			{
+				if(imgBotonDown <= 47 && imgBotonDown >= 32)
+				{
+					botonesDrag1y2[btnDown].setImagen(-1);
+				}
+				else if(imgBotonDown <= 31 && imgBotonDown >= 16)
+				{
+					for(i = 0; i <= 31; i++)
+					{ 
+						if(botonesDrag1y2[i].img === botonesDrag1y2[btnDown].img+16)
+						botonesDrag1y2[i].setImagen(-1);
+					}
+					botonesDrag1y2[btnDown].setImagen(-1);
+					delete funcionesFx[btnDown-32];
+				}
+				dibujarSelectorRutina();
+				solicitarPintadoBotones();
+			}
+			imgBotonDown = -1;
 		}
 		
 	}
@@ -316,29 +447,33 @@ function ControladorEvMouse()
 		{
 			if( btnClick === "insertGatito00" || btnClick === "insertGatito02" || btnClick === "insertGatito10" || btnClick === "insertGatito12")
 			{
-				if(botonDown === 12 && btnDrg.enable )
+				if((imgBotonDown === 12 || imgBotonDown === 62 ) && btnDrg.enable )
 				{
+					
 					btnDrg.setImagen(62);
 					solicitarPintadoBotones();
 				}
 			}
 			else if( btnClick === "insertGatito01" || btnClick === "insertGatito11" || btnClick === "insertGatito13" || btnClick === "insertGatito03")
 			{
-				if((botonDown >= 50  && botonDown <= 55) && btnDrg.enable )
+				if(( (imgBotonDown >= 56  && imgBotonDown <= 59) || (imgBotonDown >= 50  && imgBotonDown <= 55) ) && btnDrg.enable )
 				{
-					btnDrg.setImagen(botonDown+6);
+					if(imgBotonDown >= 56  && imgBotonDown <= 59)
+						btnDrg.setImagen(imgBotonDown);
+					else
+						btnDrg.setImagen(imgBotonDown+6);
 					solicitarPintadoBotones();
 				}
 			}
 			else if( btnClick === "insertAtaque0" || btnClick === "insertAtaque1" || btnClick === "insertAtaque2")
 			{
-				if( (botonDown >= 63  && botonDown <= 78 ) || (botonDown >= 16  && botonDown <= 31 ))
+				if( ((imgBotonDown >= 63  && imgBotonDown <= 78 ) || (imgBotonDown >= 16  && imgBotonDown <= 31 )) && btnDrg.enable )
 				{
-					btnDrg.setImagen(botonDown);
+					btnDrg.setImagen(imgBotonDown);
 					solicitarPintadoBotones();
 				}
 			}
-			botonDown = -1;
+			imgBotonDown = -1;
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
@@ -354,16 +489,16 @@ function ControladorEvMouse()
 	{
 		dibujarSelectorRutina();
 		solicitarPintadoBotones()
-		pintarArrastre(X-24, Y-22, botonDown);
+		pintarArrastre(X-(botonesDrag[btnDown].l/2), Y-(botonesDrag[btnDown].h/2), imgBotonDown);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
 
 	function chequeoMoveVista2()
 	{
-		dibujarCreadorFunciones(15);
+		dibujarCreadorFunciones(funcionActual);
 		solicitarPintadoBotones();
-		pintarArrastre(X-22, Y-22, botonDown);
+		pintarArrastre(X-(botonesDrag[btnDown].l/2), Y-(botonesDrag[btnDown].h/2), imgBotonDown);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
@@ -380,11 +515,16 @@ function ControladorEvMouse()
 			botonesNext = botonesNext3;
 			botonesDrag = botonesDrag3;
 		}
+		else if (vistaActiva === 3)
+		{
+			botonesNext = botonesNext4;
+			botonesDrag = [];
+		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------	
 
 
-function solicitarPintadoBotones()
+	function solicitarPintadoBotones()
 	{
 		if(vistaActiva === 2)
 		{
@@ -416,4 +556,88 @@ function solicitarPintadoBotones()
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------		
+
+	
+	function elegirBotonesDeFuncion()
+	{
+		if(funcionActual === 15)	
+		{
+			for(i = 7; i <= 17; i++)
+			{
+				botonesDrag3[i].setImagen(-1);
+			}
+			botonesDrag3[9].setEnable(false);
+			botonesDrag3[10].setEnable(false);
+			botonesDrag3[11].setEnable(true);
+			botonesDrag3[12].setEnable(true);
+			botonesDrag3[13].setEnable(false);
+			botonesDrag3[14].setEnable(false);
+			botonesDrag3[16].setEnable(true);
+			botonesDrag3[17].setEnable(true);
+			
+			if(botonesDrag3[16].Y > botonesDrag3[17].Y)
+			{
+				Ytemp = botonesDrag3[16].Y;
+				Xtemp = botonesDrag3[16].X;
+				botonesDrag3[16].setPosicion( botonesDrag3[17].X , botonesDrag3[17].Y ); 
+				botonesDrag3[17].setPosicion( Xtemp, Ytemp);
+			}
+			
+			botonesNext3[3].setImagen(-1);
+			botonesNext3[4].setImagen(-1);
+			
+			botonesNext3[3].setEnable(true);
+			botonesNext3[4].setEnable(true);
+		}
+		else if (funcionActual === 82 )
+		{
+			for(i = 7; i <= 17; i++)
+			{
+				botonesDrag3[i].setImagen(-1);
+			}
+			botonesDrag3[9].setEnable(false);
+			botonesDrag3[10].setEnable(false);
+			botonesDrag3[11].setEnable(false);
+			botonesDrag3[12].setEnable(false);
+			botonesDrag3[13].setEnable(false);
+			botonesDrag3[14].setEnable(false);
+			botonesDrag3[16].setEnable(false);
+			botonesDrag3[17].setEnable(false);
+			
+			botonesNext3[3].setImagen(-1);
+			botonesNext3[4].setImagen(-1);
+			
+			botonesNext3[3].setEnable(true);	
+			botonesNext3[4].setEnable(false);
+		}
+		else if (funcionActual === 149 )
+		{
+			for(i = 7; i <= 17; i++)
+			{
+				botonesDrag3[i].setImagen(-1);
+			}
+			botonesDrag3[09].setEnable(false);
+			botonesDrag3[10].setEnable(false);
+			botonesDrag3[11].setEnable(false);
+			botonesDrag3[12].setEnable(false);
+			botonesDrag3[13].setEnable(false);
+			botonesDrag3[14].setEnable(false);
+			botonesDrag3[16].setEnable(false);
+			botonesDrag3[17].setEnable(true);
+			
+			if(botonesDrag3[16].Y < botonesDrag3[17].Y)
+			{
+				Ytemp = botonesDrag3[16].Y;
+				Xtemp = botonesDrag3[16].X;
+				botonesDrag3[16].setPosicion( botonesDrag3[17].X , botonesDrag3[17].Y ); 
+				botonesDrag3[17].setPosicion( Xtemp, Ytemp);
+			}
+			
+			botonesNext3[3].setImagen(-1);
+			botonesNext3[4].setImagen(-1);
+			
+			botonesNext3[3].setEnable(true);	
+			botonesNext3[4].setEnable(false);
+		}
+	}
 }

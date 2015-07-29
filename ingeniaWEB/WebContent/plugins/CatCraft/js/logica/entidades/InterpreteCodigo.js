@@ -10,7 +10,7 @@ function InterpreteCodigo()
 		for( i = 0; i < codigoCompleto.length; i++ )
 		{
 			arrayTemporal = codigoCompleto[i].split(" ");
-			//alert("\""+arrayTemporal[j]+"\"");
+			//alert("\""+arrayTemporal+"\"");
 			
 			if( !acierto && arrayTemporal[0] === "if(" )
 			{
@@ -24,28 +24,34 @@ function InterpreteCodigo()
 					acierto = true;
 				j+=5;
 			}
-			else if( !acierto && arrayTemporal[0] === "else" && arrayTemporal[1] === "{"  && arrayTemporal[2] === "GOLPE")
+			else if( !acierto && arrayTemporal[0] === "else" && arrayTemporal[1] === "{"  && arrayTemporal[3] === "GOLPE")
 			{
 				acierto = true;
 				j+=1;
 			}
-			else if( codigoCompleto[i] === "{" || codigoCompleto[i] === "else {" )
+			else if( codigoCompleto[i] === "else {" )
+			{
+				//j-=1;
+				acierto = false;
+			}
+			else if( codigoCompleto[i] === "{" )
 			{
 				j-=1;
 				acierto = false;
 			}
 				
-			if( acierto && (arrayTemporal[1] === "GOLPE"|| arrayTemporal[2] === "GOLPE") )
+			if( acierto && (arrayTemporal[2] === "GOLPE" || arrayTemporal[3] === "GOLPE") )
 			{
-				ataqueApropinar = atribGato[j-1];	
+				ataqueApropinar = atribGato[j-1]; //13
+				break;
 				/*for(i = 0; i < atribGato.length; i++)
 				{
 					alert("atributo:" + i + " ---"+ atribGato[i] );
 				}*/
 			}
 		}
-		/*alert(ataqueApropinar + "..." + j);
-		for(i = 0; i < atribGato.length; i++)
+		//alert(ataqueApropinar + "..." + j);
+		/*for(i = 0; i < atribGato.length; i++)
 		{
 			alert("atributo:" + i + " ---"+ atribGato[i] );
 		}*/
