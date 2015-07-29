@@ -100,6 +100,19 @@ public class AdmUsuarios extends BaseMB {
 		}
 
 		try {
+			
+			
+			//verificacion si existe el usuario
+			List<UsuarioVO> lista = gestorUsuarios.consultarUsuarios(usuarioVO);
+			if (lista != null && lista.size() > 0){
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+								"El nombre de usuario ya existe !"));
+				return null;
+				
+			}
+				
 			List<RolVO> listaRoles = new ArrayList<RolVO>();
 			RolVO rolVO = new RolVO();
 			rolVO.setIdRol(3);
@@ -107,6 +120,7 @@ public class AdmUsuarios extends BaseMB {
 			this.usuarioVO.setListaRoles(listaRoles);
 			this.usuarioVO.setFechaCreacion(new Date());
 			this.usuarioVO.setFechaUltimoIngreso(new Date());
+			this.usuarioVO.setActivo(true);
 			gestorUsuarios.crearUsuario(this.usuarioVO);
 		} catch (AdaptadorException e) {
 			FacesContext.getCurrentInstance().addMessage(

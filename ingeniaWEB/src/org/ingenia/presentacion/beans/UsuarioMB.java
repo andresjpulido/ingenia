@@ -137,7 +137,7 @@ public class UsuarioMB extends BaseMB {
 		// TODO validar opciones en el rol o roles del usuario logueado
 		// iterar sobre todos los roles y sus opciones hasta q se encuentre
 		// el idopcion q llega.
-		if (this.usuariovo.getListaRoles() != null
+		if (this.usuariovo != null && this.usuariovo.getListaRoles() != null
 				&& !this.usuariovo.getListaRoles().isEmpty()) {
 			for (RolVO rolVO : this.usuariovo.getListaRoles()) {
 				if (rolVO.getOpcions() != null && !rolVO.getOpcions().isEmpty()) {
@@ -163,6 +163,8 @@ public class UsuarioMB extends BaseMB {
 		// session.invalidate();
 		this.logeado = false;
 		this.usuariovo = null;
+		this.usuario = null;
+		this.clave = null;
 		return ReglasNavegacion.LOGIN;
 	}
 
@@ -202,7 +204,7 @@ public class UsuarioMB extends BaseMB {
 				this.gestorUsuarios.modificarUsuario(this.usuariovo);
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("Exito",
-						"Mensaje Enviado"));			
+						"La constraseña ha sido modificada satisfactoriamente"));			
 			} catch (AdaptadorException e) {
 				e.printStackTrace();
 			}

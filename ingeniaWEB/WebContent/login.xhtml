@@ -24,15 +24,15 @@
 				showSummary="false" />
  
 			<p:dialog header="Autenticacion" widgetVar="dlg" resizable="false"
-				visible="true">
+				visible="true" closable="false">
 				<h:panelGrid columns="2" cellpadding="5">
-					<h:outputLabel for="username" value="Usuario:" />
-					<p:inputText id="username" value="#{usuarioMB.usuario}"
-						required="true" label="username" />
+					<h:outputLabel for="Usuario" value="Usuario:" />
+					<p:inputText id="Usuario" value="#{usuarioMB.usuario}"
+						required="true" label="Usuario" />
 
-					<h:outputLabel for="password" value="Contrasena:" />
-					<p:password id="password" value="#{usuarioMB.clave}"
-						required="true" label="password" />
+					<h:outputLabel for="Clave" value="Contrasena:" />
+					<p:password id="Clave" value="#{usuarioMB.clave}"
+						required="true" label="Clave" />
 
 					<f:facet name="footer">
 						<p:commandButton value="Ingresar" actionListener="#{usuarioMB.autenticar}"
