@@ -132,8 +132,9 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	public void crearGato(GatoVO gatoVO,ActividadVO actividadVO) throws AdaptadorException {
 		AdaptadorGato adaptador = null;
 		Gato gato = new Gato();
-		 Query q = em.createQuery("SELECT count(g) FROM Gato as g");   
+		 Query q = em.createQuery("SELECT MAX(g.idgato) FROM Gato as g order by g.idgato");   
 		 gatoVO.setIdgato(((Number) q.getResultList().get(0)).intValue()+1);	
+		 
 		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
 		try {
 			gatoVO.setOrden(consultarPosicionDisponible(actividad));
@@ -231,13 +232,23 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	}
 
 	@Override
-	public void eliminarGatoVO(GatoVO gatoVO) throws AdaptadorException {
+	public void eliminarGatoVO(GatoVO gatoVO,ActividadVO actividadVO) throws AdaptadorException {
 		
 		AdaptadorGato adaptador=new AdaptadorGato(gatoVO);
 		Gato gato = adaptador.getGato();
-		Query query = em.createQuery("DELETE FROM Gato c WHERE c.idgato = :gato");
+		Actividad actividad = em.find(Actividad.class,actividadVO.getIdactividad());
+		int posicion = gato.getOrden();
+		Query q = em.createQuery("SELECT object(g) FROM Gato AS g where g.actividad=:actividad");
+		q.setParameter("actividad", actividad);
+		List<Gato> listaGatos= q.getResultList();
+		 for (int i=(posicion);listaGatos.size()>i;i++) {
+			 int orden_ant=listaGatos.get(i).getOrden();
+			 Gato cambiogato=listaGatos.get(i);
+			 cambiogato.setOrden(orden_ant-1);			
+			 em.merge(cambiogato);
+			}
+	     Query query = em.createQuery("DELETE FROM Gato c WHERE c.idgato = :gato");
 		 int c= query.setParameter("gato", gato.getIdgato()).executeUpdate();
-		 System.out.println(c);
 		
 	}
    

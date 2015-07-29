@@ -33,7 +33,7 @@ public interface IGestorGatosLocal {
 
 	List<ArmaduraVO> consultarArmaduras() throws AdaptadorException;
 
-	void eliminarGatoVO(GatoVO gatoVO) throws AdaptadorException;
+	void eliminarGatoVO(GatoVO gatoVO, ActividadVO actividadVO) throws AdaptadorException;
 	
 	
 }

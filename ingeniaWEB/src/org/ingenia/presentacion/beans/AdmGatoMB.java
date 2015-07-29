@@ -194,7 +194,6 @@ public class AdmGatoMB extends BaseMB {
    String destino=null;
 		 idactividad=Integer.parseInt(recuperarParametro("idactividad"));
 		 if((arma!=null)&&(armadura!=null)&&(color!=null)&&(tipogato!=null)){
-			 System.out.println("armado "+ armado);
 		GatoVO gatoVO = this.gatoVO;			
 		ActividadVO actividadVO = new ActividadVO();
 		 int idactividad=Integer.parseInt(recuperarParametro("idactividad"));
@@ -280,8 +279,8 @@ public class AdmGatoMB extends BaseMB {
 					 actividadVO.setIdactividad(idactividad);
 
 				try {
-					
-				 gestorGatos.eliminarGatoVO(gatoVO);
+					gatoVO=gestorGatos.consultarGatoVO(gatoVO);
+				 gestorGatos.eliminarGatoVO(gatoVO,actividadVO);
 					this.listaGatos= gestorGatos.consultarGatos(actividadVO);
 				destino=ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
 
@@ -507,7 +506,6 @@ public class AdmGatoMB extends BaseMB {
 
 	}
 	public void selectOneMenuArmadoListener(ValueChangeEvent event) {
-System.out.println("ctuaiza");
 	    Object newValue = event.getNewValue(); 
 	    int armado= (int)newValue;
 	  this.armado=armado;
