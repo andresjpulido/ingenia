@@ -320,7 +320,12 @@
         <p:commandButton icon="ui-icon-search" value="Editar" process="@this" action="#{AdmGatoMB.modificarGato}">
 	<f:param name="idgatomod" value="#{AdmGatoMB.gatoVO2.idgato}" />
 		</p:commandButton>
-		  <h:outputText value="" />	
+
+        <p:commandButton icon="ui-icon-search" value="Eliminar" process="@this" action="#{AdmGatoMB.eliminarGato}">
+	<f:param name="idgatomod" value="#{AdmGatoMB.gatoVO2.idgato}" />
+		<f:param name="idact" value="#{AdmActividadMB.actividadVO.idactividad}" />
+		</p:commandButton>
+		 
 	</center>
 	</p:column>	
             </p:panelGrid>

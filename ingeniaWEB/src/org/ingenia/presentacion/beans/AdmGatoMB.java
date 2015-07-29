@@ -263,6 +263,35 @@ public class AdmGatoMB extends BaseMB {
 
 		return ReglasNavegacion.NAV_IRACTIVIDAD;
 	}
+
+	
+	public String eliminarGato() {
+
+		  String destino= null;
+				FacesContext fc = FacesContext.getCurrentInstance();
+				Map<String, String> params = fc.getExternalContext()
+						.getRequestParameterMap();
+				String id = params.get("idgatomod");
+				GatoVO gatoVO = new GatoVO();
+				gatoVO.setIdgato(Integer.parseInt(id));
+				
+				 idactividad=Integer.parseInt(recuperarParametro("idact"));
+					ActividadVO actividadVO = new ActividadVO();
+					 actividadVO.setIdactividad(idactividad);
+
+				try {
+					
+				 gestorGatos.eliminarGatoVO(gatoVO);
+					this.listaGatos= gestorGatos.consultarGatos(actividadVO);
+				destino=ReglasNavegacion.NAV_CONFIGURARACTIVIDAD;
+
+				} catch (AdaptadorException e) {
+					e.printStackTrace();
+				}
+
+
+				return destino;
+			}
 	
 	public String modificarGato() {
 

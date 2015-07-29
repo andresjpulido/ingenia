@@ -229,6 +229,17 @@ public class GestorGatos implements IGestorGatosRemote, IGestorGatosLocal {
 	public GestorGatos(EntityManager em) {
 		this.em = em;
 	}
+
+	@Override
+	public void eliminarGatoVO(GatoVO gatoVO) throws AdaptadorException {
+		
+		AdaptadorGato adaptador=new AdaptadorGato(gatoVO);
+		Gato gato = adaptador.getGato();
+		Query query = em.createQuery("DELETE FROM Gato c WHERE c.idgato = :gato");
+		 int c= query.setParameter("gato", gato.getIdgato()).executeUpdate();
+		 System.out.println(c);
+		
+	}
    
 
 }

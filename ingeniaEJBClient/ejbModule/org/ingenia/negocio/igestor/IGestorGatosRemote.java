@@ -30,4 +30,7 @@ public interface IGestorGatosRemote {
 	List<GatoVO> consultarGatos(ActividadVO actividadVO) throws AdaptadorException;
 	
 	List<ArmaduraVO> consultarArmaduras() throws AdaptadorException;
+	
+	void eliminarGatoVO(GatoVO gatoVO) throws AdaptadorException;
+
 }
