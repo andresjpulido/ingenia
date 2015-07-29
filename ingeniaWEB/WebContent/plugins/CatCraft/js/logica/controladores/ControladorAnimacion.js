@@ -222,12 +222,8 @@ function crearControladorGatos()
 		//var array_element = ;
 		gatosAcrear.push( new Gato(Juego.Gatos[int].color.nombre, (Juego.Gatos[int].tipogato.nombre == "normal"?false:true), (Juego.Gatos[int].arma === null?false:true), (Juego.Gatos[int].armadura === null?false:true)));
 	}
-	
-	
-//	gatosAcrear.push( new Gato("verde", false, false, 0));
-//	gatosAcrear.push( new Gato("azul", false, false, 0));
-//	gatosAcrear.push( new Gato("amarillo", false, false, 0));
-	controlaGatos = controlaGatos || new ControladorGatos(gatosAcrear);
+	//controlaGatos = controlaGatos || new ControladorGatos(gatosAcrear);
+	controlaGatos = new ControladorGatos(gatosAcrear);
 	controlaGatos.crearGatos();
 	//alert(gatosDelNivel[0].color);
 }
