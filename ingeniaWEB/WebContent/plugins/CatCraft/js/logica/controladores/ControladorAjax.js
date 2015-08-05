@@ -17,7 +17,7 @@ var ControladorAjax = function () {
             data: Parametros,
             dataType: 'json',
             type: RequestType, //'POST',
-            async:true,
+            async:false,
             contentType: "application/json; charset=utf-8",
             success: function (rawdata) {
                 var jsonresponse = new ControladorAjax().ParsearRespuesta(rawdata, SuccessFunction, true);

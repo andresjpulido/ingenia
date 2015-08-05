@@ -18,8 +18,8 @@ window.onload = function() {
 	"js/logica/entidades/Gato.js",
 	"js/logica/entidades/Raton.js",
 	"js/logica/entidades/Dibujante.js",
-	"js/logica/controladores/ControladorEvMouse.js",
 	"js/logica/controladores/ControladorAjax.js",
+	"js/logica/controladores/ControladorEvMouse.js",
 	"js/logica/controladores/ControladorGatos.js",
 	"js/logica/controladores/ControladorAnimacion.js",
 	"js/logica/controladores/ControladorJuego.js"
@@ -40,7 +40,6 @@ window.onload = function() {
 //Si termino la carga de los scripts pintamos el canvas e iniciamos el juego 
 function Carga(total)
 {
-	Esperar();
 	Cargados++;
 	if(Cargados==total)
 	{
@@ -49,13 +48,4 @@ function Carga(total)
 		var controlador = new ControladorJuego();
 		controlador.CargaInicial();
 	}
-}
-
-function Esperar()
-{
-	if (typeof jQuery === "undefined" || Juego.Gatos === "undefined" ) {//|| botonesNext1y2 === "undefined"
-        // Vuelve a intentarlo dentro de 100ms
-        setTimeout(Esperar,100);
-        return;
-    }
 }

@@ -5,7 +5,7 @@
 ** DESCRIPCION: 
 */
 var Cargado = true;
-var cantidadImagenes = 149;
+var cantidadImagenes = 198;
 var imagenes = new Array();
 
 var ControladorJuego = function () {
@@ -30,7 +30,7 @@ var ControladorJuego = function () {
     {
     	var hostUrl = "/ingeniaWEB/plugins/CatCraft/imagenes/";
     	
-    	for (var i = 0; i <= 149; i++ )
+    	for (var i = 0; i <= 198; i++ )
     	{
     		var imagen = new Image();
     		imagen.src = hostUrl + 'Imagen'+i+'.png';

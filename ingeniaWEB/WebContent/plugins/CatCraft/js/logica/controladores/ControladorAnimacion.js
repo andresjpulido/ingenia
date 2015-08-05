@@ -224,6 +224,7 @@ function crearControladorGatos()
 	}
 	controlaGatos = controlaGatos || new ControladorGatos(gatosAcrear);
 	//controlaGatos = new ControladorGatos(gatosAcrear);
+	//controlaGatos.setGatosAcrear(gatosAcrear);
 	controlaGatos.crearGatos();
 	//alert(gatosDelNivel[0].color);
 }

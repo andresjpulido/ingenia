@@ -358,21 +358,21 @@ function dibujarGolpeAsestado(i)
 		if(i === 4)
 		{
 			gatosDelNivel[gatoEnFrente].setIsCaminando(false);
-			pincel.drawImage(imagenes[143], 550, 340);
+			pincel.drawImage(imagenes[armaRaton.secuenciaGolpe[0]], 550, 340);
 			
 		}
 		elegirGatosADibujar(3);
 		dibujarRaton();
-		pincel.drawImage(imagenes[144+i], 574, 324);
+		pincel.drawImage(imagenes[armaRaton.secuenciaGolpe[1+i]], 574, 324);
 		if(i === 4)
 		{
-			pincel.drawImage(imagenes[143+i], 574, 324);
+			pincel.drawImage(imagenes[armaRaton.secuenciaGolpe[0+i]], 574, 324);
 			pincel.drawImage(imagenes[gatosDelNivel[gatoEnFrente].secuenciaMorir[0]], gatosDelNivel[gatoEnFrente].X-15, gatosDelNivel[gatoEnFrente].Y);
 		}
 		setTimeout(function(){dibujarGolpeAsestado(++i);}, 24);
 	}
 	if(i === 4)
-		setTimeout(function(){dibujarGatoMuere(1);}, 1000);
+		setTimeout(function(){dibujarGatoMuere(1);}, 1500);
 	
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------

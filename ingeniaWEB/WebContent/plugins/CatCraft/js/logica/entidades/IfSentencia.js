@@ -106,35 +106,38 @@ function sentenciaIf( nombre )
 
 	function interpretarInformacionELSEIF()
 	{
-		sentenciaString[3] = "else if( GATO.";
-		sentenciaString[3] = identificarColorY_O_arma( 6, sentenciaString[3]);
-		if(ifObjetos[7] === -1)
+		if( ifObjetos[5] !== -1)
 		{
-			atribGato.push("vacio");
-			atribGato.push("vacio");
-			sentenciaString[3] = sentenciaString[3]+")";
-		}
-		else if(ifObjetos[7] === 62)
-			sentenciaString[3] = sentenciaString[3]+"y GATO.";
-		if(ifObjetos[8] !== -1)	
-		{
-			sentenciaString[3] = identificarColorY_O_arma( 8, sentenciaString[3]);
-			sentenciaString[3] = sentenciaString[3]+")";
-		}
-		lanzarAlerta(sentenciaString[3]);
-		if(identificarAtaque( 9, "") === "función")
-		{
-			sentenciaString[4]  = "{";
-			lanzarAlerta(sentenciaString[4]);
-			funcionesFx[ifObjetos[9]-16].if_elseif_else();
-			sentenciaString[5]  = "}";
-			lanzarAlerta(sentenciaString[5]);
-			//sentenciaString[3] = "{    FUNCIÓN F(x)   }";
-		}
-		else
-		{
-			sentenciaString[4] = identificarAtaque( 9, "{  GOLPE = ")+"  }";
-			lanzarAlerta(sentenciaString[4]);
+			sentenciaString[3] = "else if( GATO.";
+			sentenciaString[3] = identificarColorY_O_arma( 6, sentenciaString[3]);
+			if(ifObjetos[7] === -1)
+			{
+				atribGato.push("vacio");
+				atribGato.push("vacio");
+				sentenciaString[3] = sentenciaString[3]+")";
+			}
+			else if(ifObjetos[7] === 62)
+				sentenciaString[3] = sentenciaString[3]+"y GATO.";
+			if(ifObjetos[8] !== -1)	
+			{
+				sentenciaString[3] = identificarColorY_O_arma( 8, sentenciaString[3]);
+				sentenciaString[3] = sentenciaString[3]+")";
+			}
+			lanzarAlerta(sentenciaString[3]);
+			if(identificarAtaque( 9, "") === "función")
+			{
+				sentenciaString[4]  = "{";
+				lanzarAlerta(sentenciaString[4]);
+				funcionesFx[ifObjetos[9]-16].if_elseif_else();
+				sentenciaString[5]  = "}";
+				lanzarAlerta(sentenciaString[5]);
+				//sentenciaString[3] = "{    FUNCIÓN F(x)   }";
+			}
+			else
+			{
+				sentenciaString[4] = identificarAtaque( 9, "{  GOLPE = ")+"  }";
+				lanzarAlerta(sentenciaString[4]);
+			}
 		}
 	}
 //---------------------------------------------------------------------------------------------	
@@ -142,19 +145,22 @@ function sentenciaIf( nombre )
 	
 	function interpretarInformacionELSE()
 	{
-		if(identificarAtaque( 10, "") === "función")
+		if(ifObjetos[10] !== -1)
 		{
-			sentenciaString[6]  = "else {";
-			lanzarAlerta(sentenciaString[6]);
-			funcionesFx[ifObjetos[10]-16].if_elseif_else();
-			sentenciaString[7]  = "}";
-			lanzarAlerta(sentenciaString[7]);
-			//sentenciaString[4] = "else {    FUNCIÓN F(x)   }";
-		}
-		else
-		{
-			sentenciaString[6] = identificarAtaque( 10, "else {  GOLPE = ")+"  }";
-			lanzarAlerta(sentenciaString[6]);
+			if(identificarAtaque( 10, "") === "función")
+			{
+				sentenciaString[6]  = "else {";
+				lanzarAlerta(sentenciaString[6]);
+				funcionesFx[ifObjetos[10]-16].if_elseif_else();
+				sentenciaString[7]  = "}";
+				lanzarAlerta(sentenciaString[7]);
+				//sentenciaString[4] = "else {    FUNCIÓN F(x)   }";
+			}
+			else
+			{
+				sentenciaString[6] = identificarAtaque( 10, "else {  GOLPE = ")+"  }";
+				lanzarAlerta(sentenciaString[6]);
+			}
 		}
 	}
 //---------------------------------------------------------------------------------------------	
